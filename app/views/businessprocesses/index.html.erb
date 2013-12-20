@@ -1,0 +1,43 @@
+<h1>Listing businessprocesses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Customerid</th>
+      <th>Subject</th>
+      <th>Request</th>
+      <th>Employeeid</th>
+      <th>Urgency</th>
+      <th>Stateid</th>
+      <th>Discount</th>
+      <th>Offer</th>
+      <th>Installationprice</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @businessprocesses.each do |businessprocess| %>
+      <tr>
+        <td><%= businessprocess.customerid %></td>
+        <td><%= businessprocess.subject %></td>
+        <td><%= businessprocess.request %></td>
+        <td><%= businessprocess.employeeid %></td>
+        <td><%= businessprocess.urgency %></td>
+        <td><%= businessprocess.stateid %></td>
+        <td><%= businessprocess.discount %></td>
+        <td><%= businessprocess.offer %></td>
+        <td><%= businessprocess.installationprice %></td>
+        <td><%= link_to 'Show', businessprocess %></td>
+        <td><%= link_to 'Edit', edit_businessprocess_path(businessprocess) %></td>
+        <td><%= link_to 'Destroy', businessprocess, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Businessprocess', new_businessprocess_path %>

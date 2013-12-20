@@ -1,0 +1,36 @@
+== README
+
+This README would normally document whatever steps are necessary to get the
+application up and running.
+
+Things you may want to cover:
+
+* Ruby version
+
+* System dependencies
+
+* Configuration
+
+* Database creation
+
+* Database initialization
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* How to fix ruby racer install error
+	1. gem uninstall libv8
+	2. gem uninstall therubyracer
+	3. sudo apt-get update
+	4. sudo apt-get install libv8-dev
+	5. sudo apt-get install build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion imagemagick graphicsmagick libmagickcore-dev libmagickwand-dev
+	6. gem install therubyracer
+	7. bundle install
+	8. bundle update
+
+
+Please feel free to use a different markup language if you do not plan to run
+<tt>rake doc:app</tt>.

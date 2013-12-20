@@ -1,0 +1,53 @@
+<%= form_for(@businessprocess) do |f| %>
+  <% if @businessprocess.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@businessprocess.errors.count, "error") %> prohibited this businessprocess from being saved:</h2>
+
+      <ul>
+      <% @businessprocess.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :customerid %><br>
+    <%= f.number_field :customerid %>
+  </div>
+  <div class="field">
+    <%= f.label :subject %><br>
+    <%= f.text_field :subject %>
+  </div>
+  <div class="field">
+    <%= f.label :request %><br>
+    <%= f.text_area :request %>
+  </div>
+  <div class="field">
+    <%= f.label :employeeid %><br>
+    <%= f.number_field :employeeid %>
+  </div>
+  <div class="field">
+    <%= f.label :urgency %><br>
+    <%= f.number_field :urgency %>
+  </div>
+  <div class="field">
+    <%= f.label :stateid %><br>
+    <%= f.number_field :stateid %>
+  </div>
+  <div class="field">
+    <%= f.label :discount %><br>
+    <%= f.text_field :discount %>
+  </div>
+  <div class="field">
+    <%= f.label :offer %><br>
+    <%= f.text_area :offer %>
+  </div>
+  <div class="field">
+    <%= f.label :installationprice %><br>
+    <%= f.text_field :installationprice %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @bugreport.subject %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @bugreport.description %>
+</p>
+
+<p>
+  <strong>Userid:</strong>
+  <%= @bugreport.userid %>
+</p>
+
+<p>
+  <strong>Employeeid:</strong>
+  <%= @bugreport.employeeid %>
+</p>
+
+<%= link_to 'Edit', edit_bugreport_path(@bugreport) %> |
+<%= link_to 'Back', bugreports_path %>

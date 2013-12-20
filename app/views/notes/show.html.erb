@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @note.subject %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @note.body %>
+</p>
+
+<p>
+  <strong>Stateid:</strong>
+  <%= @note.stateid %>
+</p>
+
+<p>
+  <strong>Imageurl:</strong>
+  <%= @note.imageurl %>
+</p>
+
+<p>
+  <strong>Businessprocessid:</strong>
+  <%= @note.businessprocessid %>
+</p>
+
+<%= link_to 'Edit', edit_note_path(@note) %> |
+<%= link_to 'Back', notes_path %>
