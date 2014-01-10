@@ -1,0 +1,27 @@
+<h1>Unassumed Requests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Customer</th>
+      <th>Subject</th>
+      <th>Urgency</th>
+      <th>Notes</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @requests.each do |request| %>
+      <tr>
+        <td><%= User.find(request.customer_id).email %></td>
+        <td><%= request.subject %></td>
+        <td><%= request.urgency %></td>
+        <td><%= Note.where(request_id: request).count %></td>
+        <td><%= link_to 'Show', request, :class => "btn btn-info" %></td>
+        <td><%= link_to 'Assume', assume_request_path(request), :class => "btn btn-success" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
