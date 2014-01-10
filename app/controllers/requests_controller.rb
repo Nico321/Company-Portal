@@ -63,6 +63,32 @@ class RequestsController < ApplicationController
     end
   end
 
+  def open
+    @requests = Request.where('offer_id IS NULL')
+  end
+
+  def unassumed
+    @requests = Request.where('agent_id IS NULL')
+  end
+
+  def assumed
+    @requests = Request.where(agent_id: current_user.id)
+  end
+
+  def assume
+    @request = Request.find(params[:id])
+    @request.agent = current_user
+    @request.save
+    redirect_to assumed_requests_path
+  end
+
+  def release
+    @request = Request.find(params[:id])
+    @request.agent = nil
+    @request.save
+    redirect_to assumed_requests_path
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_request

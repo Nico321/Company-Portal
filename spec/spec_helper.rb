@@ -40,3 +40,11 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 end
+
+def login
+  visit  new_user_registration_path
+  fill_in "user_email", with: "test@test.de"
+  fill_in "user_password", with: "testtest"
+  fill_in "user_password_confirmation", with: "testtest"
+  click_button "Sign up"
+end

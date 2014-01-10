@@ -6,7 +6,6 @@ class CreateRequests < ActiveRecord::Migration
       t.integer :urgency
       t.integer :customer_id
       t.integer :agent_id
-      t.integer :note_id
       t.integer :offer_id
 
       t.timestamps

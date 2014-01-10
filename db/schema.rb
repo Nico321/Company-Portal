@@ -76,7 +76,6 @@ ActiveRecord::Schema.define(version: 20140110163152) do
     t.integer  "urgency"
     t.integer  "customer_id"
     t.integer  "agent_id"
-    t.integer  "note_id"
     t.integer  "offer_id"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -1,5 +1,15 @@
 CompanyPortal::Application.routes.draw do
-  resources :requests
+  resources :requests do
+    collection do
+      get 'open'
+      get 'unassumed'
+      get 'assumed'
+    end
+    member do
+      get 'assume'
+      get 'release'
+    end
+  end
 
   get "welcome/index"
   resources :notes
