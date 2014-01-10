@@ -1,8 +1,8 @@
 CompanyPortal::Application.routes.draw do
+  resources :requests
+
   get "welcome/index"
   resources :notes
-
-  resources :businessprocesses
 
   resources :articles
 

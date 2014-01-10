@@ -1,4 +1,3 @@
 class Note < ActiveRecord::Base
-	belongs_to :businessprocess
-	belongs_to :state
+	belongs_to :request
 end
