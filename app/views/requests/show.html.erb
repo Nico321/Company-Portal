@@ -47,7 +47,7 @@
           <div class="accordion-group" data-parent="#collapseOne">
             <div class="accordion-heading">
               <a class="accordion-toggle" data-toggle="collapse" href="<%= "#collapse#{n.id}"%>">
-              <%= n.subject%>
+              <%= n.subject %><div style="float: right;"><%= n.user.email%>(<%= l n.created_at, format: :short %>)</div>
               </a>
             </div>
             <div id="<%= "collapse#{n.id}"%>" class="accordion-body collapse">

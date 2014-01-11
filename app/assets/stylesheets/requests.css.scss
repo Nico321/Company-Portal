@@ -42,3 +42,15 @@
   height: 20px;
   float: left;
 }
+
+option:before {
+    content: " ";
+    height: 10px;
+    width: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+option.red:before { background: red; }
+option.green:before { background: green; }
+option.yellow:before { background: yellow; }
