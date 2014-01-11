@@ -5,6 +5,7 @@ class CreateNotes < ActiveRecord::Migration
       t.text :body
       t.text :imageurl
       t.integer :request_id
+      t.integer :user_id
 
       t.timestamps
     end

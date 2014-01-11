@@ -1,35 +1,67 @@
-<p id="notice"><%= notice %></p>
+<table>
+  <tr>
+      <td><h1><%= User.find(@request.customer).email %> - <%= @request.subject %></h1></td>
+      <td><h1>-
+        <% if @request.urgency == 1 %>
+           uncritical</h1></td><td><div class="circle circle-green"></div>
+        <% elsif @request.urgency == 2%>
+          medium</h1></td><td><div class="circle"></div>
+        <% else %>
+          critical</h1></td><td><div class="circle circle-red"></div>
+        <% end %>
+      </td>
+    </h1>
+  </tr>
+  <tr>
+    <td colspan="3">
+      <p>
+        <%= @request.body %>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Agent:</strong>
+      <% if @request.agent_id %>
+        <%= User.find(@request.agent_id).email %>
+      <% else %>
+        Nobody
+      <% end %>
+    </td>
+  </tr>
+</table>
 
-<p>
-  <strong>Subject:</strong>
-  <%= @request.subject %>
-</p>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        Notes(<%= @request.notes.count %>)
+        </a>
+      </div>
+      <div id="collapseOne" class="accordion-body collapse">
+        <div class="accordion-inner">
+        
 
-<p>
-  <strong>Body:</strong>
-  <%= @request.body %>
-</p>
+        <% @request.notes.each do |n| %>
+          
+          <div class="accordion-group" data-parent="#collapseOne">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" href="<%= "#collapse#{n.id}"%>">
+              <%= n.subject%>
+              </a>
+            </div>
+            <div id="<%= "collapse#{n.id}"%>" class="accordion-body collapse">
+              <div class="accordion-inner">
+              <%= n.body %>
+              </div>
+            </div>
+          </div>
 
-<p>
-  <strong>Urgency:</strong>
-  <%= @request.urgency %>
-</p>
+          <% end %>
 
-<p>
-  <strong>Customer:</strong>
-  <%= @request.customer_id %>
-</p>
+        </div>
+      </div>
+    </div>
+</div>
 
-<p>
-  <strong>Agent:</strong>
-  <%= @request.agent_id %>
-</p>
-
-<p>
-<p>
-  <strong>Offer:</strong>
-  <%= @request.offer_id %>
-</p>
-
-<%= link_to 'Edit', edit_request_path(@request) %> |
-<%= link_to 'Back', requests_path %>
+<%= link_to "Add a note", new_note_path(:id => @request.id, :type => "request"), :class => "btn btn-primary" %>

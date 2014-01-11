@@ -21,7 +21,7 @@
   </div>
   <div class="field">
     <%= f.label :urgency %><br>
-    <%= f.select :urgency, options_for_select([['uncritical', 1], ['critical', 2]]) %>
+    <%= f.select :urgency, options_for_select([['uncritical', 1], ['medium', 2], ['critical', 3]]) %>
   </div>
   <div class="actions">
     <%= f.submit :value => "Senden", :class => "btn btn-success" %>

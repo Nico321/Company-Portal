@@ -1,6 +1,6 @@
 <h1>Open Requests</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Customer</th>
@@ -18,7 +18,13 @@
       <tr>
         <td><%= User.find(request.customer_id).email %></td>
         <td><%= request.subject %></td>
-        <td><%= request.urgency %></td>
+        <td><% if request.urgency == 1 %>
+           uncritical<div class="circle circle-green circle-small"></div>
+        <% elsif request.urgency == 2%>
+          medium<div class="circle circle-small"></div>
+        <% else %>
+          critical<div class="circle circle-red circle-small"></div>
+        <% end %></td>
         <td><%= Note.where(request_id: request).count %></td>
         <% if request.agent_id %>
           <td><%= User.find(request.agent_id).email %></td>

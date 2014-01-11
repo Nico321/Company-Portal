@@ -64,4 +64,23 @@ describe "Request" do
 			page.should_not have_content "releaseRequest"
 		end
 	end
+
+	context 'Notes' do
+		it 'add notes to request' do
+			login
+
+			visit root_path
+			click_link "New request"
+			fill_in "request_subject", with: "releaseRequest"
+			fill_in "request_body", with: "Test"
+			click_button "Senden"
+
+			click_link "Add a note"
+			fill_in "note_subject", with: "Testnote"
+			fill_in "note_body", with: "Test"
+			click_button "Add note"
+
+			page.should have_content "Testnote"
+		end
+	end
 end

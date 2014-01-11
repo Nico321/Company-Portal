@@ -26,9 +26,11 @@ class NotesController < ApplicationController
   def create
     @note = Note.new(note_params)
 
+    @note.user = current_user
+
     respond_to do |format|
       if @note.save
-        format.html { redirect_to @note, notice: 'Note was successfully created.' }
+        format.html { redirect_to @note.request, notice: 'Note was successfully created.' }
         format.json { render action: 'show', status: :created, location: @note }
       else
         format.html { render action: 'new' }
@@ -69,6 +71,6 @@ class NotesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
-      params.require(:note).permit(:subject, :body, :stateid, :imageurl, :businessprocessid)
+      params.require(:note).permit(:subject, :body, :imageurl, :request_id)
     end
 end
