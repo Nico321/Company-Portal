@@ -1,0 +1,25 @@
+<table>
+  <tr>
+      <td><h1><%= User.find(@offer.customer).email %> - <%= @offer.subject %></h1></td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <%= @offer.body %>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Agent:</strong>
+      <% if @offer.agent_id %>
+        <%= User.find(@offer.agent_id).email %>
+      <% else %>
+        Nobody
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+<%= show_notes(@offer.request).html_safe%>
+

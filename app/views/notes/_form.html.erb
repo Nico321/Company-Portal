@@ -23,10 +23,15 @@
     <%= f.label :imageurl %><br>
     <%= f.text_area :imageurl %>
   </div>
-
-    <div class="field hidden">
-    <%= f.text_field :request_id, :value => params[:id] %>
+<% if params[:request_id] %>
+  <div class="field hidden">
+    <%= f.text_field :request_id, :value => params[:request_id] %>
   </div>
+<% elsif params[:offer_id] %>
+  <div class="field hidden">
+    <%= f.text_field :offer_id, :value => params[:offer_id] %>
+  </div>
+<%end%>
 
   <div class="actions">
     <%= f.submit :value => "Add note", :class => "btn btn-success" %>

@@ -1,4 +1,17 @@
 CompanyPortal::Application.routes.draw do
+  resources :offers do
+    collection do
+      get 'open'
+      get 'unassumed'
+      get 'assumed'
+    end
+    member do
+      get 'convert'
+      get 'assume'
+      get 'release'
+    end    
+  end
+
   resources :requests do
     collection do
       get 'open'
@@ -20,6 +33,7 @@ CompanyPortal::Application.routes.draw do
 
   devise_for :users
   resources :bugreports
+
 
   root 'welcome#index'
   # The priority is based upon order of creation: first created -> highest priority.

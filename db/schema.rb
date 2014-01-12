@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140110163152) do
+ActiveRecord::Schema.define(version: 20140112210229) do
 
   create_table "article_storages", force: true do |t|
     t.integer  "article_id"
@@ -48,6 +48,19 @@ ActiveRecord::Schema.define(version: 20140110163152) do
     t.text     "imageurl"
     t.integer  "request_id"
     t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "offer_id"
+  end
+
+  create_table "offers", force: true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.decimal  "installationprice"
+    t.date     "publication"
+    t.integer  "customer_id"
+    t.integer  "agent_id"
+    t.integer  "order_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

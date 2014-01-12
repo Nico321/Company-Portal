@@ -68,11 +68,11 @@ class RequestsController < ApplicationController
   end
 
   def unassumed
-    @requests = Request.where('agent_id IS NULL')
+    @requests = Request.where('agent_id IS NULL and offer_id IS NULL')
   end
 
   def assumed
-    @requests = Request.where(agent_id: current_user.id)
+    @requests = Request.where(agent_id: current_user.id).where('offer_id IS NULL')
   end
 
   def assume
