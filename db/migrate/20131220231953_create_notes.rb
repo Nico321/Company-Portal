@@ -3,9 +3,9 @@ class CreateNotes < ActiveRecord::Migration
     create_table :notes do |t|
       t.string :subject
       t.text :body
-      t.integer :stateid
       t.text :imageurl
-      t.integer :businessprocessid
+      t.integer :request_id
+      t.integer :user_id
 
       t.timestamps
     end

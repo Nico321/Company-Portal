@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131220232055) do
+ActiveRecord::Schema.define(version: 20140113003109) do
 
   create_table "article_storages", force: true do |t|
     t.integer  "article_id"
@@ -43,26 +43,25 @@ ActiveRecord::Schema.define(version: 20131220232055) do
     t.datetime "updated_at"
   end
 
-  create_table "businessprocesses", force: true do |t|
-    t.integer  "customerid"
-    t.string   "subject"
-    t.text     "request"
-    t.integer  "employeeid"
-    t.integer  "urgency"
-    t.integer  "stateid"
-    t.decimal  "discount"
-    t.text     "offer"
-    t.decimal  "installationprice"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "notes", force: true do |t|
     t.string   "subject"
     t.text     "body"
-    t.integer  "stateid"
     t.text     "imageurl"
-    t.integer  "businessprocessid"
+    t.integer  "request_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "offer_id"
+  end
+
+  create_table "offers", force: true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.decimal  "installationprice", default: 0.0
+    t.date     "publication"
+    t.integer  "customer_id"
+    t.integer  "agent_id"
+    t.integer  "order_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -75,20 +74,21 @@ ActiveRecord::Schema.define(version: 20131220232055) do
   end
 
   create_table "positions", force: true do |t|
-    t.integer  "article_id"
-    t.integer  "businessprocess_id"
-    t.integer  "quantity"
+    t.integer  "quantity",     default: 1
     t.date     "deliverydate"
+    t.integer  "article_id"
+    t.integer  "offer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "positions", ["article_id"], name: "index_positions_on_article_id"
-  add_index "positions", ["businessprocess_id"], name: "index_positions_on_businessprocess_id"
-
-  create_table "states", force: true do |t|
-    t.integer  "stateid"
-    t.string   "name"
+  create_table "requests", force: true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.integer  "urgency"
+    t.integer  "customer_id"
+    t.integer  "agent_id"
+    t.integer  "offer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

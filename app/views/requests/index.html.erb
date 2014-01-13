@@ -1,0 +1,36 @@
+<h1>Listing requests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Customer</th>
+      <th>Subject</th>
+      <th>Urgency</th>
+      <th>Notes</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @requests.each do |request| %>
+      <tr>
+        <td><%= request.subject %></td>
+        <td><%= request.body %></td>
+        <td><%= request.urgency %></td>
+        <td><%= request.customer_id %></td>
+        <td><%= request.agent_id %></td>
+        <td><%= request.note_id %></td>
+        <td><%= request.offer_id %></td>
+        <td><%= link_to 'Show', request %></td>
+        <td><%= link_to 'Edit', edit_request_path(request) %></td>
+        <td><%= link_to 'Destroy', request, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Request', new_request_path %>

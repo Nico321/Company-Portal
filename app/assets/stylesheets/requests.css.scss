@@ -1,0 +1,56 @@
+// Place all the styles related to the Requests controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* Spinning, gradient circle; CSS only! */
+
+.circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
+  background-image: -webkit-radial-gradient(45px 45px, circle cover, yellow, orange);
+  background-image: radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
+  animation-name: spin;
+  animation-duration: 3s;
+  /* 3 seconds */
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.circle-red {	
+  background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, red 0%, darkred 100%, red 95%);
+  background-image: -webkit-radial-gradient(45px 45px, circle cover, red, darkred);
+  background-image: radial-gradient(45px 45px 45deg, circle cover, red 0%, darkred 100%, red 95%);
+}
+.circle-green {	
+  background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, green 0%, darkgreen 100%, red 95%);
+  background-image: -webkit-radial-gradient(45px 45px, circle cover, green, darkgreen);
+  background-image: radial-gradient(45px 45px 45deg, circle cover, green 0%, darkgreen 100%, red 95%);
+}
+.circle-small{
+  width: 20px;
+  height: 20px;
+  float: left;
+}
+
+option:before {
+    content: " ";
+    height: 10px;
+    width: 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+option.red:before { background: red; }
+option.green:before { background: green; }
+option.yellow:before { background: yellow; }

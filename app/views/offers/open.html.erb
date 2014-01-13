@@ -1,0 +1,31 @@
+<h1>Open Offers</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Customer</th>
+      <th>Subject</th>
+      <th>Notes</th>
+      <th>Agent</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @offers.each do |offer| %>
+      <tr>
+        <td><%= User.find(offer.customer_id).email %></td>
+        <td><%= offer.subject %></td>
+        <td><%= offer.request.notes.count + offer.notes.count %></td>
+        <% if offer.agent_id %>
+          <td><%= User.find(offer.agent_id).email %></td>
+        <% else %>
+        <td></td>
+        <% end %>
+        <td><%= link_to 'Show', offer, :class => "btn btn-info" %></td>
+        <td><%= link_to 'Assume', assume_offer_path(offer), :class => "btn btn-success" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

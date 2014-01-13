@@ -2,10 +2,37 @@ CompanyPortal::Application.routes.draw do
 
 
 
+
+  resources :positions
+
+  resources :offers do
+    collection do
+      get 'open'
+      get 'unassumed'
+      get 'assumed'
+    end
+    member do
+      get 'convert'
+      get 'assume'
+      get 'release'
+    end    
+  end
+
+  resources :requests do
+    collection do
+      get 'open'
+      get 'unassumed'
+      get 'assumed'
+    end
+    member do
+      get 'assume'
+      get 'release'
+    end
+  end
+
+
   get "welcome/index"
   resources :notes
-
-  resources :businessprocesses
 
   resources :articles
 
@@ -26,6 +53,7 @@ CompanyPortal::Application.routes.draw do
     end
 
   end
+
 
   root 'welcome#index'
 
