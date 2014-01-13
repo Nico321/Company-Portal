@@ -25,10 +25,11 @@ class BugreportsController < ApplicationController
   # POST /bugreports.json
   def create
     @bugreport = Bugreport.new(bugreport_params)
+    @bugreport.reporter = current_user
 
     respond_to do |format|
       if @bugreport.save
-        format.html { redirect_to @bugreport, notice: 'Bugreport was successfully created.' }
+        format.html { redirect_to root_url, notice: 'Bugreport was successfully created.' }
         format.json { render action: 'show', status: :created, location: @bugreport }
       else
         format.html { render action: 'new' }
@@ -60,6 +61,44 @@ class BugreportsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+   def assume
+    @bugreport = Bugreport.find(params[:id])
+    @bugreport.agent = current_user
+    @bugreport.save
+    redirect_to assumed_bugreports_url
+  end
+
+def release
+  @bugreport = Bugreport.find(params[:id])
+  @bugreport.agent = nil
+  @bugreport.save
+  redirect_to unassumed_bugreports_url
+end
+
+def close
+  @bugreport = Bugreport.find(params[:id])
+  @bugreport.closed = Time.now
+  @bugreport.save
+  redirect_to assumed_bugreports_url
+end
+
+
+  def open
+    @bugreports = Bugreport.where("closed is null")
+  end
+
+  def assumed
+    @bugreports = Bugreport.where(agent_id: current_user.id)
+  end
+
+  def unassumed
+    @bugreports = Bugreport.where("agent_id is null")
+  end
+
+def closed
+  @bugreports = Bugreport.where("closed")
+end
 
   private
     # Use callbacks to share common setup or constraints between actions.

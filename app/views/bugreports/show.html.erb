@@ -12,13 +12,26 @@
 
 <p>
   <strong>Userid:</strong>
-  <%= @bugreport.userid %>
+  <%= @bugreport.reporter.email %>
 </p>
 
 <p>
   <strong>Employeeid:</strong>
-  <%= @bugreport.employeeid %>
+  <% if @bugreport.agent != nil %>
+  	<%= @bugreport.agent.email %>
+  <% else %>
+  	-
+  <% end %>
 </p>
 
-<%= link_to 'Edit', edit_bugreport_path(@bugreport) %> |
-<%= link_to 'Back', bugreports_path %>
+<p>
+<% if @bugreport.closed != nil %>
+ 	<strong>Closed:</strong>
+	<%= @bugreport.closed %>
+ <% end %>
+</p>
+
+<% if @bugreport.agent == current_user && @bugreport.closed == nil %>
+	<%= link_to 'Close', close_bugreport_path(@bugreport), :class =>"btn btn-danger" %> 
+<%end %>
+<%= link_to 'Back', closed_bugreports_path(@bugreport), :class =>"btn btn-primary" %>

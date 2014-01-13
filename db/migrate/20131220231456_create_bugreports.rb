@@ -3,8 +3,9 @@ class CreateBugreports < ActiveRecord::Migration
     create_table :bugreports do |t|
       t.string :subject
       t.text :description
-      t.integer :userid
-      t.integer :employeeid
+      t.integer :reporter_id
+      t.integer :agent_id
+      t.date :closed
 
       t.timestamps
     end

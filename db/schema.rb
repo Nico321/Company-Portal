@@ -36,8 +36,9 @@ ActiveRecord::Schema.define(version: 20131220232055) do
   create_table "bugreports", force: true do |t|
     t.string   "subject"
     t.text     "description"
-    t.integer  "userid"
-    t.integer  "employeeid"
+    t.integer  "reporter_id"
+    t.integer  "agent_id"
+    t.date     "closed"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

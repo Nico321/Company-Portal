@@ -1,12 +1,12 @@
 <h1>Listing bugreports</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Subject</th>
       <th>Description</th>
-      <th>Userid</th>
-      <th>Employeeid</th>
+      <th>User-Mail</th>
+      <th>Employee-Mail</th>
       <th></th>
       <th></th>
       <th></th>
@@ -18,11 +18,15 @@
       <tr>
         <td><%= bugreport.subject %></td>
         <td><%= bugreport.description %></td>
-        <td><%= bugreport.userid %></td>
-        <td><%= bugreport.employeeid %></td>
-        <td><%= link_to 'Show', bugreport %></td>
-        <td><%= link_to 'Edit', edit_bugreport_path(bugreport) %></td>
-        <td><%= link_to 'Destroy', bugreport, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= bugreport.reporter.email %></td>
+        <% if bugreport.agent != nil %>
+        <td><%= bugreport.agent.email %></td>
+        <% else %>
+          <td></td>
+        <% end %>
+
+        <td><%= link_to 'Show', bugreport, :class =>"btn btn-info" %></td>
+        <td><%= link_to 'Assume', assume_bugreport_path(bugreport), :class =>"btn btn-success" %> </td>
       </tr>
     <% end %>
   </tbody>

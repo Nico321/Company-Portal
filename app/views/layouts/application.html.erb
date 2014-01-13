@@ -50,7 +50,25 @@
           <div class="container-fluid nav-collapse">
             <ul class="nav">
               <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
+              <li> 
+                <% if current_user %>
+                  <div class="dropdown">
+                        <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                          Bugreports
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                          <li><%= link_to "New bugreport", new_bugreport_path %></li>
+                          <li class="divider"></li>
+                          <li><%= link_to "Show open bugreport(#{Bugreport.where('closed IS NULL').count})", open_bugreports_path %></li>
+                          <li><%= link_to "Show unassumed bugreports (#{Bugreport.where('agent_id IS NULL and closed IS NULL').count})", unassumed_bugreports_path %></li>
+                          <li><%= link_to "Show my bugreports (#{Bugreport.where(agent_id: current_user.id).where("closed IS NULL").count})", assumed_bugreports_path %></li>
+                          <li class="divider"></li>
+                          <li><%= link_to "Archiv", closed_bugreports_path %></li>
+                        </ul>
+                      </div>
+                      <% end %>
+                    </li>
               <li><%= link_to "Link3", "/path3"  %></li>
             </ul>
           </div><!--/.nav-collapse -->
@@ -77,7 +95,7 @@
       </div><!--/row-->
 
       <footer>
-        <p>&copy; Company 2013</p>
+        <p>&copy; CompanyPortal 2014</p>
       </footer>
 
     </div> <!-- /container -->

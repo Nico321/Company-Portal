@@ -1,4 +1,7 @@
 CompanyPortal::Application.routes.draw do
+
+
+
   get "welcome/index"
   resources :notes
 
@@ -9,9 +12,23 @@ CompanyPortal::Application.routes.draw do
   resources :suppliers
 
   devise_for :users
-  resources :bugreports
+  resources :bugreports do
+    collection do
+      get "open"
+      get "unassumed"
+      get "assumed"
+      get "closed"
+    end
+    member do
+      get "assume"
+      get "release"
+      get "close"
+    end
+
+  end
 
   root 'welcome#index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

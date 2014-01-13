@@ -1,0 +1,35 @@
+<h1>All Bugreports</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Description</th>
+      <th>User-Mail</th>
+      <th>Employee-Mail</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bugreports.each do |bugreport| %>
+      <% if bugreport.closed %>
+          <%else %>
+        <tr>
+          <td><%= bugreport.subject %></td>
+          <td><%= bugreport.description %></td>
+          <td><%= bugreport.reporter.email %></td>
+          <% if bugreport.agent != nil %>
+          <td><%= bugreport.agent.email %></td>
+          <% else %>
+            <td></td>
+          <% end %>
+        <% end %>
+        <td><%= link_to 'Show', bugreport, :class =>"btn btn-info" %></td>
+        <td><%= link_to 'Assume', assume_bugreport_path(bugreport), :class =>"btn btn-success" %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
