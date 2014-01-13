@@ -8,7 +8,7 @@
       <th>User-Mail</th>
       <th>Employee-Mail</th>
       <th>closing date</th>
-      <th></th>
+      <th>Notes</th>
       <th></th>
     </tr>
   </thead>
@@ -22,6 +22,7 @@
           <td><%= bugreport.reporter.email %></td>
           <td><%= bugreport.agent.email %></td>
           <td><%= bugreport.closed %></td>
+          <td><%= bugreport.notes.count %></td>
 
           <td><%= link_to 'Show', bugreport, :class =>"btn btn-info" %></td>
         </tr>

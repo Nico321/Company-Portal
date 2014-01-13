@@ -6,7 +6,7 @@
       <th>Subject</th>
       <th>Description</th>
       <th>User-Mail</th>
-      <th></th>
+      <th>Notes</th>
       <th></th>
       <th></th>
     </tr>
@@ -20,7 +20,7 @@
           <td><%= bugreport.subject %></td>
           <td><%= bugreport.description %></td>
           <td><%= bugreport.reporter.email %></td>
-          
+          <td><%= bugreport.notes.count %></td>
 
           <td><%= link_to 'Show', bugreport, :class =>"btn btn-info" %></td>
           <td><%= link_to 'release', release_bugreport_path(bugreport), :class =>"btn btn-danger" %> </td>

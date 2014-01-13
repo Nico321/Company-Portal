@@ -7,7 +7,7 @@
       <th>Description</th>
       <th>User-Mail</th>
       <th>Employee-Mail</th>
-      <th></th>
+      <th>Notes</th>
       <th></th>
       <th></th>
     </tr>
@@ -26,6 +26,7 @@
           <% else %>
             <td></td>
           <% end %>
+          <td><%= bugreport.notes.count %></td>
         <% end %>
         <td><%= link_to 'Show', bugreport, :class =>"btn btn-info" %></td>
         <td><%= link_to 'Assume', assume_bugreport_path(bugreport), :class =>"btn btn-success" %> </td>

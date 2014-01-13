@@ -31,6 +31,8 @@
  <% end %>
 </p>
 
+<%= show_notes(@bugreport).html_safe %>
+
 <% if @bugreport.agent == current_user && @bugreport.closed == nil %>
 	<%= link_to 'Close', close_bugreport_path(@bugreport), :class =>"btn btn-danger" %> 
 <%end %>

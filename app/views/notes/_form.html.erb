@@ -31,6 +31,10 @@
   <div class="field hidden">
     <%= f.text_field :offer_id, :value => params[:offer_id] %>
   </div>
+ <% elsif params[:bugreport_id] %>
+  <div class="field hidden">
+    <%= f.text_field :bugreport_id, :value => params[:bugreport_id] %>
+  </div>
 <%end%>
 
   <div class="actions">
