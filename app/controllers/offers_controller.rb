@@ -42,7 +42,7 @@ class OffersController < ApplicationController
   def update
     respond_to do |format|
       if @offer.update(offer_params)
-        format.html { redirect_to @offer, notice: 'Offer was successfully updated.' }
+        format.html { redirect_to edit_offer_path(@offer), notice: 'Offer was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

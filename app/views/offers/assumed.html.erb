@@ -17,7 +17,7 @@
         <td><%= offer.customer.email %></td>
         <td><%= offer.subject %></td>
         <td><%= offer.request.notes.count + offer.notes.count %></td>
-        <td><%= link_to 'Show', offer, :class => "btn btn-info" %></td>
+        <td><%= link_to 'Edit', edit_offer_path(offer), :class => "btn btn-info" %></td>
         <td><%= link_to 'Release', release_offer_path(offer), :class => "btn btn-danger" %></td>
       </tr>
     <% end %>

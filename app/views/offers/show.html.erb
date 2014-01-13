@@ -21,5 +21,17 @@
   </tr>
 </table>
 
+<%= show_positions(@offer).html_safe%>
+
 <%= show_notes(@offer.request).html_safe%>
+
+<% 
+totalAmount = 0
+ @offer.positions.each do |p|
+  totalAmount += p.article.price * p.quantity
+ end
+ totalAmount += @offer.installationprice
+%>
+
+<h3>Total: <%= totalAmount  %></h3>
 

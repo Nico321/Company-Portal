@@ -7,14 +7,14 @@ module ApplicationHelper
 		end
 
 		html = "
-				<div class='accordion' id='accordion2'>
+				<div class='accordion' id='accordionNote'>
 				    <div class='accordion-group'>
 				      <div class='accordion-heading'>
-				        <a class='accordion-toggle' data-toggle='collapse' data-parent='#accordion2' href='#collapseOne'>
+				        <a class='accordion-toggle' data-toggle='collapse' data-parent='#accordion2' href='#collapseNoteOne'>
 				        Notes(#{nrOfNotes})
 				        </a>
 				      </div>
-				      <div id='collapseOne' class='accordion-body collapse'>
+				      <div id='collapseNoteOne' class='accordion-body collapse'>
 				        <div class='accordion-inner'>"
 						request.notes.each do |n|				          
 		html += "
@@ -63,6 +63,56 @@ module ApplicationHelper
 
 		return html
 	end
+
+
+	def show_positions(offer)
+
+				html = "
+				<div class='accordion' id='accordionPos'>
+				    <div class='accordion-group'>
+				      <div class='accordion-heading'>
+				        <a class='accordion-toggle' data-toggle='collapse' data-parent='#accordion2' href='#collapsePosOne'>
+				        Positions(#{offer.positions.count})
+				        </a>
+				      </div>
+				      <div id='collapsePosOne' class='accordion-body collapse'>
+				        <div class='accordion-inner'><table class='table table-hover'><tr>
+				        <th>Quantity</th>
+				        <th>Name</th>
+				        <th>Price</th>
+				        <th>Total</th></tr>"
+							offer.positions.each do |p|	
+								html += "
+								<tr>
+									<td>
+										#{p.quantity}
+									</td>
+									<td>
+										#{p.article.name}
+									</td>
+									<td>
+										#{p.article.price}
+									</td>
+									<td>
+										#{p.article.price * p.quantity}
+									</td>
+								</tr>"						
+							end
+							html += "</table>"		          
+			if current_user == offer.agent
+				html +=	"		<div style='float: right;'>#{link_to 'Add a position', new_position_path(:offer_id => offer.id), :class => 'btn btn-primary'}</div>"
+			end		
+			html += "</div>
+				      </div>
+				    </div>
+				</div>
+						"
+				
+
+		return html
+
+	end
+
 end
 
 

@@ -1,0 +1,27 @@
+<%= form_for(@position) do |f| %>
+  <% if @position.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@position.errors.count, "error") %> prohibited this position from being saved:</h2>
+
+      <ul>
+      <% @position.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :article %>
+    <%= f.select :article_id, options_from_collection_for_select(Article.all, "id", "name")%>
+  </div>
+  <div class="field">
+    <%= f.label :quantity %><br>
+    <%= f.number_field :quantity %>
+  </div>
+  <div class="field hidden">
+    <%= f.text_field :offer_id, :value => params[:offer_id] %>
+  </div>
+  <div class="actions">
+    <%= f.submit :value => "Add position", :class => "btn btn-success" %>
+  </div>
+<% end %>

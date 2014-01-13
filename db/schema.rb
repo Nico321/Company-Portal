@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140112210229) do
+ActiveRecord::Schema.define(version: 20140113003109) do
 
   create_table "article_storages", force: true do |t|
     t.integer  "article_id"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20140112210229) do
   create_table "offers", force: true do |t|
     t.string   "subject"
     t.text     "body"
-    t.decimal  "installationprice"
+    t.decimal  "installationprice", default: 0.0
     t.date     "publication"
     t.integer  "customer_id"
     t.integer  "agent_id"
@@ -73,16 +73,13 @@ ActiveRecord::Schema.define(version: 20140112210229) do
   end
 
   create_table "positions", force: true do |t|
-    t.integer  "article_id"
-    t.integer  "businessprocess_id"
-    t.integer  "quantity"
+    t.integer  "quantity",     default: 1
     t.date     "deliverydate"
+    t.integer  "article_id"
+    t.integer  "offer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "positions", ["article_id"], name: "index_positions_on_article_id"
-  add_index "positions", ["businessprocess_id"], name: "index_positions_on_businessprocess_id"
 
   create_table "requests", force: true do |t|
     t.string   "subject"

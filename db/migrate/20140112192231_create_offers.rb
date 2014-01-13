@@ -3,7 +3,7 @@ class CreateOffers < ActiveRecord::Migration
     create_table :offers do |t|
       t.string :subject
       t.text :body
-      t.decimal :installationprice
+      t.decimal :installationprice, :default => 0
       t.date :publication
       t.integer :customer_id
       t.integer :agent_id

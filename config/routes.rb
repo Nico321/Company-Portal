@@ -1,4 +1,6 @@
 CompanyPortal::Application.routes.draw do
+  resources :positions
+
   resources :offers do
     collection do
       get 'open'
