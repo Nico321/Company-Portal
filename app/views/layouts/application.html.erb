@@ -90,9 +90,11 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                      <li><%= link_to "Show open offers(#{Offer.where('order_id IS NULL').count})", open_offers_path %></li>
-                      <li><%= link_to "Show unassumed offers (#{Offer.where('agent_id IS NULL and order_id IS NULL').count})", unassumed_offers_path %></li>
-                      <li><%= link_to "Show my offers (#{Offer.where(agent_id: current_user.id).where('order_id IS NULL').count})", assumed_offers_path %></li>
+                      <li><%= link_to "Pending offers(#{Offer.where('order_id IS NULL AND publication IS NOT NULL').count})", pending_offers_path %></li>
+                      <li class="divider"></li>
+                      <li><%= link_to "Show open offers(#{Offer.where('order_id IS NULL AND publication IS NULL').count})", open_offers_path %></li>
+                      <li><%= link_to "Show unassumed offers (#{Offer.where('agent_id IS NULL and order_id IS NULL AND publication IS NULL').count})", unassumed_offers_path %></li>
+                      <li><%= link_to "Show my offers (#{Offer.where(agent_id: current_user.id).where('order_id IS NULL AND publication IS NULL').count})", assumed_offers_path %></li>
                     </ul>
                   </div>
                 </li>

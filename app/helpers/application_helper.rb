@@ -123,7 +123,7 @@ module ApplicationHelper
 								</tr>"						
 							end
 							html += "</table>"		          
-			if current_user == offer.agent
+			if current_user == offer.agent and offer.publication == nil
 				html +=	"		<div style='float: right;'>#{link_to 'Add a position', new_position_path(:offer_id => offer.id), :class => 'btn btn-primary'}</div>"
 			end		
 			html += "</div>
@@ -135,6 +135,17 @@ module ApplicationHelper
 
 		return html
 
+	end
+
+	def calcTotalPrice(object)
+		
+		totalAmount = 0
+		object.positions.each do |p|
+		 	totalAmount += p.article.price * p.quantity
+		 end
+		 totalAmount += object.installationprice
+
+		 return totalAmount
 	end
 
 end

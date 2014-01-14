@@ -73,8 +73,19 @@ class OffersController < ApplicationController
     redirect_to edit_offer_path(@offer.id)
   end
 
+  def pending
+    @offers = Offer.where('order_id IS NULL AND publication IS NOT NULL')
+  end
+
   def open
-    @offers = Offer.where('order_id IS NULL')
+    @offers = Offer.where('order_id IS NULL AND publication IS NULL')
+  end
+
+  def publish
+    @offer = Offer.find(params[:id])
+    @offer.publication = Time.now
+    @offer.save
+    redirect_to assumed_offers_path
   end
 
   def assume
@@ -92,11 +103,11 @@ class OffersController < ApplicationController
   end
    
   def unassumed
-    @offers = Offer.where('agent_id IS NULL and order_id IS NULL')
+    @offers = Offer.where('agent_id IS NULL and order_id IS NULL AND publication IS NULL')
   end
 
   def assumed
-    @offers = Offer.where(agent_id: current_user.id).where('order_id IS NULL')
+    @offers = Offer.where(agent_id: current_user.id).where('order_id IS NULL AND publication IS NULL')
   end 
 
   private

@@ -10,11 +10,13 @@ CompanyPortal::Application.routes.draw do
       get 'open'
       get 'unassumed'
       get 'assumed'
+      get 'pending'
     end
     member do
       get 'convert'
       get 'assume'
       get 'release'
+      get 'publish'
     end    
   end
 

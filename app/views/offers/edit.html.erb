@@ -6,12 +6,6 @@
 
 <%= show_notes(@offer.request).html_safe%>
 
-<% 
-totalAmount = 0
- @offer.positions.each do |p|
- 	totalAmount += p.article.price * p.quantity
- end
- totalAmount += @offer.installationprice
-%>
+<h3>Total: <%= calcTotalPrice(@offer)  %></h3>
 
-<h3>Total: <%= totalAmount  %></h3>
+<%= link_to "Publish", publish_offer_path(@offer), :class => "btn btn-primary" %>
