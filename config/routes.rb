@@ -1,7 +1,6 @@
 CompanyPortal::Application.routes.draw do
 
-
-
+get 'reporting', controller: "reporting", action: "index"
 
   resources :positions
 

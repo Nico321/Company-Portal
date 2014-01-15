@@ -1,0 +1,7 @@
+<h1>Test</h1>
+<% @bugreport.each do |bugreport| %>
+	<% if bugreport.closed %>
+		<%= ((bugreport.closed - bugreport.created_at)/60) %>
+		<br>
+	<% end %>
+<% end %>
