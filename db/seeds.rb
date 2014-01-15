@@ -82,3 +82,12 @@ offerrequests.each do |oreq|
 	Position.create!(:quantity => 50, :article_id =>atasta.id, :offer_id => o.id)
 end
 
+###########################################################
+#
+# Seeds for Bugreports(Daniel)
+#
+###########################################################
+b1 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone)
+b2 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo)
+b3 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone, :agent => ctwo)
+b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo, :agent => cone, :closed => "2013-02-03T04:05:06+07:00")

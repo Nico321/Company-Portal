@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140113171611) do
+ActiveRecord::Schema.define(version: 20140114195339) do
 
   create_table "article_storages", force: true do |t|
     t.integer  "article_id"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20140113171611) do
     t.text     "description"
     t.integer  "reporter_id"
     t.integer  "agent_id"
-    t.date     "closed"
+    t.datetime "closed"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
