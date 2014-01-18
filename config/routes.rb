@@ -1,5 +1,11 @@
 CompanyPortal::Application.routes.draw do
 
+  resources :assignments do
+    member do
+      get 'convert'
+    end
+  end
+
 get 'reporting', controller: "reporting", action: "index"
 
   resources :positions

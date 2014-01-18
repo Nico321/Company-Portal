@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @assignment.subject %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @assignment.body %>
+</p>
+
+<p>
+  <strong>Installationprice:</strong>
+  <%= @assignment.installationprice %>
+</p>
+
+<%= link_to 'Edit', edit_assignment_path(@assignment) %> |
+<%= link_to 'Back', assignments_path %>
