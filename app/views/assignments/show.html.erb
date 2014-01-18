@@ -1,19 +1,33 @@
-<p id="notice"><%= notice %></p>
+<table class="table table-hover">
+  <tr>
+      <td><h1><%= User.find(@assignment.customer).email %> - <%= @assignment.subject %></h1></td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <%= @assignment.body %>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Agent:</strong>
+      <% if @assignment.agent_id %>
+        <%= @assignment.agent.email %>
+      <% else %>
+        Nobody
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>Installationprice: <%= @assignment.installationprice %></td>
+  </tr>
+</table>
 
-<p>
-  <strong>Subject:</strong>
-  <%= @assignment.subject %>
-</p>
+<%= show_positions(@assignment).html_safe%>
 
-<p>
-  <strong>Body:</strong>
-  <%= @assignment.body %>
-</p>
+<%= show_notes(@assignment.offer.request).html_safe%>
 
-<p>
-  <strong>Installationprice:</strong>
-  <%= @assignment.installationprice %>
-</p>
+<h3>Total: <%= calcTotalPrice(@assignment)  %></h3>
 
-<%= link_to 'Edit', edit_assignment_path(@assignment) %> |
-<%= link_to 'Back', assignments_path %>
+

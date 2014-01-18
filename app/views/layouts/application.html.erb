@@ -98,6 +98,19 @@
                     </ul>
                   </div>
                 </li>
+                <li>
+                  <div class="dropdown">
+                    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                      Assignments
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                      <li><%= link_to "Show open assignments(#{Assignment.where('order_id IS NULL').count})", open_assignments_path %></li>
+                      <li><%= link_to "Show unassumed assignments (#{Assignment.where('agent_id IS NULL and order_id IS NULL').count})", unassumed_assignments_path %></li>
+                      <li><%= link_to "Show my assignments (#{Assignment.where(agent_id: current_user.id).where('order_id IS NULL').count})", assumed_assignments_path %></li>
+                    </ul>
+                  </div>
+                </li>
               <% end %>
             </ul>
           </div><!--/.nav-collapse -->

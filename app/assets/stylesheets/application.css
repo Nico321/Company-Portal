@@ -12,12 +12,15 @@
  *= require_tree .
  */
 
- .requestnote {
+ .RequestNote {
  	background-color: lightblue;
  }
- .offernote {
+ .OfferNote {
  	background-color: palegreen;
  }
-  .bugreportnote {
+  .BugreportNote {
  	background-color: pink;
+ }
+ .AssignmentNote {
+ 	background-color: papayawhip;
  }

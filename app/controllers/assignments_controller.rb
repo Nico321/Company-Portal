@@ -21,6 +21,32 @@ class AssignmentsController < ApplicationController
     redirect_to edit_assignment_path(@assignment.id)
   end
 
+   def open
+    @assignments = Assignment.where('order_id IS NULL')
+  end
+
+  def assume
+    @assignment = Assignment.find(params[:id])
+    @assignment.agent = current_user
+    @assignment.save
+    redirect_to assumed_assignments_path
+  end
+
+  def release
+    @assignment = Assignment.find(params[:id])
+    @assignment.agent = nil
+    @assignment.save
+    redirect_to assumed_assignments_path
+  end
+   
+  def unassumed
+    @assignments = Assignment.where('agent_id IS NULL and order_id IS NULL')
+  end
+
+  def assumed
+    @assignments = Assignment.where(agent_id: current_user.id).where('order_id IS NULL')
+  end
+
   # GET /assignments
   # GET /assignments.json
   def index
