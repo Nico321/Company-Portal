@@ -2,7 +2,13 @@ class ReportingController < ApplicationController
 	def index
 		#common Reporting information & creation from given data
 		@bugreport = Bugreport.all
-		@allAverageTimeBug = ((Bugreport.all.sum(:created_at) - Bugreport.all.sum(:closed))/60).round
+		#@allAverageTimeBug = ((Bugreport.all.sum(:created_at) - Bugreport.all.sum(:closed))/60).round
+		summe = 0
+		@bugreport.each do	|bugreport|
+			summe = bugreport.closed - bugreport.created_at
+		end
+		@allAverageTimeBug = (summe/ Bugreport.all.count(:closed)/60).round
+
 		@openBugreports = Bugreport.all.count(:agent == nil)
 
 		@requestQuantity = Request.all.count
