@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140114195339) do
+ActiveRecord::Schema.define(version: 20140118202552) do
 
   create_table "article_storages", force: true do |t|
     t.integer  "article_id"
@@ -29,6 +29,17 @@ ActiveRecord::Schema.define(version: 20140114195339) do
     t.decimal  "price"
     t.integer  "delivertime"
     t.integer  "supplierid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "assignments", force: true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.decimal  "installationprice"
+    t.integer  "customer_id"
+    t.integer  "agent_id"
+    t.integer  "order_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -53,6 +64,7 @@ ActiveRecord::Schema.define(version: 20140114195339) do
     t.datetime "updated_at"
     t.integer  "offer_id"
     t.integer  "bugreport_id"
+    t.integer  "assignment_id"
   end
 
   create_table "offers", force: true do |t|
@@ -62,7 +74,7 @@ ActiveRecord::Schema.define(version: 20140114195339) do
     t.date     "publication"
     t.integer  "customer_id"
     t.integer  "agent_id"
-    t.integer  "order_id"
+    t.integer  "assignment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -75,12 +87,13 @@ ActiveRecord::Schema.define(version: 20140114195339) do
   end
 
   create_table "positions", force: true do |t|
-    t.integer  "quantity",     default: 1
+    t.integer  "quantity",      default: 1
     t.date     "deliverydate"
     t.integer  "article_id"
     t.integer  "offer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "assignment_id"
   end
 
   create_table "requests", force: true do |t|

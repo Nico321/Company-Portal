@@ -1,12 +1,12 @@
-class Offer < ActiveRecord::Base
+class Assignment < ActiveRecord::Base
 	belongs_to :customer, :class_name => "User"
 	belongs_to :agent, :class_name => "User"
-	belongs_to :assignment
+	belongs_to :order
 
-	has_one :request
+	has_one :offer
 
 	has_many :notes
 	has_many :positions
 
-	validates :customer, :subject, :request, presence: true
+	validates :subject, :customer, :offer, presence: true
 end

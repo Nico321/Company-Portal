@@ -1,5 +1,18 @@
 CompanyPortal::Application.routes.draw do
 
+  resources :assignments do
+    collection do
+      get 'open'
+      get 'unassumed'
+      get 'assumed'
+    end
+    member do
+      get 'convert'
+      get 'assume'
+      get 'release'
+    end
+  end
+
 get 'reporting', controller: "reporting", action: "index"
 get "reporting/bugreport", controller: "reporting", action:"bugreport"
 get "reporting/process", controller: "reporting", action:"process"

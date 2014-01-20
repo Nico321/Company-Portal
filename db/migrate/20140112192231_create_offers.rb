@@ -7,7 +7,7 @@ class CreateOffers < ActiveRecord::Migration
       t.date :publication
       t.integer :customer_id
       t.integer :agent_id
-      t.integer :order_id
+      t.integer :assignment_id
 
       t.timestamps
     end

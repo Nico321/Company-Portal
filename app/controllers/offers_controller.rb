@@ -74,11 +74,11 @@ class OffersController < ApplicationController
   end
 
   def pending
-    @offers = Offer.where('order_id IS NULL AND publication IS NOT NULL')
+    @offers = Offer.where('assignment_id IS NULL AND publication IS NOT NULL')
   end
 
   def open
-    @offers = Offer.where('order_id IS NULL AND publication IS NULL')
+    @offers = Offer.where('assignment_id IS NULL AND publication IS NULL')
   end
 
   def publish
@@ -103,11 +103,11 @@ class OffersController < ApplicationController
   end
    
   def unassumed
-    @offers = Offer.where('agent_id IS NULL and order_id IS NULL AND publication IS NULL')
+    @offers = Offer.where('agent_id IS NULL and assignment_id IS NULL AND publication IS NULL')
   end
 
   def assumed
-    @offers = Offer.where(agent_id: current_user.id).where('order_id IS NULL AND publication IS NULL')
+    @offers = Offer.where(agent_id: current_user.id).where('assignment_id IS NULL AND publication IS NULL')
   end 
 
   private
