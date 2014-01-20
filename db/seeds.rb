@@ -90,4 +90,4 @@ end
 b1 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone)
 b2 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo)
 b3 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone, :agent => ctwo)
-b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo, :agent => cone, :closed => "2013-02-03T04:05:06+07:00")
+b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo, :agent => cone, :created_at =>"2013-02-03T04:05:06+07:00" ,:closed => "2013-02-03T09:05:06+07:00")

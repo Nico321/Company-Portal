@@ -98,7 +98,6 @@ end
 
 def closed
   @bugreports = Bugreport.where("closed is not null")
-  y
 end
 
   private
