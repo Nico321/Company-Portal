@@ -5,7 +5,9 @@ class ReportingController < ApplicationController
 		#@allAverageTimeBug = ((Bugreport.all.sum(:created_at) - Bugreport.all.sum(:closed))/60).round
 		summe = 0
 		@bugreport.each do	|bugreport|
+			if bugreport.closed != nil
 			summe = bugreport.closed - bugreport.created_at
+			end
 		end
 		@allAverageTimeBug = (summe/ Bugreport.all.count(:closed)/60).round
 
