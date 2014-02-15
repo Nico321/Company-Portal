@@ -81,7 +81,7 @@ describe "Offer" do
 			click_link "Assume"
 			click_link "Edit"
 
-			expect{click_link "Publish"}.to change{Offer.where('order_id IS NULL AND publication IS NOT NULL').count}.by(1)
+			expect{click_link "Publish"}.to change{Offer.where('assignment_id IS NULL AND publication IS NOT NULL').count}.by(1)
 		end
 	end
 end

@@ -1,0 +1,33 @@
+<table class="table table-hover">
+  <tr>
+      <td><h1><%= User.find(@assignment.customer).email %> - <%= @assignment.subject %></h1></td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <%= @assignment.body %>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Agent:</strong>
+      <% if @assignment.agent_id %>
+        <%= @assignment.agent.email %>
+      <% else %>
+        Nobody
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>Installationprice: <%= @assignment.installationprice %></td>
+  </tr>
+</table>
+
+<%= show_positions(@assignment).html_safe%>
+
+<%= show_notes(@assignment.offer.request).html_safe%>
+
+<h3>Total: <%= calcTotalPrice(@assignment)  %></h3>
+
+

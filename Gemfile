@@ -45,6 +45,7 @@ gem 'twitter-bootstrap-rails'
 gem 'less-rails'
 gem 'therubyracer'
 gem 'devise'
+gem 'googlecharts'
 
 
 group :development, :test do

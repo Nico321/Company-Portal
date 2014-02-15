@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>Reporting Bugreports</title>
+	</head>
+	<body>
+
+		<%= form_tag({:controller => "reporting", :action => "bugreport"}, :method => "post")      do %>
+		<%= select_tag(:value, options_for_select([['Year', 1], ['Month', 2], ['Week', 3], ['Day', 4]])) %>
+		<%= submit_tag "Choose" %>
+		<% end %>
+
+		<img src ="<%= @chart %>">
+	</body>
+</html>

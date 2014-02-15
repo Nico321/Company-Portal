@@ -1,10 +1,13 @@
 module ApplicationHelper
 
-	def show_notes(request)
-		nrOfNotes = request.notes.count
-		if request.class != Bugreport
-			if request.offer
-				nrOfNotes += request.offer.notes.count
+	def show_notes(object)
+		nrOfNotes = object.notes.count
+		if object.class != Bugreport
+			if object.offer
+				nrOfNotes += object.offer.notes.count
+				if object.offer.assignment
+					nrOfNotes += object.offer.assignment.notes.count
+				end
 			end
 		end
 		html = "
@@ -17,65 +20,31 @@ module ApplicationHelper
 				      </div>
 				      <div id='collapseNoteOne' class='accordion-body collapse'>
 				        <div class='accordion-inner'>"
-						if request.class == Bugreport
-							request.notes.each do |n|			          
-		html += "
-								<div class='accordion-group bugreportnote' data-parent='#collapseOne'>
-						            <div class='accordion-heading'>
-						              <a class='accordion-toggle' data-toggle='collapse' href='#collapse#{n.id}'>
-						              #{n.subject}<div style='float: right;'>#{n.user.email}(#{l n.created_at, format: :short})</div>
-						              </a>
-						            </div>
-						            <div id='collapse#{n.id}' class='accordion-body collapse'>
-						              <div class='accordion-inner'>
-						              #{n.body}
-						              </div>
-						            </div>
-						          </div>"		
-							end 
-						else
-						request.notes.each do |n|				          
-		html += "
-							<div class='accordion-group requestnote' data-parent='#collapseOne'>
-					            <div class='accordion-heading'>
-					              <a class='accordion-toggle' data-toggle='collapse' href='#collapse#{n.id}'>
-					              #{n.subject}<div style='float: right;'>#{n.user.email}(#{l n.created_at, format: :short})</div>
-					              </a>
-					            </div>
-					            <div id='collapse#{n.id}' class='accordion-body collapse'>
-					              <div class='accordion-inner'>
-					              #{n.body}
-					              </div>
-					            </div>
-					          </div>"		
-						end 
+
+						html += show_note_helper(object)
 					
-						if request.offer
-							request.offer.notes.each do |n|				          
-		html += "
-								<div class='accordion-group offernote' data-parent='#collapseOne'>
-						            <div class='accordion-heading'>
-						              <a class='accordion-toggle' data-toggle='collapse' href='#collapse#{n.id}'>
-						              #{n.subject}<div style='float: right;'>#{n.user.email}(#{l n.created_at, format: :short})</div>
-						              </a>
-						            </div>
-						            <div id='collapse#{n.id}' class='accordion-body collapse'>
-						              <div class='accordion-inner'>
-						              #{n.body}
-						              </div>
-						            </div>
-						          </div>"		
-							end 
+						if object.class == Request
+							if object.offer
+								html += show_note_helper(object.offer)
+
+								if object.offer.assignment
+									html += show_note_helper(object.offer.assignment)
+								end
+							end
 						end
-					end
-		if request.class == Bugreport
-			if request.closed == nil
-				html +="		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:bugreport_id => request.id), :class => 'btn btn-primary'}</div>"
+
+		if object.class == Bugreport
+			if object.closed == nil
+				html +="		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:bugreport_id => object.id), :class => 'btn btn-primary'}</div>"
 			end
-		elsif request.offer				
-			html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:offer_id => request.offer.id), :class => 'btn btn-primary'}</div>"
+		elsif object.offer
+			if object.offer.assignment
+				html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:assignment_id => object.offer.assignment.id), :class => 'btn btn-primary'}</div>"
+			elsif				
+				html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:offer_id => object.offer.id), :class => 'btn btn-primary'}</div>"
+			end
 		else
-			html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:request_id => request.id), :class => 'btn btn-primary'}</div>"
+			html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:request_id => object.id), :class => 'btn btn-primary'}</div>"
 		end
 		
 		html +="		</div>
@@ -88,15 +57,36 @@ module ApplicationHelper
 		return html
 	end
 
+	def show_note_helper(object)
+		notes = ""
 
-	def show_positions(offer)
+		object.notes.each do |n|				          
+		notes += "
+		<div class='accordion-group #{object.class}Note' data-parent='#collapseOne'>
+            <div class='accordion-heading'>
+              <a class='accordion-toggle' data-toggle='collapse' href='#collapse#{n.id}'>
+              #{n.subject}<div style='float: right;'>#{n.user.email}(#{l n.created_at, format: :short})</div>
+              </a>
+            </div>
+            <div id='collapse#{n.id}' class='accordion-body collapse'>
+              <div class='accordion-inner'>
+              #{n.body}
+              </div>
+            </div>
+          </div>"		
+		end
+		return notes
+	end
+
+
+	def show_positions(object)
 
 				html = "
 				<div class='accordion' id='accordionPos'>
 				    <div class='accordion-group'>
 				      <div class='accordion-heading'>
 				        <a class='accordion-toggle' data-toggle='collapse' data-parent='#accordion2' href='#collapsePosOne'>
-				        Positions(#{offer.positions.count})
+				        Positions(#{object.positions.count})
 				        </a>
 				      </div>
 				      <div id='collapsePosOne' class='accordion-body collapse'>
@@ -105,7 +95,7 @@ module ApplicationHelper
 				        <th>Name</th>
 				        <th>Price</th>
 				        <th>Total</th></tr>"
-							offer.positions.each do |p|	
+							object.positions.each do |p|	
 								html += "
 								<tr>
 									<td>
@@ -122,17 +112,17 @@ module ApplicationHelper
 									</td>
 								</tr>"						
 							end
-							html += "</table>"		          
-			if current_user == offer.agent and offer.publication == nil
-				html +=	"		<div style='float: right;'>#{link_to 'Add a position', new_position_path(:offer_id => offer.id), :class => 'btn btn-primary'}</div>"
+							html += "</table>"
+			if object.class == Offer		          
+				if current_user == object.agent and object.publication == nil
+					html +=	"	<div style='float: right;'>#{link_to 'Add a position', new_position_path(:offer_id => object.id), :class => 'btn btn-primary'}</div>"
+				end
 			end		
 			html += "</div>
 				      </div>
 				    </div>
 				</div>
 						"
-				
-
 		return html
 
 	end

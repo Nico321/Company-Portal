@@ -1,7 +1,86 @@
-<h1>Test</h1>
-<% @bugreport.each do |bugreport| %>
-	<% if bugreport.closed %>
-		<%= ((bugreport.closed - bugreport.created_at)/60) %>
-		<br>
-	<% end %>
-<% end %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>Reporting</title>
+	</head>
+	<body>
+		<h1>Reproting</h1>
+	
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="thumbnail">
+						<div class="caption">
+							<h4><%= link_to 'Bugreports', reporting_bugreport_path %></h4>
+							<table class="table table-hover">
+					    		<tr>
+						    	  	<td>Average worktime: </td>
+								   	<td><%= @allAverageTimeBug %> Min</td>
+								</tr>
+								<tr>
+								    <td>Open bugreports</td>
+								    <td><%= @openBugreports %> </td>
+								</tr>
+			    			</table>
+						</div>
+					</div>
+				</div>	
+				<div class="col-xs-6">
+					<div class="thumbnail">
+						<h4><%= link_to 'Process', reporting_process_path %></h4>
+						<div class="caption">
+							<table class="table table-hover">
+				    			<tr>
+						    	   <td>Request to offer: </td>
+								   <td><%= @allAverageTimeBug %></td>
+								</tr>
+								<tr>
+								    <td>Requests</td>
+								    <td><%= @requestQuantity %> </td>
+								</tr>
+								<tr>
+								    <td>Offers</td>
+								    <td><%= @offerQuantity %> </td>
+							</tr>
+			    		</table>
+						</div>
+					</div>
+				</div>	
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					<div class="thumbnail">
+						<h4><%= link_to 'Shop', reporting_shop_path %></h4>
+						<div class="caption">
+							<table class="table table-hover">
+					    		<tr>
+						    	  	<td>Top 10 Items </td>
+								   	<td><%= @allAverageTimeBug %> Min</td>
+								</tr>
+								<tr>
+								    <td>Worst 10 Items</td>
+								    <td><%= @openBugreports %> </td>
+								</tr>
+			    			</table>
+						</div>
+					</div>
+				</div>	
+				<div class="col-xs-6">
+					<div class="thumbnail">
+						<h4><%= link_to 'User', reporting_user_path %></h4>
+						<div class="caption">
+							<table class="table table-hover">
+						    	<tr>
+						    	   <td>Online</td>
+								   <td><%= @userOnline %></td>
+								</tr>
+								<tr>
+								    <td>Registrated</td>
+								    <td><%= @userAll %> </td>
+								</tr>
+					    	</table>
+						</div>
+					</div>
+				</div>	
+			</div>
+	</body>
+</html>
