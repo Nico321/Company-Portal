@@ -14,23 +14,24 @@ describe 'Sign_up' do
   expect { click_button 'Sign up'}.to change { User.count }.by(1)
  end
 
+
+  
+
  context 'existing user' do
   let!(:user) {FactoryGirl.create :user}
   
-  it 'allows to sign in' do
-   click_link 'Sign in'
-   fill_in "user_email", with: user.email
-   fill_in "user_password", with: "12345678"
-   click_button 'Sign in'
 
+   
+
+  before(:each) do
+   sign_in_user
+  end
+  
+  it 'allows to sign in' do
+   
   end
  
-  it 'allows to sign out' do
-
-   click_link 'Sign in'
-   fill_in "user_email", with: user.email
-   fill_in "user_password", with: "12345678"
-   click_button 'Sign in'
+  it 'allows to sign out' do   
    click_link 'Sign out'
 
   end
