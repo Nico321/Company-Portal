@@ -46,6 +46,7 @@ gem 'less-rails'
 gem 'therubyracer'
 gem 'devise'
 gem 'googlecharts'
+gem 'activeadmin', github: 'gregbell/active_admin'
 
 
 group :development, :test do
