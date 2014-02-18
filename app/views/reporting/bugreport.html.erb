@@ -4,12 +4,11 @@
 		<title>Reporting Bugreports</title>
 	</head>
 	<body>
-
 		<%= form_tag({:controller => "reporting", :action => "bugreport"}, :method => "post")      do %>
-		<%= select_tag(:value, options_for_select([['Year', 1], ['Month', 2], ['Week', 3], ['Day', 4]])) %>
+		<%= select_tag(:value, options_for_select([['All', 0],['Year', 1], ['Day', 2]])) %>
 		<%= submit_tag "Choose" %>
 		<% end %>
-
 		<img src ="<%= @chart %>">
+		<%= @test %>
 	</body>
 </html>
