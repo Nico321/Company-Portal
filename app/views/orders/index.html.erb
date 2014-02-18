@@ -1,0 +1,37 @@
+<h1>Open Orders</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Customer</th>
+      <th>Subject</th>
+      <th>Notes</th>
+      <th>Agent</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order| %>
+    <% delaycss = ""
+    order.positions.each do |p|
+      if p.deliverydate
+        if p.deliverydate < DateTime.now.to_date
+          delaycss = "delayed"
+        end
+      end
+    end %>
+      <tr class="<%= delaycss %>">
+        <td><%= User.find(order.customer_id).email %></td>
+        <td><%= order.subject %></td>
+        <td><%= order.assignment.offer.request.notes.count + order.assignment.offer.notes.count + order.assignment.notes.count + order.notes.count %></td>
+        <% if order.agent_id %>
+          <td><%= User.find(order.agent_id).email %></td>
+        <% else %>
+        <td></td>
+        <% end %>
+        <td><%= link_to 'Show', order, :class => "btn btn-info" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

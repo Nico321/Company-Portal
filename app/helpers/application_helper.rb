@@ -7,6 +7,9 @@ module ApplicationHelper
 				nrOfNotes += object.offer.notes.count
 				if object.offer.assignment
 					nrOfNotes += object.offer.assignment.notes.count
+					if object.offer.assignment.order
+						nrOfNotes += object.offer.assignment.order.notes.count
+					end
 				end
 			end
 		end
@@ -29,6 +32,10 @@ module ApplicationHelper
 
 								if object.offer.assignment
 									html += show_note_helper(object.offer.assignment)
+
+									if object.offer.assignment.order
+										html += show_note_helper(object.offer.assignment.order)
+									end
 								end
 							end
 						end
@@ -39,8 +46,12 @@ module ApplicationHelper
 			end
 		elsif object.offer
 			if object.offer.assignment
-				html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:assignment_id => object.offer.assignment.id), :class => 'btn btn-primary'}</div>"
-			elsif				
+				if object.offer.assignment.order
+					html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:order_id => object.offer.assignment.order.id), :class => 'btn btn-primary'}</div>"
+				else
+					html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:assignment_id => object.offer.assignment.id), :class => 'btn btn-primary'}</div>"
+				end
+			else				
 				html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:offer_id => object.offer.id), :class => 'btn btn-primary'}</div>"
 			end
 		else
@@ -94,10 +105,18 @@ module ApplicationHelper
 				        <th>Quantity</th>
 				        <th>Name</th>
 				        <th>Price</th>
-				        <th>Total</th></tr>"
-							object.positions.each do |p|	
+				        <th>Total</th>"
+				        if object.class == Order
+				        	html += "<th>Estimated deliverydate</th>"
+				        end
+				        html += "</tr>"
+							object.positions.each do |p|
+								arrived = ""
+								if p.arrived
+									arrived = "arrived"
+								end	
 								html += "
-								<tr>
+								<tr class='#{arrived}'>
 									<td>
 										#{p.quantity}
 									</td>
@@ -109,8 +128,25 @@ module ApplicationHelper
 									</td>
 									<td>
 										#{p.article.price * p.quantity}
-									</td>
-								</tr>"						
+									</td>"
+									if object.class == Order
+										html += "<td>"
+										
+										if p.arrived
+											html += "#{p.deliverydate}</td><td>#{p.arrived}"
+										else
+											html += "
+											<form action='#{updateDeliverydate_position_path(p)}' method='post'>
+											<input name='authenticity_token' value='#{form_authenticity_token}' type='hidden'>
+											<input name='deliverydate' type='text' data-behaviour='datepicker' value ='#{p.deliverydate}'>
+											<input type='submit' value='Update Deliverydate' class='btn btn-info'>
+											</form>"
+											html += "</td>
+											<td>"
+											html +="<a href='#{arrive_position_path(p)}' class='btn btn-success'>Arrived</a>"
+										end
+										html += "</td></tr>"	
+									end					
 							end
 							html += "</table>"
 			if object.class == Offer		          
@@ -133,9 +169,20 @@ module ApplicationHelper
 		object.positions.each do |p|
 		 	totalAmount += p.article.price * p.quantity
 		 end
-		 totalAmount += object.installationprice
+		 if object.installationprice
+		 	totalAmount += object.installationprice
+		 end
 
 		 return totalAmount
+	end
+
+	def test(object)
+		capture do
+			form_for(object) do |f|
+				f.date_select :deliverydate
+				f.submit :value => "Update Deliverydate", :class => "btn btn-success"
+			end
+		end
 	end
 
 end

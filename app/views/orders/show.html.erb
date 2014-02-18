@@ -1,0 +1,40 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('[data-behaviour~=datepicker]').datepicker({format: "yyyy-mm-dd"});
+  })
+</script>
+
+<p id="notice"><%= notice %></p>
+
+<table class="table table-hover">
+  <tr>
+      <td><h1><%= User.find(@order.customer).email %> - <%= @order.subject %></h1></td>
+  </tr>
+  <tr>
+    <td>
+      <p>
+        <%= @order.body %>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Agent:</strong>
+      <% if @order.agent_id %>
+        <%= User.find(@order.agent_id).email %>
+      <% else %>
+        Nobody
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>Installationprice: <%= @order.installationprice %></td>
+  </tr>
+</table>
+
+<%= show_positions(@order).html_safe%>
+
+<%= show_notes(@order.assignment.offer.request).html_safe%>
+
+<h3>Total: <%= calcTotalPrice(@order)  %></h3>
+

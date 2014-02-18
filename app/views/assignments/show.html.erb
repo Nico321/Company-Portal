@@ -30,4 +30,8 @@
 
 <h3>Total: <%= calcTotalPrice(@assignment)  %></h3>
 
+<% if @assignment.agent == current_user %>
+  <%= link_to "Place order", convert_order_path(:assignment_id => @assignment.id) , :class => "btn btn-success" %>
+<% end %>
+
 

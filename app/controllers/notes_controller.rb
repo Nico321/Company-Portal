@@ -38,6 +38,8 @@ class NotesController < ApplicationController
           format.html { redirect_to @note.bugreport, notice: 'Note was successfully created.' }
         elsif @note.assignment
           format.html { redirect_to @note.assignment, notice: 'Note was successfully created.' }
+        elsif @note.order
+          format.html { redirect_to @note.order, notice: 'Note was successfully created.' }
         end
         format.json { render action: 'show', status: :created, location: @note }
       else
@@ -79,6 +81,6 @@ class NotesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
-      params.require(:note).permit(:subject, :body, :imageurl, :request_id, :offer_id, :bugreport_id, :assignment_id)
+      params.require(:note).permit(:subject, :body, :imageurl, :request_id, :offer_id, :bugreport_id, :assignment_id, :order_id)
     end
 end
