@@ -46,12 +46,28 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="<%= root_path %>">CompanyPortal</a>
+          <a style="text-decoration: none;" class="brand" href="<%= root_path %>">CompanyPortal</a>
           <div class="container-fluid nav-collapse">
             <ul class="nav">
-             <% if current_user %>
-              <li><%= link_to "Reporting", reporting_path, :class => "btn btn-default" %></a></li>
-                <li>
+                     
+                
+      <li>      
+  		  <div class="dropdown">
+  		    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+           		User
+           		<span class="caret"></span>
+           		</button>
+           		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+      			    <li><%=link_to 'Sign in', new_user_session_path %></li>
+                <li><%=link_to 'Sign up', new_user_registration_path  %></li>
+                <li><%=link_to 'Sign out', destroy_user_session_path, method: :delete  %></li>    
+           	  </ul>
+          	 </div>
+		  </li>
+	       
+                <% if current_user %>
+                  <li><%= link_to "Reporting", reporting_path, :class => "btn btn-default" %></a></li>
+		        <li>
                   <div class="dropdown">
                         <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
                           Bugreports
@@ -108,6 +124,17 @@
                       <li><%= link_to "Show open assignments(#{Assignment.where('order_id IS NULL').count})", open_assignments_path %></li>
                       <li><%= link_to "Show unassumed assignments (#{Assignment.where('agent_id IS NULL and order_id IS NULL').count})", unassumed_assignments_path %></li>
                       <li><%= link_to "Show my assignments (#{Assignment.where(agent_id: current_user.id).where('order_id IS NULL').count})", assumed_assignments_path %></li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <div class="dropdown">
+                    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                      Orders
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                      <li><%= link_to "Show open orders(#{Order.where('installation_id IS NULL').count})", orders_path %></li>
                     </ul>
                   </div>
                 </li>

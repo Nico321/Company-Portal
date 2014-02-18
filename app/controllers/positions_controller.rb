@@ -37,6 +37,13 @@ class PositionsController < ApplicationController
     end
   end
 
+  def updateDeliverydate
+    @position = Position.find(params[:id])
+    @position.deliverydate = Date.strptime(params[:deliverydate], '%Y-%m-%d')
+    @position.save
+    redirect_to @position.order, notice: 'Deliverydate successfully updated.'
+  end
+
   # PATCH/PUT /positions/1
   # PATCH/PUT /positions/1.json
   def update
@@ -59,6 +66,13 @@ class PositionsController < ApplicationController
       format.html { redirect_to positions_url }
       format.json { head :no_content }
     end
+  end
+
+  def arrive
+    @position = Position.find(params[:id])
+    @position.arrived = DateTime.now
+    @position.save
+    redirect_to @position.order, notice: 'Position arrived.'
   end
 
   private
