@@ -46,6 +46,7 @@ gem 'less-rails'
 gem 'therubyracer'
 gem 'devise'
 gem 'googlecharts'
+gem 'bootstrap-datepicker-rails'
 
 
 group :development, :test do

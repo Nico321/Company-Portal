@@ -17,7 +17,8 @@ class AssignmentsController < ApplicationController
 
     @assignment.save
     @offer.assignment = @assignment
-
+    @offer.save
+    
     redirect_to edit_assignment_path(@assignment.id)
   end
 

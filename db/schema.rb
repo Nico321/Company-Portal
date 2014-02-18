@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140120213307) do
+ActiveRecord::Schema.define(version: 20140217235433) do
 
   create_table "article_storages", force: true do |t|
     t.integer  "article_id"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20140120213307) do
     t.integer  "offer_id"
     t.integer  "bugreport_id"
     t.integer  "assignment_id"
+    t.integer  "order_id"
   end
 
   create_table "offers", force: true do |t|
@@ -75,6 +76,17 @@ ActiveRecord::Schema.define(version: 20140120213307) do
     t.integer  "customer_id"
     t.integer  "agent_id"
     t.integer  "assignment_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "orders", force: true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.decimal  "installationprice"
+    t.integer  "customer_id"
+    t.integer  "agent_id"
+    t.integer  "installation_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -94,6 +106,8 @@ ActiveRecord::Schema.define(version: 20140120213307) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "assignment_id"
+    t.integer  "order_id"
+    t.datetime "arrived"
   end
 
   create_table "requests", force: true do |t|

@@ -10,6 +10,7 @@
  *
  *= require_self
  *= require_tree .
+ *= require bootstrap-datepicker 
  */
 
  .RequestNote {
@@ -18,9 +19,12 @@
  .OfferNote {
  	background-color: palegreen;
  }
-  .BugreportNote {
+ .BugreportNote {
  	background-color: pink;
  }
  .AssignmentNote {
  	background-color: papayawhip;
+ }
+ .OrderNote {
+ 	background-color: lightsalmon;
  }

@@ -1,5 +1,14 @@
 CompanyPortal::Application.routes.draw do
 
+  resources :orders do
+    collection do
+      get 'delayed'
+    end
+    member do
+      get 'convert'
+    end
+  end
+
   resources :assignments do
     collection do
       get 'open'
@@ -20,7 +29,12 @@ get "reporting/shop", controller: "reporting", action:"shop"
 get "reporting/user", controller: "reporting", action:"user"
 post "reporting/bugreport", controller: "reporting", action:"bugreport"
 
-  resources :positions
+  resources :positions do
+    member do
+      post 'updateDeliverydate'
+      get 'arrive'
+    end
+  end
 
   resources :offers do
     collection do

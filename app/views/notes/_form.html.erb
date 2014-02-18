@@ -35,9 +35,13 @@
   <div class="field hidden">
     <%= f.text_field :bugreport_id, :value => params[:bugreport_id] %>
   </div>
-   <% elsif params[:assignment_id] %>
+  <% elsif params[:assignment_id] %>
   <div class="field hidden">
     <%= f.text_field :assignment_id, :value => params[:assignment_id] %>
+  </div>
+  <% elsif params[:order_id] %>
+  <div class="field hidden">
+    <%= f.text_field :order_id, :value => params[:order_id] %>
   </div>
 <%end%>
 
