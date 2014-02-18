@@ -91,3 +91,50 @@ b1 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :repor
 b2 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo)
 b3 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone, :agent => ctwo)
 b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo, :agent => cone, :created_at =>"2013-02-03T04:05:06+07:00" ,:closed => "2013-02-03T09:05:06+07:00")
+
+
+##################################
+#
+# Seeds for roles(Sven)
+##################################
+
+pass = SecureRandom.hex(5)
+admin = User.create email:'admin@example.com', password: 'testtest',
+password_confirmation: 'testtest'
+
+admin.add_role :admin
+puts "Admin password is #{pass}"
+############
+
+pass = SecureRandom.hex(5)
+sales = User.create email:'sales@example.com', password: 'testtest',
+password_confirmation: 'testtest'
+
+sales.add_role :sales
+puts "Sales password is #{pass}"
+###########
+
+pass = SecureRandom.hex(5)
+customer = User.create email:'customer@example.com', password: 'testtest',
+password_confirmation: 'testtest'
+
+customer.add_role :customer
+puts "Customer password is #{pass}"
+##########
+
+pass = SecureRandom.hex(5)
+accountend = User.create email:'accountend@example.com', password: 'testtest',
+password_confirmation: 'testtest'
+
+accountend.add_role :accountend
+puts "Accountend password is #{pass}"
+##########
+
+pass = SecureRandom.hex(5)
+technican = User.create email:'technican@example.com', password: 'testtest',
+password_confirmation: 'testtest'
+
+technican.add_role :technican
+puts "Technican password is #{pass}"
+
+
