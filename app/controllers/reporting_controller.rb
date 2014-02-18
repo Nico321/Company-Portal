@@ -8,7 +8,7 @@ class ReportingController < ApplicationController
 			summe = bugreport.closed - bugreport.created_at
 			end
 		end
-		if @bugreport != nil
+		if Bugreport.all.count(:closed) != 0
 			@allAverageTimeBug = (summe/ Bugreport.all.count(:closed)/60).round
 		end
 		@openBugreports = Bugreport.all.count(:agent == nil)

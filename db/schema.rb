@@ -70,6 +70,18 @@ ActiveRecord::Schema.define(version: 20140218133644) do
     t.datetime "updated_at"
   end
 
+  create_table "installations", force: true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.date     "installationdate"
+    t.integer  "invoice_id"
+    t.integer  "order_id"
+    t.integer  "customer_id"
+    t.integer  "agent_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "notes", force: true do |t|
     t.string   "subject"
     t.text     "body"
@@ -82,6 +94,7 @@ ActiveRecord::Schema.define(version: 20140218133644) do
     t.integer  "bugreport_id"
     t.integer  "assignment_id"
     t.integer  "order_id"
+    t.integer  "installation_id"
   end
 
   create_table "offers", force: true do |t|

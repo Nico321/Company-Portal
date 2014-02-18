@@ -1,0 +1,9 @@
+<h1>Editing installation</h1>
+
+<%= render 'form' %>
+
+<%= show_notes(@installation.order.assignment.offer.request).html_safe%>
+
+<% if @installation.agent == current_user %>
+	<%= link_to 'Close installation', @installation, :class => "btn btn-success"%>
+<% end %>
