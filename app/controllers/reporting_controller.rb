@@ -20,6 +20,7 @@ class ReportingController < ApplicationController
 
 	def bugreport
 		#Bugreport intervall choose
+		#Method for bugreport view
 		@mydata = params[:value]
 		case @mydata
 			when "0"
@@ -29,7 +30,7 @@ class ReportingController < ApplicationController
 			when "2"
 				@chart = 	createBarChart("750x400","Created/Closed", "FF0000", "008000", "Created", "Closed", bugreportsShow(Time.now.year,Time.now.month,Time.now.day), Bugreport.all.count, [["-12","-11","-10", "-9","-8","-7", "-6", "-5", "-4", "-3", "-2", "-1"]])
 		end
-		EmployeeQuantity()
+		@agents = EmployeeQuantity()
 	end
 
 	def createBarChart(size, title, barColor1, barColor2, legend1, legend2, data_array, max, axis_labels)
@@ -96,8 +97,7 @@ class ReportingController < ApplicationController
 				hours[1][counter] = Bugreport.where("closed 	like '?-?-? ?%'", iyear, imonth, iday, time).count 	
 			end	
 		end
-
-		
+	
 		if(iyear == 0 && imonth == 0 && iday == 0)
 			return [[Bugreport.all.count], [Bugreport.where("closed").count]]
 
@@ -109,6 +109,12 @@ class ReportingController < ApplicationController
 	end
 
 	def EmployeeQuantity
-		
+		agent = Array.new(User.count)
+		Bugreport.all.each do |bug|
+			if bug.agent_id != nil
+				agent[bug.agent_id] = bug.agent_id
+			end
+		end
+		return agent
 	end
 end
