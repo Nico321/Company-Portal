@@ -9,6 +9,9 @@ module ApplicationHelper
 					nrOfNotes += object.offer.assignment.notes.count
 					if object.offer.assignment.order
 						nrOfNotes += object.offer.assignment.order.notes.count
+						if object.offer.assignment.order.installation
+							nrOfNotes += object.offer.assignment.order.installation.notes.count
+						end
 					end
 				end
 			end
@@ -35,6 +38,10 @@ module ApplicationHelper
 
 									if object.offer.assignment.order
 										html += show_note_helper(object.offer.assignment.order)
+
+										if object.offer.assignment.order.installation
+											html += show_note_helper(object.offer.assignment.order.installation)
+										end
 									end
 								end
 							end
@@ -47,7 +54,11 @@ module ApplicationHelper
 		elsif object.offer
 			if object.offer.assignment
 				if object.offer.assignment.order
-					html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:order_id => object.offer.assignment.order.id), :class => 'btn btn-primary'}</div>"
+					if object.offer.assignment.order.installation
+						html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:installation_id => object.offer.assignment.order.installation.id), :class => 'btn btn-primary'}</div>"
+					else
+						html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:order_id => object.offer.assignment.order.id), :class => 'btn btn-primary'}</div>"
+					end
 				else
 					html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:assignment_id => object.offer.assignment.id), :class => 'btn btn-primary'}</div>"
 				end
@@ -107,7 +118,7 @@ module ApplicationHelper
 				        <th>Price</th>
 				        <th>Total</th>"
 				        if object.class == Order
-				        	html += "<th>Estimated deliverydate</th>"
+				        	html += "<th>Estimated deliverydate</th><th></th>"
 				        end
 				        html += "</tr>"
 							object.positions.each do |p|

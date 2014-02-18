@@ -1,0 +1,33 @@
+<%= form_for(@installation) do |f| %>
+  <% if @installation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@installation.errors.count, "error") %> prohibited this installation from being saved:</h2>
+
+      <ul>
+      <% @installation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('[data-behaviour~=datepicker]').datepicker({format: "yyyy-mm-dd"});
+    })
+  </script>
+  <div class="field">
+    <%= f.label :subject %><br>
+    <%= f.text_field :subject %>
+  </div>
+  <div class="field">
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </div>
+  <div class="field">
+    <%= f.label :installationdate %><br>
+    <%= f.text_field :installationdate, data: {behaviour: 'datepicker'} %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Save", :class => "btn btn-info"%>
+  </div>
+<% end %>

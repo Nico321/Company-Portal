@@ -5,7 +5,7 @@ class AssignmentsController < ApplicationController
 
   def convert
     @offer = Offer.find(params[:offer_id])
-    @assignment = Assignment.new(:subject => @offer.subject)
+    @assignment = Assignment.new(:subject => @offer.subject, :body => @offer.body)
     @assignment.customer = @offer.customer
     @assignment.offer = @offer
     @assignment.installationprice = @offer.installationprice
@@ -19,7 +19,7 @@ class AssignmentsController < ApplicationController
     @offer.assignment = @assignment
     @offer.save
     
-    redirect_to edit_assignment_path(@assignment.id)
+    redirect_to @assignment
   end
 
    def open

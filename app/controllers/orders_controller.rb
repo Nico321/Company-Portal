@@ -23,7 +23,7 @@ class OrdersController < ApplicationController
 
   def convert
     @assignment = Assignment.find(params[:assignment_id])
-    @order = Order.new(:subject => @assignment.subject)
+    @order = Order.new(:subject => @assignment.subject, :body => @assignment.body)
     @order.customer = @assignment.customer
     @order.assignment = @assignment
     @order.installationprice = @assignment.installationprice
@@ -37,7 +37,7 @@ class OrdersController < ApplicationController
     @assignment.order = @order
     @assignment.save
 
-    redirect_to edit_order_path(@order)
+    redirect_to @order
   end
 
   # POST /orders

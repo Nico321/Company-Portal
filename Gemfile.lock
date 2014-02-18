@@ -251,8 +251,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-datepicker-rails
   activeadmin!
+  bootstrap-datepicker-rails
   capybara
   coffee-rails (~> 4.0.0)
   devise

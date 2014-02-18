@@ -1,0 +1,20 @@
+<p>
+  <strong>Subject:</strong>
+  <%= @installation.subject %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @installation.body %>
+</p>
+
+<p>
+  <strong>Installationdate:</strong>
+  <%= @installation.installationdate %>
+</p>
+
+<%= show_notes(@installation.order.assignment.offer.request).html_safe%>
+
+
+<%= link_to 'Edit', edit_installation_path(@installation) %> |
+<%= link_to 'Back', installations_path %>

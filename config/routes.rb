@@ -1,5 +1,31 @@
 CompanyPortal::Application.routes.draw do
 
+  resources :installations do    
+    collection do
+      get 'open'
+      get 'unassumed'
+      get 'assumed'
+    end
+    member do
+      get 'convert'
+      get 'assume'
+      get 'release'
+    end
+  end
+
+  resources :installations do
+    collection do
+      get 'open'
+      get 'unassumed'
+      get 'assumed'
+    end
+    member do
+      get 'convert'
+      get 'assume'
+      get 'release'
+    end
+  end
+
   resources :orders do
     collection do
       get 'delayed'
