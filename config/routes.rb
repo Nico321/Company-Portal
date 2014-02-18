@@ -25,6 +25,8 @@ CompanyPortal::Application.routes.draw do
       get 'release'
     end
   end
+  
+  ActiveAdmin.routes(self)
 
   resources :orders do
     collection do

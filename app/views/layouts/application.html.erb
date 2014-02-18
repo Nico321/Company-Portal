@@ -46,26 +46,32 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">CompanyPortal</a>
+          <a style="text-decoration: none;" class="brand" href="<%= root_path %>">CompanyPortal</a>
           <div class="container-fluid nav-collapse">
             <ul class="nav">
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li> 
-              
-		  <div class="dropdown">
-		    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
-         		User
-         		<span class="caret"></span>
-         		</button>
-         		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-			<li><%=link_to 'Sign in', new_user_session_path %></li>
-         		<li><%=link_to 'Sign up', new_user_registration_path  %></li>
-                        <li><%=link_to 'Sign out', destroy_user_session_path, method: :delete  %></li>    
-         	   </ul>
-        	 </div>
-		
-	       
+                     
+                
+      <li>      
+  		  <div class="dropdown">
+  		    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+           		User
+           		<span class="caret"></span>
+           		</button>
+           		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+      			    <li><%=link_to 'Sign in', new_user_session_path %></li>
+                <li><%=link_to 'Sign up', new_user_registration_path  %></li>
+                <li><%=link_to 'Sign out', destroy_user_session_path, method: :delete  %></li>    
+           	  </ul>
+          	 </div>
+		  </li>
               <% if current_user %>
+                <li>
+                  <div class="dropdown">
+                    <a href="<%= reporting_path%>">
+                      <button class="btn dropdown-toggle sr-only" type="button">Reporting</button>
+                    </a>
+                  </div>
+                </li>
                 <li>
                 <div class="dropdown">
                   <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">

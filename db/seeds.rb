@@ -60,9 +60,9 @@ Request.create!(:subject => "my Request4", :body =>"This is my new Request", :cu
 Request.create!(:subject => "my Request5", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "3", :agent_id => eone.id),
 Request.create!(:subject => "my Request6", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "3", :agent_id => etwo.id)]
 
-aserver = Article.create!(:name => "Server", :price => 200)
-acomputer = Article.create!(:name => "Computer", :price => 100)
-atasta = Article.create!(:name => "Tastatur", :price => 10)
+aserver = Article.create!(:name => "Server", :price => 200, :description => "Heftiger Server!")
+acomputer = Article.create!(:name => "Computer", :price => 100, :description => "Cooler Computer!")
+atasta = Article.create!(:name => "Tastatur", :price => 10, :description => "Coole Tastatur!")
 
 offerrequests.each do |oreq|
 	if oreq.customer.id == cone.id
@@ -91,3 +91,50 @@ b1 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :repor
 b2 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo)
 b3 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone, :agent => ctwo)
 b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo, :agent => cone, :created_at =>"2013-02-03T04:05:06+07:00" ,:closed => "2013-02-03T09:05:06+07:00")
+
+##################################
+#
+# Seeds for roles(Sven)
+##################################
+
+pass = SecureRandom.hex(5)
+admin = User.create email:'admin@example.com', password: 'testtest',
+password_confirmation: 'testtest'
+
+admin.add_role :admin
+puts "Admin password is #{pass}"
+############
+
+pass = SecureRandom.hex(5)
+sales = User.create email:'sales@example.com', password: 'testtest',
+password_confirmation: 'testtest'
+
+sales.add_role :sales
+puts "Sales password is #{pass}"
+###########
+
+pass = SecureRandom.hex(5)
+customer = User.create email:'customer@example.com', password: 'testtest',
+password_confirmation: 'testtest'
+
+customer.add_role :customer
+puts "Customer password is #{pass}"
+##########
+
+pass = SecureRandom.hex(5)
+accountend = User.create email:'accountend@example.com', password: 'testtest',
+password_confirmation: 'testtest'
+
+accountend.add_role :accountend
+puts "Accountend password is #{pass}"
+##########
+
+pass = SecureRandom.hex(5)
+technican = User.create email:'technican@example.com', password: 'testtest',
+password_confirmation: 'testtest'
+
+technican.add_role :technican
+puts "Technican password is #{pass}"
+
+
+

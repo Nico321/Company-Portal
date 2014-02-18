@@ -41,6 +41,7 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'rolify'
 gem 'twitter-bootstrap-rails'
 gem 'less-rails'
 gem 'therubyracer'
