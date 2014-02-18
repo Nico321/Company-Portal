@@ -39,8 +39,11 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+  config.include IntegrationTestHelper, type: :feature
 end
 
+ 
+ 
 def login
   visit  new_user_registration_path
   fill_in "user_email", with: "test@test.de"

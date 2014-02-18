@@ -51,7 +51,26 @@
             <ul class="nav">
               <li><%= link_to "Link1", "/path1"  %></li>
               <li> 
+              
+		  <div class="dropdown">
+		    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+         		User
+         		<span class="caret"></span>
+         		</button>
+         		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+			<li><%=link_to 'Sign in', new_user_session_path %></li>
+         		<li><%=link_to 'Sign up', new_user_registration_path  %></li>
+                        <li><%=link_to 'Sign out', destroy_user_session_path, method: :delete  %></li>    
+         	   </ul>
+        	 </div>
+		
+	       
                 <% if current_user %>
+		
+		
+		  
+		
+		<li>
                   <div class="dropdown">
                         <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
                           Bugreports
