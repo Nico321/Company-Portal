@@ -1,5 +1,6 @@
 CompanyPortal::Application.routes.draw do
 
+  ActiveAdmin.routes(self)
   resources :assignments do
     collection do
       get 'open'
