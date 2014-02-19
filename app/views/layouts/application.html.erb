@@ -139,6 +139,12 @@
                         <li><%= link_to "Show my installations (#{Installation.where(agent_id: current_user.id).where('invoice_id IS NULL').count})", assumed_installations_path %></li>
                       </ul>
                     </li>
+                    <li class="dropdown-submenu">
+                      <a tabindex="-1" href="#">Invoices</a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <li><%= link_to "Show open invoices(#{Invoice.where('payed IS NULL').count})", invoices_path %></li>
+                      </ul>
+                    </li>
                   </ul>
                 </div>
               <% end %>

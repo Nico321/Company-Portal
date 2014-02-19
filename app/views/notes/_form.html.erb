@@ -47,6 +47,10 @@
   <div class="field hidden">
     <%= f.text_field :installation_id, :value => params[:installation_id] %>
   </div>
+  <% elsif params[:invoice_id] %>
+  <div class="field hidden">
+    <%= f.text_field :invoice_id, :value => params[:invoice_id] %>
+  </div>
 <%end%>
 
   <div class="actions">

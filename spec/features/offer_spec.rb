@@ -51,7 +51,7 @@ describe "Offer" do
 		it 'can add a position to an Offer' do
 			login
 
-			Article.create(:name => "Server", :price => 100)
+			Article.create(:name => "Server", :price => 100, :description => "Test")
 
 			visit root_path
 			click_link "New request"

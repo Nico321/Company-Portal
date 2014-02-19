@@ -1,5 +1,18 @@
 CompanyPortal::Application.routes.draw do
 
+  resources :payment_notifications do
+    collection do
+      post 'ipn_notification'
+    end
+  end
+
+  resources :invoices do
+    member do
+      get 'convert'
+      get 'payed'
+    end
+  end
+
   resources :installations do    
     collection do
       get 'open'

@@ -11,7 +11,7 @@ describe "Installation" do
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
 			
-			Article.create(:name => "Server", :price => 100)
+			Article.create(:name => "Server", :price => 100, :description => "Test")
 			click_link "Create Offer"
 			visit unassumed_offers_path
 			click_link "Assume"
@@ -45,7 +45,7 @@ describe "Installation" do
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
 			
-			Article.create(:name => "Server", :price => 100)
+			Article.create(:name => "Server", :price => 100, :description => "Test")
 			click_link "Create Offer"
 			visit unassumed_offers_path
 			click_link "Assume"
@@ -81,7 +81,7 @@ describe "Installation" do
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
 			
-			Article.create(:name => "Server", :price => 100)
+			Article.create(:name => "Server", :price => 100, :description => "Test")
 			click_link "Create Offer"
 			visit unassumed_offers_path
 			click_link "Assume"
@@ -124,7 +124,7 @@ describe "Installation" do
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
 			
-			Article.create(:name => "Server", :price => 100)
+			Article.create(:name => "Server", :price => 100, :description => "Test")
 			click_link "Create Offer"
 			visit unassumed_offers_path
 			click_link "Assume"

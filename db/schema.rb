@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140218133644) do
+ActiveRecord::Schema.define(version: 20140218204005) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -82,6 +82,18 @@ ActiveRecord::Schema.define(version: 20140218133644) do
     t.datetime "updated_at"
   end
 
+  create_table "invoices", force: true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.integer  "installation_id"
+    t.integer  "agent_id"
+    t.integer  "customer_id"
+    t.decimal  "installationprice"
+    t.datetime "payed"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "notes", force: true do |t|
     t.string   "subject"
     t.text     "body"
@@ -95,6 +107,7 @@ ActiveRecord::Schema.define(version: 20140218133644) do
     t.integer  "assignment_id"
     t.integer  "order_id"
     t.integer  "installation_id"
+    t.integer  "invoice_id"
   end
 
   create_table "offers", force: true do |t|
@@ -120,6 +133,16 @@ ActiveRecord::Schema.define(version: 20140218133644) do
     t.datetime "updated_at"
   end
 
+  create_table "payment_notifications", force: true do |t|
+    t.text     "params"
+    t.integer  "invoice_id"
+    t.string   "status"
+    t.string   "transaction_id"
+    t.string   "create"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "places", force: true do |t|
     t.string   "zip",        limit: 5
     t.string   "name"
@@ -137,6 +160,7 @@ ActiveRecord::Schema.define(version: 20140218133644) do
     t.integer  "assignment_id"
     t.integer  "order_id"
     t.datetime "arrived"
+    t.integer  "invoice_id"
   end
 
   create_table "requests", force: true do |t|
