@@ -63,8 +63,9 @@
                 <li><%=link_to 'Sign out', destroy_user_session_path, method: :delete  %></li>    
            	  </ul>
           	 </div>
-		  </li>
+		  </li>      
               <% if current_user %>
+
                 <li>
                   <div class="dropdown">
                     <a href="<%= reporting_path%>">
