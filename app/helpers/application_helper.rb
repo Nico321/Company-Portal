@@ -1,6 +1,6 @@
 module ApplicationHelper
 
-	def show_notes(object)
+	def show_notes(object, addbutton, objectID)
 		nrOfNotes = object.notes.count
 		if object.class != Bugreport
 			if object.offer
@@ -54,31 +54,9 @@ module ApplicationHelper
 							end
 						end
 
-		if object.class == Bugreport
-			if object.closed == nil
-				html +="		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:bugreport_id => object.id), :class => 'btn btn-primary'}</div>"
-			end
-		elsif object.offer
-			if object.offer.assignment
-				if object.offer.assignment.order
-					if object.offer.assignment.order.installation
-						if object.offer.assignment.order.installation.invoice
-							html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:invoice_id => object.offer.assignment.order.installation.invoice.id), :class => 'btn btn-primary'}</div>"
-						else
-							html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:installation_id => object.offer.assignment.order.installation.id), :class => 'btn btn-primary'}</div>"
+						if addbutton
+							html +=	"<div style='float: right;'><a href='#{new_note_path}?#{addbutton}_id=#{objectID}' class='btn btn-primary'>Add a note</a></div>"
 						end
-					else
-						html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:order_id => object.offer.assignment.order.id), :class => 'btn btn-primary'}</div>"
-					end
-				else
-					html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:assignment_id => object.offer.assignment.id), :class => 'btn btn-primary'}</div>"
-				end
-			else				
-				html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:offer_id => object.offer.id), :class => 'btn btn-primary'}</div>"
-			end
-		else
-			html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:request_id => object.id), :class => 'btn btn-primary'}</div>"
-		end
 		
 		html +="		</div>
 				      </div>

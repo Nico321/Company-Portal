@@ -11,6 +11,9 @@ describe "Offer" do
 			fill_in "request_subject", with: "myTest"
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
+			visit unassumed_requests_path
+			click_link "Assume"
+			click_link "Show"
 
 			click_link "Create Offer"
 			page.should have_content "Editing offer"
@@ -24,6 +27,9 @@ describe "Offer" do
 			fill_in "request_subject", with: "myTest"
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
+			visit unassumed_requests_path
+			click_link "Assume"
+			click_link "Show"
 
 			click_link "Create Offer"
 			click_link "Add a note"
@@ -41,6 +47,9 @@ describe "Offer" do
 			fill_in "request_subject", with: "myTest"
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
+			visit unassumed_requests_path
+			click_link "Assume"
+			click_link "Show"
 
 			click_link "Create Offer"
 			visit unassumed_offers_path
@@ -58,6 +67,9 @@ describe "Offer" do
 			fill_in "request_subject", with: "myTest"
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
+			visit unassumed_requests_path
+			click_link "Assume"
+			click_link "Show"
 
 			click_link "Create Offer"
 			visit unassumed_offers_path
@@ -75,6 +87,9 @@ describe "Offer" do
 			fill_in "request_subject", with: "myTest"
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
+			visit unassumed_requests_path
+			click_link "Assume"
+			click_link "Show"
 
 			click_link "Create Offer"
 			visit unassumed_offers_path

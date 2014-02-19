@@ -1,20 +1,21 @@
 module ArchiveHelper
 
 	def showTable(object, searchparam, directionparam, sortparam)
-
-	    if object.class == Request
-	    	path = request_path
-	    elsif object.class == Offer
-	    	path = offer_path
-	    elsif object.class == Assignment
-	    	path = assignment_path
-	    elsif object.class == Order
-	    	path = order_path
-	    elsif object.class == Installation
-	    	path = installation_path
-	    elsif object.class == Invoice
-	    	path = invoice_path
-	    end
+		if object
+		    if object.first.class == Request
+		    	path = requests_path
+		    elsif object.first.class == Offer
+		    	path = offers_path
+		    elsif object.first.class == Assignment
+		    	path = assignments_path
+		    elsif object.first.class == Order
+		    	path = orders_path
+		    elsif object.first.class == Installation
+		    	path = installations_path
+		    elsif object.first.class == Invoice
+		    	path = invoices_path
+		    end
+		end
 
 	html = "
 		<form action='#{path}' method ='get' id ='#{object.class}_search'>
