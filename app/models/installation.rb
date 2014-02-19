@@ -8,4 +8,12 @@ class Installation < ActiveRecord::Base
 	has_many :notes
 
 	validates :subject, :customer, :order, presence: true
+	
+	def self.search(search)
+	  if search
+	    where('subject LIKE ?', "%#{search}%")
+	  else
+	    scoped
+	  end
+	end
 end

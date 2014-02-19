@@ -49,6 +49,7 @@ gem 'devise'
 gem 'googlecharts'
 gem 'bootstrap-datepicker-rails'
 gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'will_paginate'
 
 
 group :development, :test do

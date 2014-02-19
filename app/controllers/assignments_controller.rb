@@ -1,8 +1,6 @@
 class AssignmentsController < ApplicationController
   before_action :set_assignment, only: [:show, :edit, :update, :destroy]
 
-
-
   def convert
     @offer = Offer.find(params[:offer_id])
     @assignment = Assignment.new(:subject => @offer.subject, :body => @offer.body)
