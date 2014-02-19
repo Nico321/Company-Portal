@@ -38,11 +38,13 @@ describe "Order" do
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
 			
-			Article.create(:name => "Server", :price => 100)
+			Article.create(:name => "Server", :price => 100, :description => "Test")
 			click_link "Create Offer"
 			visit unassumed_offers_path
 			click_link "Assume"
 			click_link "Edit"
+			click_link "Add a position"
+			click_button "Add position"			
 			click_link "Add a position"
 			click_button "Add position"
 
@@ -59,8 +61,8 @@ describe "Order" do
 			click_link "Show open orders"
 			click_link "Show"
 
-			fill_in "deliverydate", with: DateTime.now.to_date.strftime("%Y-%m-%d")
-			click_button "Update Deliverydate"
+			fill_in "deliverydate", with: DateTime.now.to_date.strftime("%Y-%m-%d"), :match => :first
+			click_button "Update Deliverydate", :match => :first
 			page.should have_content "Deliverydate successfully updated."
 		end
 
@@ -73,11 +75,13 @@ describe "Order" do
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
 			
-			Article.create(:name => "Server", :price => 100)
+			Article.create(:name => "Server", :price => 100, :description => "Test")
 			click_link "Create Offer"
 			visit unassumed_offers_path
 			click_link "Assume"
 			click_link "Edit"
+			click_link "Add a position"
+			click_button "Add position"	
 			click_link "Add a position"
 			click_button "Add position"
 
@@ -94,7 +98,7 @@ describe "Order" do
 			click_link "Show open orders"
 			click_link "Show"
 
-			click_link "Arrived"
+			click_link "Arrived", :match => :first
 			page.should have_content "Position arrived."
 		end
 
@@ -107,7 +111,7 @@ describe "Order" do
 			fill_in "request_body", with: "Test"
 			click_button "Senden"
 			
-			Article.create(:name => "Server", :price => 100)
+			Article.create(:name => "Server", :price => 100, :description => "Test")
 			click_link "Create Offer"
 			visit unassumed_offers_path
 			click_link "Assume"

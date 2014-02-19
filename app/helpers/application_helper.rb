@@ -9,6 +9,12 @@ module ApplicationHelper
 					nrOfNotes += object.offer.assignment.notes.count
 					if object.offer.assignment.order
 						nrOfNotes += object.offer.assignment.order.notes.count
+						if object.offer.assignment.order.installation
+							nrOfNotes += object.offer.assignment.order.installation.notes.count
+							if object.offer.assignment.order.installation.invoice
+								nrOfNotes += object.offer.assignment.order.installation.invoice.notes.count
+							end
+						end
 					end
 				end
 			end
@@ -35,6 +41,14 @@ module ApplicationHelper
 
 									if object.offer.assignment.order
 										html += show_note_helper(object.offer.assignment.order)
+
+										if object.offer.assignment.order.installation
+											html += show_note_helper(object.offer.assignment.order.installation)
+
+											if object.offer.assignment.order.installation.invoice
+												html += show_note_helper(object.offer.assignment.order.installation.invoice)
+											end
+										end
 									end
 								end
 							end
@@ -47,7 +61,15 @@ module ApplicationHelper
 		elsif object.offer
 			if object.offer.assignment
 				if object.offer.assignment.order
-					html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:order_id => object.offer.assignment.order.id), :class => 'btn btn-primary'}</div>"
+					if object.offer.assignment.order.installation
+						if object.offer.assignment.order.installation.invoice
+							html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:invoice_id => object.offer.assignment.order.installation.invoice.id), :class => 'btn btn-primary'}</div>"
+						else
+							html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:installation_id => object.offer.assignment.order.installation.id), :class => 'btn btn-primary'}</div>"
+						end
+					else
+						html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:order_id => object.offer.assignment.order.id), :class => 'btn btn-primary'}</div>"
+					end
 				else
 					html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:assignment_id => object.offer.assignment.id), :class => 'btn btn-primary'}</div>"
 				end
@@ -107,12 +129,12 @@ module ApplicationHelper
 				        <th>Price</th>
 				        <th>Total</th>"
 				        if object.class == Order
-				        	html += "<th>Estimated deliverydate</th>"
+				        	html += "<th>Estimated deliverydate</th><th></th>"
 				        end
 				        html += "</tr>"
 							object.positions.each do |p|
 								arrived = ""
-								if p.arrived
+								if p.arrived and object.class == Order
 									arrived = "arrived"
 								end	
 								html += "

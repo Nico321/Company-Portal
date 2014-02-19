@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @invoice.subject %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @invoice.body %>
+</p>
+<p>
+  <strong>Customer:</strong>
+  <%= @invoice.customer.email %>
+</p>
+
+<p>
+  <strong>Installationprice:</strong>
+  <%= @invoice.installationprice %>
+</p>
+
+
+<%= show_positions(@invoice).html_safe%>
+<%= show_notes(@invoice.installation.order.assignment.offer.request).html_safe%>
+
+<%= link_to "Checkout", @invoice.paypal_url(root_url, ipn_notification_payment_notifications_url),  :class => "btn btn-success"%>

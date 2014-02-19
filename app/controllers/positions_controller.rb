@@ -72,7 +72,19 @@ class PositionsController < ApplicationController
     @position = Position.find(params[:id])
     @position.arrived = DateTime.now
     @position.save
-    redirect_to @position.order, notice: 'Position arrived.'
+
+    everythingArrived = true
+    @position.order.positions.each do |p|
+      if p.arrived == nil
+        everythingArrived = false
+      end
+    end
+
+    if everythingArrived
+      redirect_to convert_installation_path(:order_id => @position.order.id)
+    else
+      redirect_to @position.order, notice: 'Position arrived.'
+    end
   end
 
   private

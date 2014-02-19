@@ -1,5 +1,46 @@
 CompanyPortal::Application.routes.draw do
 
+  resources :payment_notifications do
+    collection do
+      post 'ipn_notification'
+    end
+  end
+
+  resources :invoices do
+    member do
+      get 'convert'
+      get 'payed'
+    end
+  end
+
+  resources :installations do    
+    collection do
+      get 'open'
+      get 'unassumed'
+      get 'assumed'
+    end
+    member do
+      get 'convert'
+      get 'assume'
+      get 'release'
+    end
+  end
+
+  resources :installations do
+    collection do
+      get 'open'
+      get 'unassumed'
+      get 'assumed'
+    end
+    member do
+      get 'convert'
+      get 'assume'
+      get 'release'
+    end
+  end
+  
+  ActiveAdmin.routes(self)
+
   resources :orders do
     collection do
       get 'delayed'

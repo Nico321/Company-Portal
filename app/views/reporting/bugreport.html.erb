@@ -4,12 +4,37 @@
 		<title>Reporting Bugreports</title>
 	</head>
 	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-8">
+					<%= form_tag({:controller => "reporting", :action => "bugreport"}, :method => "post")      do %>
+					<%= select_tag(:value, options_for_select([['All', 0],['Year', 1], ['Day', 2]])) %>
+					<%= submit_tag "Choose" %>
+					<% end %>
+					<img src ="<%= @chart %>">
+				</div>
 
-		<%= form_tag({:controller => "reporting", :action => "bugreport"}, :method => "post")      do %>
-		<%= select_tag(:value, options_for_select([['Year', 1], ['Month', 2], ['Week', 3], ['Day', 4]])) %>
-		<%= submit_tag "Choose" %>
-		<% end %>
-
-		<img src ="<%= @chart %>">
+				<div class="col-md-4">
+				<h4> List of Agent's </h4>
+				<% if @agents != nil%>
+					<% @agents.each do |agent| %>
+						<% if agent != nil %>
+							<div class="col-md-4">
+								<b><%= User.find(agent).firstname %>
+								<%= User.find(agent).lastname %></b><br>
+								<%= User.find(agent).phone %><br>
+								<% if User.find(agent).absencestartdate != nil && User.find(agent).absenceenddate %>
+									<% if User.find(agent).absencestartdate < Time.now && User.find(agent).absenceenddate > Time.now %>
+										Agent is absence<br>
+									<% end %>
+								Assumed Reports: <%= Bugreport.where("agent_id like '?'", agent).count %><br>
+								<% end %>
+							</div>
+						<% end %>
+					<% end %>
+				<% end %>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

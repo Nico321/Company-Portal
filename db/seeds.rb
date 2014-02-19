@@ -60,9 +60,9 @@ Request.create!(:subject => "my Request4", :body =>"This is my new Request", :cu
 Request.create!(:subject => "my Request5", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "3", :agent_id => eone.id),
 Request.create!(:subject => "my Request6", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "3", :agent_id => etwo.id)]
 
-aserver = Article.create!(:name => "Server", :price => 200)
-acomputer = Article.create!(:name => "Computer", :price => 100)
-atasta = Article.create!(:name => "Tastatur", :price => 10)
+aserver = Article.create!(:name => "Server", :price => 200, :description => "Heftiger Server!")
+acomputer = Article.create!(:name => "Computer", :price => 100, :description => "Cooler Computer!")
+atasta = Article.create!(:name => "Tastatur", :price => 10, :description => "Coole Tastatur!")
 
 offerrequests.each do |oreq|
 	if oreq.customer.id == cone.id
@@ -91,7 +91,6 @@ b1 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :repor
 b2 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo)
 b3 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone, :agent => ctwo)
 b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo, :agent => cone, :created_at =>"2013-02-03T04:05:06+07:00" ,:closed => "2013-02-03T09:05:06+07:00")
-
 
 ##################################
 #
@@ -136,5 +135,6 @@ password_confirmation: 'testtest'
 
 technican.add_role :technican
 puts "Technican password is #{pass}"
+
 
 

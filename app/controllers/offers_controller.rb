@@ -64,7 +64,7 @@ class OffersController < ApplicationController
 
   def convert
     @request = Request.find(params[:request_id])
-    @offer = Offer.new(:subject => @request.subject)
+    @offer = Offer.new(:subject => @request.subject, :body => @request.body)
     @offer.customer = @request.customer
     @offer.request = @request
     @offer.save
