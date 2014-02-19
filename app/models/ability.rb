@@ -21,6 +21,8 @@ class Ability
 	      	can :manage, Request
               	can :manage, Supplier         
 	        can :manage, Assignment
+		can :manage, Invoice
+                can :open, Installation
 
            end
            
@@ -34,22 +36,25 @@ class Ability
 	   #Technican
    	   if user.has_role?(:technican)
 		can :manage, Assignment
-		can :manage, Bugreport                	
+		can :manage, Bugreport  
+		can :manage, Installation              	
            end	
 
 	   if user.has_role?(:customer)
 		can :assumed, Request
                 can :create,  Request
-  		can :open, Request               	
+  		can :open, Request  
+		can :read, Invoice   
+		can :open, Installation          	
            end
 
             # issue with the admin role doesn't get the right role if not commentend
             # everyone has role :admin
 
-             if user.has_role?(:admin)
+           if user.has_role?(:superadmin)
 	    #Admin    
 	    can :manage, :all           
-	     end
+	   end
 	
 
 	   #  else
