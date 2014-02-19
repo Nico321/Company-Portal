@@ -51,11 +51,14 @@ CompanyPortal::Application.routes.draw do
   end
 
 get 'reporting', controller: "reporting", action: "index"
-get "reporting/bugreport", controller: "reporting", action:"bugreport"
-get "reporting/process", controller: "reporting", action:"process"
+
+
 get "reporting/shop", controller: "reporting", action:"shop"
 get "reporting/user", controller: "reporting", action:"user"
+get  "reporting/bugreport", controller: "reporting", action:"bugreport"
 post "reporting/bugreport", controller: "reporting", action:"bugreport"
+get  "reporting/businessprocess", controller: "reporting", action:"businessprocess"
+post "reporting/businessprocess", controller: "reporting", action:"businessprocess"
 
   resources :positions do
     member do

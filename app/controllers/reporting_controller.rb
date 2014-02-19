@@ -18,21 +18,9 @@ class ReportingController < ApplicationController
 		@userOnline = User.online.count
 	end
 
-	def bugreport
-		#Bugreport intervall choose
-		#Method for bugreport view
-		@mydata = params[:value]
-		case @mydata
-			when "0"
-				@chart =	createBarChart("400x400", "Created/Closed", "FF0000", "008000", "Created", "Closed", bugreportsShow(0,0,0),Bugreport.all.count, ["All"])			
-			when "1"
-				@chart =	createBarChart("650x400","Created/Closed", "FF0000", "008000", "Created", "Closed", bugreportsShow(Time.now.year,0,0), Bugreport.all.count, [["Jan", "Feb", "Mar", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]])
-			when "2"
-				@chart = 	createBarChart("750x400","Created/Closed", "FF0000", "008000", "Created", "Closed", bugreportsShow(Time.now.year,Time.now.month,Time.now.day), Bugreport.all.count, [["-12","-11","-10", "-9","-8","-7", "-6", "-5", "-4", "-3", "-2", "-1"]])
-		end
-		@agents = EmployeeQuantity()
-	end
-
+#------------------------------------------------------------------------------
+#General funktions
+#------------------------------------------------------------------------------
 	def createBarChart(size, title, barColor1, barColor2, legend1, legend2, data_array, max, axis_labels)
 		#creates a Bar Chart with given parameters from bugreport method
 		if data_array != nil
@@ -53,6 +41,23 @@ class ReportingController < ApplicationController
 	        )
 	        return chart
 		end
+	end
+#------------------------------------------------------------------------------
+#Bugreport Methods
+#------------------------------------------------------------------------------
+	def bugreport
+		#Bugreport intervall choose
+		#Method for bugreport view
+		@mydata = params[:value]
+		case @mydata
+			when "0"
+				@chart =	createBarChart("400x400", "Created/Closed", "FF0000", "008000", "Created", "Closed", bugreportsShow(0,0,0),Bugreport.all.count, ["All"])			
+			when "1"
+				@chart =	createBarChart("650x400","Created/Closed", "FF0000", "008000", "Created", "Closed", bugreportsShow(Time.now.year,0,0), Bugreport.all.count, [["Jan", "Feb", "Mar", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]])
+			when "2"
+				@chart = 	createBarChart("750x400","Created/Closed", "FF0000", "008000", "Created", "Closed", bugreportsShow(Time.now.year,Time.now.month,Time.now.day), Bugreport.all.count, [["-12","-11","-10", "-9","-8","-7", "-6", "-5", "-4", "-3", "-2", "-1"]])
+		end
+		@agents = EmployeeQuantity()
 	end
 
 	def bugreportsShow(iyear, imonth, iday)
@@ -116,5 +121,67 @@ class ReportingController < ApplicationController
 			end
 		end
 		return agent
+	end
+#------------------------------------------------------------------------------
+#Businessprocess Methods
+#------------------------------------------------------------------------------
+	def businessprocess
+		@info = params[:info]
+		case @info
+		 when "0"
+			@test =3
+		 when "1"
+			@test =3
+		 when "2"
+			@test =3
+		end
+
+		@infos = getBusinessprocessData
+		
+	end
+
+	def getBusinessprocessData
+		main			= Array.new(6)  #Array for all processsteps
+		requests 		= Array.new(3) #all, open, unassumed
+		offers			= Array.new(3) #all, open, unassumed
+		assignments		= Array.new(3) #all, open, unassumed
+		orders			= Array.new(5)
+		installations	= Array.new(4) #all, open, unassumed, installed
+		invoices		= Array.new(5) #all payed -> nil nicht bezahlt (date feld)
+
+		requests[0] 	= Request.count
+		requests[1] 	= Request.where("offer_id is null").count
+		requests[2] 	= Request.where("agent_id is null").count
+
+		offers[0] 		= Offer.count
+		offers[1] 		= Offer.where("assignment_id is null").count
+		offers[2] 		= Offer.where("agent_id is null").count
+
+		assignments[0] 	= Assignment.count
+		assignments[1]	= Assignment.where("order_id is null").count
+		assignments[2] 	= Assignment.where("agent_id is null").count
+
+			orders[0] = 0
+			if !Order.all.blank?
+			   for order in Order.all
+			   	if !order.blank?
+					orders[0] += order.installationprice
+				end
+			   end 
+			 end
+
+		installations[0] 	= Installation.count
+		installations[1]	= Installation.where("invoice_id is null").count
+		installations[2] 	= Installation.where("agent_id is null").count
+		installations[3]	= Installation.where("installationdate < #{Time.now.year}-#{Time.now.month}-#{Time.now.day}").count		
+
+		main[0] = requests
+		main[1] = offers
+		main[2] = assignments
+		main[3] = orders
+		main[4] = installations
+		main[5] = invoices
+
+		return main
 	end
 end

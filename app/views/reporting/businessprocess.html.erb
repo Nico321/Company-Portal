@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>Reporting Process</title>
+	</head>
+	<body>
+		<%= form_tag({:controller => "reporting", :action => "businessprocess"}, :method => "post")      do %>
+			<%= select_tag(:info, options_for_select([['All', 0],['Year', 1], ['Day', 2]])) %>
+			<%= submit_tag "Choose" %>
+
+			<div class="row">
+				<div class="col-md-8">
+					<%= @chart %>
+				</div>
+  				<div class="col-md-4">
+
+  				</div>
+			</div>
+		<% end %>
+	</body>
+</html>
