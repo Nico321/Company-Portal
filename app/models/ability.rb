@@ -10,6 +10,7 @@ class Ability
           	can :assumed, Bugreport
                 can :create,  Bugreport
   		can :open, Bugreport
+		can :show, Bugreport
                 
      		
 	   #sales

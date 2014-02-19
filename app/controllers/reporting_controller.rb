@@ -2,7 +2,7 @@ class ReportingController < ApplicationController
 
 # proplem with NameError in ReportingController#index when load_and_authorize_resource is implemented
 # also when implemented in link restrictions
-#load_and_authorize_resource
+load_and_authorize_resource
 
 
 	def index
