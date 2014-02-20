@@ -5,13 +5,20 @@ describe 'Sign_up' do
   visit root_path
  end
 
- it 'allows to sign up' do
+ it 'allows to sign up as customer' do
   click_link 'Sign up'
   fill_in "user_email", with: 'kunde@example.de'
   fill_in "user_password", with: '12345678'
   fill_in "user_password_confirmation", with: '12345678'
  
   expect { click_button 'Sign up'}.to change { User.count }.by(1)
+  user = User.find(1)
+  if user.has_role (:customer)
+   true
+  else
+   false
+  end
+
  end
 
  context 'existing user' do
@@ -29,7 +36,7 @@ describe 'Sign_up' do
 
   end
 
-  it 'allows change passwort' do   
+  it 'allows change password' do   
    click_link 'change password'
    fill_in "user_password", with: "testtest"
    fill_in "user_password_confirmation", with: "testtest"
