@@ -40,3 +40,4 @@
 <div><%= link_to "Accept", convert_assignment_path(:offer_id => @offer.id), :class => "btn btn-success" %></div>
 <% end %>
 
+<%= link_to 'Create PDF document', offer_path(@offer, :format => :pdf) %>
