@@ -169,7 +169,7 @@
                         <li><%= link_to "Show open invoices(#{Invoice.where('payed IS NULL').count})", invoices_path %></li>
                       </ul>
                     </li>
-
+                    <% end %>
                     <li class="divider"></li>
                     <li>
                       <a href="<%= archive_index_path %>">Archive</a>
