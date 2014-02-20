@@ -40,7 +40,7 @@ class Invoice < ActiveRecord::Base
 	  if search
 	    where('subject LIKE ?', "%#{search}%")
 	  else
-	    scoped
+	    all
 	  end
 	end
 end
