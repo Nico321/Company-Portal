@@ -1,6 +1,7 @@
 class OffersController < ApplicationController
+  load_and_authorize_resource
   before_action :set_offer, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /offers
   # GET /offers.json
   def index

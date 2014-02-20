@@ -98,10 +98,10 @@ b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :repor
 ##################################
 
 pass = SecureRandom.hex(5)
-admin = User.create email:'admin@example.com', password: 'testtest',
+superadmin = User.create email:'superadmin@example.com', password: 'testtest',
 password_confirmation: 'testtest'
-
-admin.add_role :admin
+# has problem with name admin so superadmin role is better
+superadmin.add_role :superadmin
 puts "Admin password is #{pass}"
 ############
 
