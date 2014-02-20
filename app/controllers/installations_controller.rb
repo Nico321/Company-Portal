@@ -74,8 +74,16 @@ class InstallationsController < ApplicationController
     redirect_to @installation
   end
 
-  def open
-    @installations = Installation.where('invoice_id IS NULL')
+  def open    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @installations = Installation.where('invoice_id IS NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
   def assume
@@ -92,12 +100,28 @@ class InstallationsController < ApplicationController
     redirect_to assumed_installations_path
   end
    
-  def unassumed
-    @installations = Installation.where('agent_id IS NULL and invoice_id IS NULL')
+  def unassumed    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @installations = Installation.where('agent_id IS NULL and invoice_id IS NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
-  def assumed
-    @installations = Installation.where(agent_id: current_user.id).where('invoice_id IS NULL')
+  def assumed    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @installations = Installation.where(agent_id: current_user.id).where('invoice_id IS NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end 
 
 

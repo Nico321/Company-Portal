@@ -1,24 +1,8 @@
 module ApplicationHelper
 
 	def show_notes(object, addbutton, objectID)
-		nrOfNotes = object.notes.count
-		if object.class != Bugreport
-			if object.offer
-				nrOfNotes += object.offer.notes.count
-				if object.offer.assignment
-					nrOfNotes += object.offer.assignment.notes.count
-					if object.offer.assignment.order
-						nrOfNotes += object.offer.assignment.order.notes.count
-						if object.offer.assignment.order.installation
-							nrOfNotes += object.offer.assignment.order.installation.notes.count
-							if object.offer.assignment.order.installation.invoice
-								nrOfNotes += object.offer.assignment.order.installation.invoice.notes.count
-							end
-						end
-					end
-				end
-			end
-		end
+		nrOfNotes = countNotes(object)
+		
 		html = "
 				<div class='accordion' id='accordionNote'>
 				    <div class='accordion-group'>
@@ -66,6 +50,27 @@ module ApplicationHelper
 				
 
 		return html
+	end
+
+	def countNotes(object)
+		
+
+		if object.class == Request
+			nrOfNotes = object.notes.count
+		elsif object.class == Offer
+			nrOfNotes = object.notes.count + object.request.notes.count
+		elsif object.class == Assignment
+			nrOfNotes = object.notes.count + object.offer.notes.count + object.offer.request.notes.count
+		elsif object.class == Order
+			nrOfNotes = object.notes.count + object.assignment.notes.count + object.assignment.offer.notes.count + object.assignment.offer.request.notes.count
+		elsif object.class == Installation
+			nrOfNotes = object.notes.count + object.order.notes.count + object.order.assignment.notes.count + object.order.assignment.offer.notes.count + object.order.assignment.offer.request.notes.count
+		elsif object.class == Invoice
+			nrOfNotes = object.notes.count + object.installation.notes.count + object.installation.order.notes.count + object.installation.order.assignment.notes.count + object.installation.order.assignment.offer.notes.count + object.installation.order.assignment.offer.request.notes.count
+				
+		end
+
+		return nrOfNotes
 	end
 
 	def show_note_helper(object)
@@ -183,25 +188,25 @@ module ApplicationHelper
 		link_to title, params.merge(:sort => column, :direction => direction, :page => nil), {:class => css_class}
 	end
 
-	def showTable(object, searchparam, directionparam, sortparam)
+	def showTable(object, searchparam, directionparam, sortparam, editlink = false, assumable = false, publication = false)
 		if object
 		    if object.first.class == Request
-		    	path = requests_path
+		    	showpath = requests_path
 		    elsif object.first.class == Offer
-		    	path = offers_path
+		    	showpath = offers_path
 		    elsif object.first.class == Assignment
-		    	path = assignments_path
+		    	showpath = assignments_path
 		    elsif object.first.class == Order
-		    	path = orders_path
+		    	showpath = orders_path
 		    elsif object.first.class == Installation
-		    	path = installations_path
+		    	showpath = installations_path
 		    elsif object.first.class == Invoice
-		    	path = invoices_path
+		    	showpath = invoices_path
 		    end
 		end
 
 	html = "
-		<form action='#{path}' method ='get' id ='#{object.class}_search'>
+		<form action='#{showpath}' method ='get' id ='#{object.class}_search'>
 		  <p>
 		  	<input type='text' name='search' value='#{searchparam}' placeholder='Search for a subject'></input>
 		  	<input type='submit' value='Search' class='btn btn-default'></input>
@@ -211,7 +216,16 @@ module ApplicationHelper
 		  <thead>
 		    <tr>
 		      <th>#{sortable 'customer_id', 'Customer'}</th>
-		      <th>#{sortable 'subject', 'Subject'}</th>
+		      <th>#{sortable 'subject', 'Subject'}</th>"
+		      if object
+			      if object.first.class == Request
+			      	html += "<th>Urgency</th>"
+			      end
+			  end
+		      if publication
+		      	html += "<th>Date of Publication</th>"
+		      end
+		      html += "<th>Notes</th>
 		      <th>#{sortable 'agent_id', 'Agent'}</th>
 		      <th></th>
 		      <th></th>
@@ -220,20 +234,56 @@ module ApplicationHelper
 
 		  <tbody>"
 		  if object != nil
-		    object.each do |object|
+		    object.each do |obj|
+				delaycss = ""
+				if obj.class == Order
+				    obj.positions.each do |p|
+				      if p.deliverydate
+				        if p.deliverydate < DateTime.now.to_date
+				          delaycss = "delayed"
+				        end
+				      end
+				    end
+				end
 		      html += "
-		      <tr>
-		        <td>#{object.customer.email}</td>
-		        <td>#{object.subject}</td>"
-		        if object.agent
-		          html += "<td>#{object.agent.email}</td>"
+		      <tr class='#{delaycss}'>
+		        <td>#{obj.customer.email}</td>
+		        <td>#{obj.subject}</td>"
+		      if obj.class == Request
+		        html += "<td>"
+		          if obj.urgency == 1 
+		             html += "uncritical<div class='circle circle-green circle-small'></div>"
+		          elsif obj.urgency == 2
+		            html += "medium<div class='circle circle-small'></div>"
+		          else
+		            html += "critical<div class='circle circle-red circle-small'></div>"
+		          end
+		          html += "</td>
+		         </td>"
+		      end
+		      	if publication
+		      		html += "<td>#{obj.publication}</td>"
+		      	end
+		        html += "<td>#{countNotes(obj)}</td>"
+		        if obj.agent
+		          html += "<td>#{obj.agent.email}</td>"
 		        else
 		        	html += "<td></td>"
 		        end
 
-
-		        html += "<td><a href='#{path}/#{object.id}' class='btn btn-info'>Show</a> </td>
-		      </tr>"
+		        if editlink
+		        	html += "<td><a href='#{showpath}/#{obj.id}/edit' class='btn btn-info'>Edit</a> </td>"
+		        else
+		        	html += "<td><a href='#{showpath}/#{obj.id}' class='btn btn-info'>Show</a> </td>"
+		    	end
+		    	if assumable
+		    		if obj.agent == current_user
+		    			html += "<td><a href='#{showpath}/#{obj.id}/release' class='btn btn-danger'>Release</a> </td>"
+		    		else
+		    			html += "<td><a href='#{showpath}/#{obj.id}/assume' class='btn btn-success'>Assume</a> </td>"
+		    		end
+		    	end
+		      html += "</tr>"
 		    end
 		end
 		html += "</tbody>

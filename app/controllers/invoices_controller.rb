@@ -5,8 +5,16 @@ class InvoicesController < ApplicationController
 
   # GET /invoices
   # GET /invoices.json
-  def index
-    @invoices = Invoice.where("payed IS NULL")
+  def index    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @invoices = Invoice.where("payed IS NULL").search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
   # GET /invoices/1
