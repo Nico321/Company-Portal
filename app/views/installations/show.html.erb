@@ -13,8 +13,10 @@
   <%= @installation.installationdate %>
 </p>
 
-<%= show_notes(@installation.order.assignment.offer.request).html_safe%>
+<%
+if @installation.invoice == nil
+	noteButton = "installation"
+end
+%>
 
-
-<%= link_to 'Edit', edit_installation_path(@installation) %> |
-<%= link_to 'Back', installations_path %>
+<%= show_notes(@installation.order.assignment.offer.request, noteButton, @installation.id).html_safe%>

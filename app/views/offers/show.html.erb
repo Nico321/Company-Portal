@@ -26,11 +26,18 @@
 
 <%= show_positions(@offer).html_safe%>
 
-<%= show_notes(@offer.request).html_safe%>
+<%
+ if @offer.assignment == nil
+  noteButton = "offer"
+ end
+%>
+
+<%= show_notes(@offer.request, noteButton, @offer.id).html_safe%>
 
 <h3>Total: <%= calcTotalPrice(@offer)  %></h3>
 
-<% if @offer.customer == current_user %>
+<% if @offer.customer == current_user and @offer.assignment == nil %>
 <div><%= link_to "Accept", convert_assignment_path(:offer_id => @offer.id), :class => "btn btn-success" %></div>
 <% end %>
 
+<%= link_to 'Create PDF document', offer_path(@offer, :format => :pdf) %>

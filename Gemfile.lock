@@ -246,6 +246,9 @@ GEM
       json (>= 1.8.0)
     warden (1.2.3)
       rack (>= 1.0)
+    wicked_pdf (0.9.10)
+      rails
+    will_paginate (3.0.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -278,3 +281,5 @@ DEPENDENCIES
   turbolinks
   twitter-bootstrap-rails
   uglifier (>= 1.3.0)
+  wicked_pdf
+  will_paginate

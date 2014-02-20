@@ -35,4 +35,12 @@ class Invoice < ActiveRecord::Base
 	  end
 	  "https://www.sandbox.paypal.com/cgi-bin/webscr?" + values.to_query
 	end
+	
+	def self.search(search)
+	  if search
+	    where('subject LIKE ?', "%#{search}%")
+	  else
+	    scoped
+	  end
+	end
 end

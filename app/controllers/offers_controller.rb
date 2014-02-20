@@ -11,6 +11,12 @@ class OffersController < ApplicationController
   # GET /offers/1
   # GET /offers/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render :pdf => "file_name", :template => 'offers/show.html.erb'
+      end
+    end
   end
 
   # GET /offers/new

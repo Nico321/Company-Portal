@@ -1,6 +1,6 @@
 module ApplicationHelper
 
-	def show_notes(object)
+	def show_notes(object, addbutton, objectID)
 		nrOfNotes = object.notes.count
 		if object.class != Bugreport
 			if object.offer
@@ -54,31 +54,9 @@ module ApplicationHelper
 							end
 						end
 
-		if object.class == Bugreport
-			if object.closed == nil
-				html +="		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:bugreport_id => object.id), :class => 'btn btn-primary'}</div>"
-			end
-		elsif object.offer
-			if object.offer.assignment
-				if object.offer.assignment.order
-					if object.offer.assignment.order.installation
-						if object.offer.assignment.order.installation.invoice
-							html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:invoice_id => object.offer.assignment.order.installation.invoice.id), :class => 'btn btn-primary'}</div>"
-						else
-							html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:installation_id => object.offer.assignment.order.installation.id), :class => 'btn btn-primary'}</div>"
+						if addbutton
+							html +=	"<div style='float: right;'><a href='#{new_note_path}?#{addbutton}_id=#{objectID}' class='btn btn-primary'>Add a note</a></div>"
 						end
-					else
-						html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:order_id => object.offer.assignment.order.id), :class => 'btn btn-primary'}</div>"
-					end
-				else
-					html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:assignment_id => object.offer.assignment.id), :class => 'btn btn-primary'}</div>"
-				end
-			else				
-				html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:offer_id => object.offer.id), :class => 'btn btn-primary'}</div>"
-			end
-		else
-			html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:request_id => object.id), :class => 'btn btn-primary'}</div>"
-		end
 		
 		html +="		</div>
 				      </div>
@@ -198,13 +176,75 @@ module ApplicationHelper
 		 return totalAmount
 	end
 
-	def test(object)
-		capture do
-			form_for(object) do |f|
-				f.date_select :deliverydate
-				f.submit :value => "Update Deliverydate", :class => "btn btn-success"
-			end
+	def sortable(column, title = nil)
+		title ||= column.titleize
+		css_class = column == params[:sort] ? "current #{params[:direction]}" : nil
+		direction = column == params[:sort] && params[:direction] == "asc" ? "desc" : "asc"
+		link_to title, params.merge(:sort => column, :direction => direction, :page => nil), {:class => css_class}
+	end
+
+	def showTable(object, searchparam, directionparam, sortparam)
+		if object
+		    if object.first.class == Request
+		    	path = requests_path
+		    elsif object.first.class == Offer
+		    	path = offers_path
+		    elsif object.first.class == Assignment
+		    	path = assignments_path
+		    elsif object.first.class == Order
+		    	path = orders_path
+		    elsif object.first.class == Installation
+		    	path = installations_path
+		    elsif object.first.class == Invoice
+		    	path = invoices_path
+		    end
 		end
+
+	html = "
+		<form action='#{path}' method ='get' id ='#{object.class}_search'>
+		  <p>
+		  	<input type='text' name='search' value='#{searchparam}' placeholder='Search for a subject'></input>
+		  	<input type='submit' value='Search' class='btn btn-default'></input>
+		  </p>
+
+		<table class='table table-hover'>
+		  <thead>
+		    <tr>
+		      <th>#{sortable 'customer_id', 'Customer'}</th>
+		      <th>#{sortable 'subject', 'Subject'}</th>
+		      <th>#{sortable 'agent_id', 'Agent'}</th>
+		      <th></th>
+		      <th></th>
+		    </tr>
+		  </thead>
+
+		  <tbody>"
+		  if object != nil
+		    object.each do |object|
+		      html += "
+		      <tr>
+		        <td>#{object.customer.email}</td>
+		        <td>#{object.subject}</td>"
+		        if object.agent
+		          html += "<td>#{object.agent.email}</td>"
+		        else
+		        	html += "<td></td>"
+		        end
+
+
+		        html += "<td><a href='#{path}/#{object.id}' class='btn btn-info'>Show</a> </td>
+		      </tr>"
+		    end
+		end
+		html += "</tbody>
+		</table>		  
+		<div id='#{object.class}hidden'>
+		  	<input type='hidden' name='direction' value='#{directionparam}'></input>
+		  	<input type='hidden' name='sort' value='#{sortparam}'></input>
+			
+			#{will_paginate object}
+		  </div>
+		</form>"
 	end
 
 end

@@ -30,8 +30,12 @@
 	<%= @bugreport.closed %>
  <% end %>
 </p>
-
-<%= show_notes(@bugreport).html_safe %>
+<% 
+if @bugreport.closed == nil
+  noteButton = "bugreport"
+end
+ %>
+<%= show_notes(@bugreport, noteButton, @bugreport.id).html_safe %>
 
 <% if @bugreport.agent == current_user && @bugreport.closed == nil %>
 	<%= link_to 'Close', close_bugreport_path(@bugreport), :class =>"btn btn-danger" %> 

@@ -61,7 +61,7 @@ class InstallationsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  
  def convert
     @order = Order.find(params[:order_id])
     @installation = Installation.new(:subject => @order.subject, :body => @order.body)

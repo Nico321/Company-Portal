@@ -34,7 +34,12 @@
 
 <%= show_positions(@order).html_safe%>
 
-<%= show_notes(@order.assignment.offer.request).html_safe%>
+<%
+  if @order.installation == nil
+    noteButton = "order"
+  end
+%>
+<%= show_notes(@order.assignment.offer.request, noteButton, @order.id).html_safe%>
 
 <h3>Total: <%= calcTotalPrice(@order)  %></h3>
 
