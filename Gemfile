@@ -50,6 +50,7 @@ gem 'googlecharts'
 gem 'bootstrap-datepicker-rails'
 gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'will_paginate'
+gem 'wicked_pdf'
 
 
 group :development, :test do
