@@ -10,13 +10,13 @@ describe 'Sign_up' do
   fill_in "user_email", with: 'kunde@example.de'
   fill_in "user_password", with: '12345678'
   fill_in "user_password_confirmation", with: '12345678'
- 
+  click_button 'Sign up'
   expect { click_button 'Sign up'}.to change { User.count }.by(1)
   user = User.find(1)
   if user.has_role (:customer)
    true
   else
-   false
+   lambda {raise "not a customer"}.should raise_error
   end
 
  end
