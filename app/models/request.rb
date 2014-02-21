@@ -6,4 +6,12 @@ class Request < ActiveRecord::Base
 	has_many :notes
 
 	validates :subject, :body, :customer, :urgency, presence: true
+	
+	def self.search(search)
+	  if search
+	    where('subject LIKE ?', "%#{search}%")
+	  else
+	    all
+	  end
+	end
 end

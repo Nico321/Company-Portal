@@ -1,0 +1,15 @@
+<h1>Editing installation</h1>
+
+<%= render 'form' %>
+
+<%
+if @installation.invoice == nil
+	noteButton = "installation"
+end
+%>
+
+<%= show_notes(@installation.order.assignment.offer.request, noteButton, @installation.id).html_safe%>
+
+<% if @installation.agent == current_user %>
+	<%= link_to 'Close installation', convert_invoices_path(:installation_id => @installation.id), :class => "btn btn-success"%>
+<% end %>

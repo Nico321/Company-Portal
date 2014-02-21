@@ -11,8 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 
 ActiveRecord::Schema.define(version: 20140217203956) do
+=======
+ActiveRecord::Schema.define(version: 20140218204005) do
+>>>>>>> 6b0d642c131f5c65375701f9ff1899e595fbc030
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -28,7 +32,6 @@ ActiveRecord::Schema.define(version: 20140217203956) do
   add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace"
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
-ActiveRecord::Schema.define(version: 20140218133644) do
 
   create_table "article_storages", force: true do |t|
     t.integer  "article_id"
@@ -72,23 +75,48 @@ ActiveRecord::Schema.define(version: 20140218133644) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
   create_table "carts", force: true do |t|
+=======
+  create_table "installations", force: true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.date     "installationdate"
+    t.integer  "invoice_id"
+    t.integer  "order_id"
+    t.integer  "customer_id"
+    t.integer  "agent_id"
+>>>>>>> 6b0d642c131f5c65375701f9ff1899e595fbc030
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
   create_table "line_items", force: true do |t|
     t.integer  "article_id"
     t.integer  "cart_id"
     t.integer  "line_items", default: 1
     t.integer  "quantity",   default: 1
+=======
+  create_table "invoices", force: true do |t|
+    t.string   "subject"
+    t.text     "body"
+    t.integer  "installation_id"
+    t.integer  "agent_id"
+    t.integer  "customer_id"
+    t.decimal  "installationprice"
+    t.datetime "payed"
+>>>>>>> 6b0d642c131f5c65375701f9ff1899e595fbc030
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
   add_index "line_items", ["article_id"], name: "index_line_items_on_article_id"
   add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id"
 
+=======
+>>>>>>> 6b0d642c131f5c65375701f9ff1899e595fbc030
   create_table "notes", force: true do |t|
     t.string   "subject"
     t.text     "body"
@@ -101,6 +129,8 @@ ActiveRecord::Schema.define(version: 20140218133644) do
     t.integer  "bugreport_id"
     t.integer  "assignment_id"
     t.integer  "order_id"
+    t.integer  "installation_id"
+    t.integer  "invoice_id"
   end
 
   create_table "offers", force: true do |t|
@@ -126,6 +156,16 @@ ActiveRecord::Schema.define(version: 20140218133644) do
     t.datetime "updated_at"
   end
 
+  create_table "payment_notifications", force: true do |t|
+    t.text     "params"
+    t.integer  "invoice_id"
+    t.string   "status"
+    t.string   "transaction_id"
+    t.string   "create"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "places", force: true do |t|
     t.string   "zip",        limit: 5
     t.string   "name"
@@ -143,6 +183,7 @@ ActiveRecord::Schema.define(version: 20140218133644) do
     t.integer  "assignment_id"
     t.integer  "order_id"
     t.datetime "arrived"
+    t.integer  "invoice_id"
   end
 
   create_table "requests", force: true do |t|

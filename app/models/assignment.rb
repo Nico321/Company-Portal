@@ -9,4 +9,12 @@ class Assignment < ActiveRecord::Base
 	has_many :positions
 
 	validates :subject, :customer, :offer, presence: true
+
+	def self.search(search)
+	  if search
+	    where('subject LIKE ?', "%#{search}%")
+	  else
+	    all
+	  end
+	end
 end

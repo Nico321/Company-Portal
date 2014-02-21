@@ -1,78 +1,39 @@
 require 'spec_helper'
 
 describe "Assignment" do
-	context 'new assignment' do
-		it 'convert a offer to an assignment' do
 
-			login
+	let!(:superadmin){FactoryGirl.create(:superadmin)}
+	let!(:offer){FactoryGirl.create(:offer)}
+	let!(:assignment){FactoryGirl.create(:assignment)}
 
-			visit root_path
-			click_link "New request"
-			fill_in "request_subject", with: "myTest"
-			fill_in "request_body", with: "Test"
-			click_button "Senden"
+	before :each do
+		login(superadmin)
+	end
 
-			click_link "Create Offer"
-			visit unassumed_offers_path
-			click_link "Assume"
-			click_link "Edit"
+	it 'convert a offer to an assignment' do
+		offer.publication = DateTime.now
+		offer.customer = superadmin
+		offer.save
+		visit offer_path(offer)
 
-			click_link "Publish"
-			visit pending_offers_path
-			click_link "Show"
-			expect{click_link "Accept"}.to change{Assignment.all.count}.by(1)
-		end
+		expect{click_link "Accept"}.to change{Assignment.all.count}.by(1)
+	end
 
-		it 'you can assume an assignment' do
-			login
+	it 'you can assume an assignment' do
+		visit unassumed_assignments_path
+		expect{click_link "Assume"}.to change{Assignment.where("agent_id IS NOT NULL").count}.by(1)
+	end
 
-			visit root_path
-			click_link "New request"
-			fill_in "request_subject", with: "myTest"
-			fill_in "request_body", with: "Test"
-			click_button "Senden"
+	it 'you can release an assignment' do
+		assignment.agent = superadmin
+		assignment.save
+		visit assumed_assignments_path
+		expect{click_link "Release"}.to change{Assignment.where("agent_id IS NOT NULL").count}.by(-1)
+	end
 
-			click_link "Create Offer"
-			visit unassumed_offers_path
-			click_link "Assume"
-			click_link "Edit"
-
-			click_link "Publish"
-			visit pending_offers_path
-			click_link "Show"
-			click_link "Accept"
-
-			visit unassumed_assignments_path
-			expect{click_link "Assume"}.to change{Assignment.where("agent_id IS NOT NULL").count}.by(1)
-		end
-
-		it 'add a note to an assignment' do
-			login
-
-			visit root_path
-			click_link "New request"
-			fill_in "request_subject", with: "myTest"
-			fill_in "request_body", with: "Test"
-			click_button "Senden"
-
-			click_link "Create Offer"
-			visit unassumed_offers_path
-			click_link "Assume"
-			click_link "Edit"
-
-			click_link "Publish"
-			visit pending_offers_path
-			click_link "Show"
-			click_link "Accept"
-
-			visit unassumed_assignments_path
-			click_link "Show"
-
-			click_link "Add a note"
-			fill_in "note_subject", with: "myTestAssignmentNote"
-			fill_in "note_body", with: "myTestAssignmentNote"
-			click_button "Add note"
-			page.should have_content "myTestAssignmentNote"
-		end
+	it 'add a note to an assignment' do
+		visit assignment_path(assignment)
+		addNote
+		page.should have_content "myTestNote"
 	end
 end

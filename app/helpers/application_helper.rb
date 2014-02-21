@@ -1,18 +1,8 @@
 module ApplicationHelper
 
-	def show_notes(object)
-		nrOfNotes = object.notes.count
-		if object.class != Bugreport
-			if object.offer
-				nrOfNotes += object.offer.notes.count
-				if object.offer.assignment
-					nrOfNotes += object.offer.assignment.notes.count
-					if object.offer.assignment.order
-						nrOfNotes += object.offer.assignment.order.notes.count
-					end
-				end
-			end
-		end
+	def show_notes(object, addbutton, objectID)
+		nrOfNotes = countNotes(object)
+		
 		html = "
 				<div class='accordion' id='accordionNote'>
 				    <div class='accordion-group'>
@@ -35,28 +25,22 @@ module ApplicationHelper
 
 									if object.offer.assignment.order
 										html += show_note_helper(object.offer.assignment.order)
+
+										if object.offer.assignment.order.installation
+											html += show_note_helper(object.offer.assignment.order.installation)
+
+											if object.offer.assignment.order.installation.invoice
+												html += show_note_helper(object.offer.assignment.order.installation.invoice)
+											end
+										end
 									end
 								end
 							end
 						end
 
-		if object.class == Bugreport
-			if object.closed == nil
-				html +="		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:bugreport_id => object.id), :class => 'btn btn-primary'}</div>"
-			end
-		elsif object.offer
-			if object.offer.assignment
-				if object.offer.assignment.order
-					html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:order_id => object.offer.assignment.order.id), :class => 'btn btn-primary'}</div>"
-				else
-					html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:assignment_id => object.offer.assignment.id), :class => 'btn btn-primary'}</div>"
-				end
-			else				
-				html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:offer_id => object.offer.id), :class => 'btn btn-primary'}</div>"
-			end
-		else
-			html +=	"		<div style='float: right;'>#{link_to 'Add a note', new_note_path(:request_id => object.id), :class => 'btn btn-primary'}</div>"
-		end
+						if addbutton
+							html +=	"<div style='float: right;'><a href='#{new_note_path}?#{addbutton}_id=#{objectID}' class='btn btn-primary'>Add a note</a></div>"
+						end
 		
 		html +="		</div>
 				      </div>
@@ -66,6 +50,27 @@ module ApplicationHelper
 				
 
 		return html
+	end
+
+	def countNotes(object)
+		
+
+		if object.class == Request
+			nrOfNotes = object.notes.count
+		elsif object.class == Offer
+			nrOfNotes = object.notes.count + object.request.notes.count
+		elsif object.class == Assignment
+			nrOfNotes = object.notes.count + object.offer.notes.count + object.offer.request.notes.count
+		elsif object.class == Order
+			nrOfNotes = object.notes.count + object.assignment.notes.count + object.assignment.offer.notes.count + object.assignment.offer.request.notes.count
+		elsif object.class == Installation
+			nrOfNotes = object.notes.count + object.order.notes.count + object.order.assignment.notes.count + object.order.assignment.offer.notes.count + object.order.assignment.offer.request.notes.count
+		elsif object.class == Invoice
+			nrOfNotes = object.notes.count + object.installation.notes.count + object.installation.order.notes.count + object.installation.order.assignment.notes.count + object.installation.order.assignment.offer.notes.count + object.installation.order.assignment.offer.request.notes.count
+				
+		end
+
+		return nrOfNotes
 	end
 
 	def show_note_helper(object)
@@ -107,12 +112,12 @@ module ApplicationHelper
 				        <th>Price</th>
 				        <th>Total</th>"
 				        if object.class == Order
-				        	html += "<th>Estimated deliverydate</th>"
+				        	html += "<th>Estimated deliverydate</th><th></th>"
 				        end
 				        html += "</tr>"
 							object.positions.each do |p|
 								arrived = ""
-								if p.arrived
+								if p.arrived and object.class == Order
 									arrived = "arrived"
 								end	
 								html += "
@@ -176,13 +181,120 @@ module ApplicationHelper
 		 return totalAmount
 	end
 
-	def test(object)
-		capture do
-			form_for(object) do |f|
-				f.date_select :deliverydate
-				f.submit :value => "Update Deliverydate", :class => "btn btn-success"
-			end
+	def sortable(column, title = nil)
+		title ||= column.titleize
+		css_class = column == params[:sort] ? "current #{params[:direction]}" : nil
+		direction = column == params[:sort] && params[:direction] == "asc" ? "desc" : "asc"
+		link_to title, params.merge(:sort => column, :direction => direction, :page => nil), {:class => css_class}
+	end
+
+	def showTable(object, searchparam, directionparam, sortparam, editlink = false, assumable = false, publication = false)
+		if object
+		    if object.first.class == Request
+		    	showpath = requests_path
+		    elsif object.first.class == Offer
+		    	showpath = offers_path
+		    elsif object.first.class == Assignment
+		    	showpath = assignments_path
+		    elsif object.first.class == Order
+		    	showpath = orders_path
+		    elsif object.first.class == Installation
+		    	showpath = installations_path
+		    elsif object.first.class == Invoice
+		    	showpath = invoices_path
+		    end
 		end
+
+	html = "
+		<form action='#{showpath}' method ='get' id ='#{object.class}_search'>
+		  <p>
+		  	<input type='text' name='search' value='#{searchparam}' placeholder='Search for a subject'></input>
+		  	<input type='submit' value='Search' class='btn btn-default'></input>
+		  </p>
+
+		<table class='table table-hover'>
+		  <thead>
+		    <tr>
+		      <th>#{sortable 'customer_id', 'Customer'}</th>
+		      <th>#{sortable 'subject', 'Subject'}</th>"
+		      if object
+			      if object.first.class == Request
+			      	html += "<th>Urgency</th>"
+			      end
+			  end
+		      if publication
+		      	html += "<th>Date of Publication</th>"
+		      end
+		      html += "<th>Notes</th>
+		      <th>#{sortable 'agent_id', 'Agent'}</th>
+		      <th></th>
+		      <th></th>
+		    </tr>
+		  </thead>
+
+		  <tbody>"
+		  if object != nil
+		    object.each do |obj|
+				delaycss = ""
+				if obj.class == Order
+				    obj.positions.each do |p|
+				      if p.deliverydate
+				        if p.deliverydate < DateTime.now.to_date
+				          delaycss = "delayed"
+				        end
+				      end
+				    end
+				end
+		      html += "
+		      <tr class='#{delaycss}'>
+		        <td>#{obj.customer.email}</td>
+		        <td>#{obj.subject}</td>"
+		      if obj.class == Request
+		        html += "<td>"
+		          if obj.urgency == 1 
+		             html += "uncritical<div class='circle circle-green circle-small'></div>"
+		          elsif obj.urgency == 2
+		            html += "medium<div class='circle circle-small'></div>"
+		          else
+		            html += "critical<div class='circle circle-red circle-small'></div>"
+		          end
+		          html += "</td>
+		         </td>"
+		      end
+		      	if publication
+		      		html += "<td>#{obj.publication}</td>"
+		      	end
+		        html += "<td>#{countNotes(obj)}</td>"
+		        if obj.agent
+		          html += "<td>#{obj.agent.email}</td>"
+		        else
+		        	html += "<td></td>"
+		        end
+
+		        if editlink
+		        	html += "<td><a href='#{showpath}/#{obj.id}/edit' class='btn btn-info'>Edit</a> </td>"
+		        else
+		        	html += "<td><a href='#{showpath}/#{obj.id}' class='btn btn-info'>Show</a> </td>"
+		    	end
+		    	if assumable
+		    		if obj.agent == current_user
+		    			html += "<td><a href='#{showpath}/#{obj.id}/release' class='btn btn-danger'>Release</a> </td>"
+		    		else
+		    			html += "<td><a href='#{showpath}/#{obj.id}/assume' class='btn btn-success'>Assume</a> </td>"
+		    		end
+		    	end
+		      html += "</tr>"
+		    end
+		end
+		html += "</tbody>
+		</table>		  
+		<div id='#{object.class}hidden'>
+		  	<input type='hidden' name='direction' value='#{directionparam}'></input>
+		  	<input type='hidden' name='sort' value='#{sortparam}'></input>
+			
+			#{will_paginate object}
+		  </div>
+		</form>"
 	end
 
 end

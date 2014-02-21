@@ -1,10 +1,19 @@
 class OrdersController < ApplicationController
+  load_and_authorize_resource
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
   # GET /orders
   # GET /orders.json
-  def index
-    @orders = Order.where('installation_id IS NULL')
+  def index    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @orders = Order.where('installation_id IS NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
   # GET /orders/1
@@ -23,7 +32,7 @@ class OrdersController < ApplicationController
 
   def convert
     @assignment = Assignment.find(params[:assignment_id])
-    @order = Order.new(:subject => @assignment.subject)
+    @order = Order.new(:subject => @assignment.subject, :body => @assignment.body)
     @order.customer = @assignment.customer
     @order.assignment = @assignment
     @order.installationprice = @assignment.installationprice
@@ -37,7 +46,7 @@ class OrdersController < ApplicationController
     @assignment.order = @order
     @assignment.save
 
-    redirect_to edit_order_path(@order)
+    redirect_to @order
   end
 
   # POST /orders

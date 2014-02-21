@@ -2,10 +2,15 @@
 
 FactoryGirl.define do
   factory :note do
-    subject "MyString"
-    body "MyText"
-    stateid 1
-    imageurl "MyText"
-    businessprocessid 1
+    sequence(:subject) {|n| "My Note Nr. #{n}"}
+    body "Dies ist meine tolle Notiz. Bitte beachte mich!"
+    user {FactoryGirl.create(:customer)}
+    request nil
+	offer nil
+	bugreport nil
+	assignment nil
+	order nil
+	installation nil
+	invoice nil
   end
 end

@@ -25,13 +25,16 @@
 </table>
 
 <%= show_positions(@assignment).html_safe%>
-
-<%= show_notes(@assignment.offer.request).html_safe%>
+<% 
+if @assignment.order == nil
+  noteButton = "request"
+end %>
+<%= show_notes(@assignment.offer.request, noteButton, @assignment.id).html_safe%>
 
 <h3>Total: <%= calcTotalPrice(@assignment)  %></h3>
 
-<% if @assignment.agent == current_user %>
-  <%= link_to "Place order", convert_order_path(:assignment_id => @assignment.id) , :class => "btn btn-success" %>
+<% if @assignment.agent == current_user  and @assignment.order == nil %>
+  <%= link_to "Place order", convert_orders_path(:assignment_id => @assignment.id) , :class => "btn btn-success" %>
 <% end %>
 
 

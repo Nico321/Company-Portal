@@ -1,6 +1,7 @@
 class NotesController < ApplicationController
+  load_and_authorize_resource
   before_action :set_note, only: [:show, :edit, :update, :destroy]
-
+ 
   # GET /notes
   # GET /notes.json
   def index
@@ -40,6 +41,10 @@ class NotesController < ApplicationController
           format.html { redirect_to @note.assignment, notice: 'Note was successfully created.' }
         elsif @note.order
           format.html { redirect_to @note.order, notice: 'Note was successfully created.' }
+        elsif @note.installation
+          format.html { redirect_to @note.installation, notice: 'Note was successfully created.' }
+        elsif @note.invoice
+          format.html { redirect_to @note.invoice, notice: 'Note was successfully created.' }
         end
         format.json { render action: 'show', status: :created, location: @note }
       else
@@ -81,6 +86,6 @@ class NotesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
-      params.require(:note).permit(:subject, :body, :imageurl, :request_id, :offer_id, :bugreport_id, :assignment_id, :order_id)
+      params.require(:note).permit(:subject, :body, :imageurl, :request_id, :offer_id, :bugreport_id, :assignment_id, :order_id, :installation_id, :invoice_id)
     end
 end

@@ -31,6 +31,13 @@ Things you may want to cover:
 	7. bundle install
 	8. bundle update
 
+* Dependency for wicked_pdf
+	1. sudo aptitude install openssl build-essential xorg libssl-dev
+	2. wget http://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.9.9-static-amd64.tar.bz2
+	3. tar xvjf wkhtmltopdf-0.9.9-static-amd64.tar.bz2
+	4. sudo mv wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf
+	5. sudo chmod +x /usr/local/bin/wkhtmltopdf
+
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.

@@ -4,8 +4,16 @@
 
 <%= show_positions(@offer).html_safe%>
 
-<%= show_notes(@offer.request).html_safe%>
+<%
+ if @offer.assignment == nil
+ 	noteButton = "offer"
+ end
+%>
+
+<%= show_notes(@offer.request, noteButton, @offer.id).html_safe%>
 
 <h3>Total: <%= calcTotalPrice(@offer)  %></h3>
 
-<%= link_to "Publish", publish_offer_path(@offer), :class => "btn btn-primary" %>
+<% if @offer.agent == current_user %>
+	<%= link_to "Publish", publish_offer_path(@offer), :class => "btn btn-primary" %>
+<% end %>

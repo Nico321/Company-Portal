@@ -5,6 +5,8 @@ class Note < ActiveRecord::Base
 	belongs_to :bugreport
 	belongs_to :assignment
 	belongs_to :order
+	belongs_to :installation
+	belongs_to :invoice
 
 	validates :user, presence: true
 end

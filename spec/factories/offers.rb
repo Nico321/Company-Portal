@@ -2,9 +2,10 @@
 
 FactoryGirl.define do
   factory :offer do
-    subject "MyString"
+    sequence(:subject) {|n| "My Offer Nr. #{n}"}
     body "MyText"
     installationprice "9.99"
-    publication "2014-01-12"
+    customer {FactoryGirl.create(:customer)}
+    request {FactoryGirl.create(:request, customer: customer)}
   end
 end

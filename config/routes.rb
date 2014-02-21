@@ -1,13 +1,53 @@
 CompanyPortal::Application.routes.draw do
 
+  get "archive/index"
 
+  resources :payment_notifications do
+    collection do
+      post 'ipn_notification'
+    end
+  end
+
+  resources :invoices do
+    collection do
+      get 'convert'
+    end
+    member do
+      get 'payed'
+    end
+  end
+
+  resources :installations do    
+    collection do
+      get 'open'
+      get 'unassumed'
+      get 'assumed'
+      get 'convert'
+    end
+    member do
+      get 'assume'
+      get 'release'
+    end
+  end
+
+  resources :installations do
+    collection do
+      get 'open'
+      get 'unassumed'
+      get 'assumed'
+      get 'convert'
+    end
+    member do
+      get 'assume'
+      get 'release'
+    end
+  end
+  
   ActiveAdmin.routes(self)
 
   resources :orders do
     collection do
       get 'delayed'
-    end
-    member do
       get 'convert'
     end
   end
@@ -29,9 +69,9 @@ CompanyPortal::Application.routes.draw do
       get 'open'
       get 'unassumed'
       get 'assumed'
+      get 'convert'
     end
     member do
-      get 'convert'
       get 'assume'
       get 'release'
     end
@@ -39,11 +79,15 @@ CompanyPortal::Application.routes.draw do
  
 
 get 'reporting', controller: "reporting", action: "index"
-get "reporting/bugreport", controller: "reporting", action:"bugreport"
-get "reporting/process", controller: "reporting", action:"process"
+
+
 get "reporting/shop", controller: "reporting", action:"shop"
-get "reporting/user", controller: "reporting", action:"user"
+get  "reporting/user", controller: "reporting", action:"user"
+post "reporting/user", controller: "reporting", action:"user"
+get  "reporting/bugreport", controller: "reporting", action:"bugreport"
 post "reporting/bugreport", controller: "reporting", action:"bugreport"
+get  "reporting/businessprocess", controller: "reporting", action:"businessprocess"
+post "reporting/businessprocess", controller: "reporting", action:"businessprocess"
 
   resources :positions do
     member do
@@ -58,9 +102,9 @@ post "reporting/bugreport", controller: "reporting", action:"bugreport"
       get 'unassumed'
       get 'assumed'
       get 'pending'
+      get 'convert'
     end
     member do
-      get 'convert'
       get 'assume'
       get 'release'
       get 'publish'

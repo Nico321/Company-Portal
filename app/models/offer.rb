@@ -9,4 +9,12 @@ class Offer < ActiveRecord::Base
 	has_many :positions
 
 	validates :customer, :subject, :request, presence: true
+	
+	def self.search(search)
+	  if search
+	    where('subject LIKE ?', "%#{search}%")
+	  else
+	    all
+	  end
+	end
 end

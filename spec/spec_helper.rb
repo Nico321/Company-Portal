@@ -42,13 +42,23 @@ RSpec.configure do |config|
   config.include IntegrationTestHelper, type: :feature
 end
 
- 
- 
-def login
-  visit  new_user_registration_path
-  fill_in "user_email", with: "test@test.de"
-  fill_in "user_password", with: "testtest"
-  fill_in "user_password_confirmation", with: "testtest"
-  click_button "Sign up"
 
+def login(user)
+  visit root_path
+  click_link 'Sign in'
+  fill_in "user_email", with: user.email
+  fill_in "user_password", with: 'testtest'
+  click_button 'Sign in'
+end
+
+def logout
+  visit root_path
+  click_link 'Sign out'
+end
+
+def addNote
+    click_link "Add a note"
+    fill_in "note_subject", with: "myTestNote"
+    fill_in "note_body", with: "myTestNote"
+    click_button "Add note"
 end

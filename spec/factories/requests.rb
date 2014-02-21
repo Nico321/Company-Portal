@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :request do
-    subject "MyString"
-    body "MyText"
+  	sequence(:subject) {|n| "My Request #{n}"}
+    body "Ich haette gerne einen neuen Server und 5 Computer"
     urgency 1
-    customer c
+    customer {FactoryGirl.create(:customer)}
   end
 end
