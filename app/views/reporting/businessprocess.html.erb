@@ -4,18 +4,65 @@
 		<title>Reporting Process</title>
 	</head>
 	<body>
-		<%= form_tag({:controller => "reporting", :action => "businessprocess"}, :method => "post")      do %>
-			<%= select_tag(:info, options_for_select([['All', 0],['Year', 1], ['Day', 2]])) %>
-			<%= submit_tag "Choose" %>
-
+	<%= @test %><br>
+	<%= @test1 %><br>
+	 <h2>Reporting: Businessprocess </h2>
+		<div class="container">
 			<div class="row">
-				<div class="col-md-8">
-					<%= @chart %>
+				<div class="span8">
+					<%= form_tag({:controller => "reporting", :action => "businessprocess"}, :method => "post")      do %>
+						<%= select_tag(:info, options_for_select([['All', 0],['Year', 1], ['Day', 2]])) %>
+						<%= submit_tag "Choose" %>
+						<div class="row">
+							<div class="col-md-8">
+								<table class="table table-hover">
+									<tr>
+										<td><img src="<%= @chart1 %>"></td>
+										<td><img src="<%= @chart2 %>"></td>
+									</tr>
+								  <tr>
+									<td><b>Description</b></td>
+									<td><b>Content</b></td>
+								  </tr>
+									<tr>
+										<td>Offers to Assignment: </td>
+										<td><%= @OtA %>%</td>
+									</tr>
+									<tr>
+										<td>payed Invoices: </td>
+										<td><%= @Opayed %>%</td>
+									</tr>
+									<tr>
+										<td>Average order volume: </td>
+										<td><%= @Ovolume %>€</td>
+									</tr>
+									<tr>
+										<td>Sales volume: </td>
+										<td><%= @Avolume %></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					<% end %>
 				</div>
-  				<div class="col-md-4">
-
-  				</div>
+				<div class="span4">
+					<h4>Best customers</h4>
+					<% if !@customer.blank? %>
+							<% if !@customer.blank? %>
+							  <% for customer in @customer do %>
+							  		<% if customer[0] != nil %>
+								       <b>
+								    	<%= User.where("id like '#{customer[0]}'").first.firstname %>
+								    	<%= User.where("id like '#{customer[0]}'").first.lastname %><br>
+								       </b>
+								    	<%= User.where("id like '#{customer[0]}'").first.phone %><br>
+								    	Hightest Order: <%=customer[1] %>
+							  		<% end %>
+							  <% end %>
+							<% end %>				  
+					<% end %>
+				</div>
 			</div>
-		<% end %>
+		</div>
 	</body>
 </html>

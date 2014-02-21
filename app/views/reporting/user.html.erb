@@ -4,6 +4,56 @@
 		<title>Reporting User</title>
 	</head>
 	<body>
-		
+		<h2>Reporting: User </h2>
+		<div class="container">
+			<div class="row">
+			 	<div class="span8">
+				 <img src="<%= @chart %>">
+				 	<table class="table-bordered">
+						<tr>
+							<td><b>Position</b></td>
+							<td><b>number of</b></td>
+							<td><b>percentage</b></td>
+						</tr>
+						 <% if !@user.blank? %>
+						  <% for user in @user %>
+						    <tr>
+								<td><%= user[1] %></td>
+								<% if user[0].count == 0 %>
+									<td><b>-none-</b></td>
+									<td><b>-</b></td>
+								 <% elsif %>
+									<td>   <%= user[0].count %></td>
+									<td>   <%= (user[0].count.to_d/User.count.to_d) *100 %>%</td>
+								<% end %>
+							</tr>
+						  <% end %>
+						<% end %>
+					</table>
+				</div>
+				<div class="span4">
+					<%= form_tag({:controller => "reporting", :action => "user"}, :method => "post")      do %>
+					<%= select_tag(:value, options_for_select([['Superadmins', 0],['Sales', 1], ['Customers', 2], ['Accounted', 3], ['Technicans', 4]])) %>
+					<%= submit_tag "Choose" %>
+					<% end %>
+
+					<% if !@list.blank? %>
+						<% @list[0].each do |user| %>
+							<table class="table-bordered">
+								<tr>
+								<td>
+								<b><%= user.firstname %>
+								<%= user.lastname %></b>
+								<br>
+								Phone: <%= user.phone %>
+								</td>
+								</tr>
+							</table>
+							<br>
+						<% end %>		  
+					<% end %>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

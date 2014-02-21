@@ -12,24 +12,33 @@ class ReportingController < ApplicationController
 			@allAverageTimeBug = (summe/ Bugreport.all.count(:closed)/60).round
 		end
 		@openBugreports = Bugreport.all.count(:agent == nil)
-		@requestQuantity = Request.all.count
-		@offerQuantity = Offer.all.count
 		@userAll = User.all.count
 		@userOnline = User.online.count
+		if Installation.where("installationdate = '#{Time.now.year}-%#{(Time.now.month)-1}-%'").count.to_d == 0
+			@installations = "cant be solved"
+		 else
+			@installations = (Installation.where("installationdate > '#{Time.now.year}-%#{Time.now.month}-%'").count.to_d / Installation.where("installationdate = '#{Time.now.year}-%#{(Time.now.month)-1}-%'").count.to_d)-1
+		end
+		@userOnline = User.online.count
+		if Request.where("created_at = '#{Time.now.year}-%#{(Time.now.month)-1}-%'").count.to_d == 0
+			@requests = "cant be solved"
+		 else
+			@requests = (Request.where("created_at > '#{Time.now.year}-%#{Time.now.month}-%'").count.to_d / Request.where("created_at = '#{Time.now.year}-%#{(Time.now.month)-1}-%'").count.to_d)-1
+		end
 	end
 
 #------------------------------------------------------------------------------
 #General funktions
 #------------------------------------------------------------------------------
-	def createBarChart(size, title, barColor1, barColor2, legend1, legend2, data_array, max, axis_labels)
+	def createBarChart(size, title, barColor, legend, data_array, max, axis_labels)
 		#creates a Bar Chart with given parameters from bugreport method
 		if data_array != nil
 			chart = Gchart.bar(
 	            :size => size,
-	            :bar_colors => [barColor1, barColor2],
+	            :bar_colors => barColor,
 	            :title => title,
-	            :bg => 'EFEFEF',
-	            :legend => [legend1, legend2],
+	            :bg => 'FFFFFF',
+	            :legend => legend,
 	            :data => data_array,
 	            :stacked => false,
 	            :max_value => max,
@@ -42,6 +51,29 @@ class ReportingController < ApplicationController
 	        return chart
 		end
 	end
+
+	def createMeterChart(title, data, lable)
+		if !data.blank?
+			chart = Gchart.meter(
+				:title => title,
+				:data 	=> [data],
+				:lable 	=> "#{lable}",
+			)
+		end
+		return chart
+	end
+
+	def createPieChart(size, title, data, lable)
+		if !data.blank?
+			chart = Gchart.pie_3d(
+				:title => title, 
+				:size => size,
+	            :data => data,
+	            :labels => lable
+        	)
+		end
+        return chart
+	end
 #------------------------------------------------------------------------------
 #Bugreport Methods
 #------------------------------------------------------------------------------
@@ -51,11 +83,11 @@ class ReportingController < ApplicationController
 		@mydata = params[:value]
 		case @mydata
 			when "0"
-				@chart =	createBarChart("400x400", "Created/Closed", "FF0000", "008000", "Created", "Closed", bugreportsShow(0,0,0),Bugreport.all.count, ["All"])			
+				@chart =	createBarChart("400x400", "Created/Closed", ["FF0000", "008000"], ["Created", "Closed"], bugreportsShow(0,0,0),Bugreport.all.count, ["All"])			
 			when "1"
-				@chart =	createBarChart("650x400","Created/Closed", "FF0000", "008000", "Created", "Closed", bugreportsShow(Time.now.year,0,0), Bugreport.all.count, [["Jan", "Feb", "Mar", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]])
+				@chart =	createBarChart("650x400", "Created/Closed", ["FF0000", "008000"], ["Created", "Closed"], bugreportsShow(Time.now.year,0,0), Bugreport.all.count, [["Jan", "Feb", "Mar", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]])
 			when "2"
-				@chart = 	createBarChart("750x400","Created/Closed", "FF0000", "008000", "Created", "Closed", bugreportsShow(Time.now.year,Time.now.month,Time.now.day), Bugreport.all.count, [["-12","-11","-10", "-9","-8","-7", "-6", "-5", "-4", "-3", "-2", "-1"]])
+				@chart = 	createBarChart("750x400", "Created/Closed", ["FF0000", "008000"], ["Created", "Closed"], bugreportsShow(Time.now.year,Time.now.month,Time.now.day), Bugreport.all.count, [["-12","-11","-10", "-9","-8","-7", "-6", "-5", "-4", "-3", "-2", "-1"]])
 		end
 		@agents = EmployeeQuantity()
 	end
@@ -126,62 +158,238 @@ class ReportingController < ApplicationController
 #Businessprocess Methods
 #------------------------------------------------------------------------------
 	def businessprocess
+		array = getBusinessprocessData("0")
 		@info = params[:info]
 		case @info
 		 when "0"
-			@test =3
+		 	array = getBusinessprocessData("0")
 		 when "1"
-			@test =3
-		 when "2"
-			@test =3
-		end
+			legend = Array.new(2)
+		 	legend[0] = "Last Year"
+		 	legend[1] = "Actual Year"
+			array = getBusinessprocessData("year")
+			arrayPast = getBusinessprocessData("lastYear")
 
-		@infos = getBusinessprocessData
-		
+		 when "2"
+		 	legend = Array.new(2)
+		 	legend[0] = "yesterday"
+		 	legend[1] = "today"
+			array = getBusinessprocessData("day")
+			arrayPast = getBusinessprocessData("lastDay")
+		end
+			if arrayPast != nil	
+				i = 0
+				big = 0
+				until i == 5
+					if array != nil && arrayPast != nil
+					 if array[i][0] != nil && arrayPast[i][0] != nil
+						if array[i][0] < arrayPast[i][0]
+							if arrayPast[i][0] > big
+								big = arrayPast[i][0]
+							end
+						 else
+						 	if array[i][0] > big
+								big = array[i][0]
+							end
+						end
+					 end
+					end
+				i +=1
+				end
+				@chart1 = createBarChart("400x400", "Comparison", ["FF0000", "00FF00", "AEDCDE", "0000FF", "330000","7446E9"], ["Requests", "Offers", "Assignments", "Orders", "Installations", "Invoices"], [[arrayPast[0][0],array[0][0]], [arrayPast[1][0], array[1][0]], [arrayPast[2][0], array[2][0]], [arrayPast[3][0], array[3][0]], [arrayPast[4][0], array[4][0]], [arrayPast[5][0], array[5][0]]], big, [legend])			
+			end
+			@chart2 = createMeterChart("Positions in time", array[6], 0)
+			@OtA  = (array[2].first.to_f / array[2][1])*100.to_f
+			@Opayed =  (array[5][2].to_f / array[3][1])*100.to_f
+			@customer = array[7]
+			@Ovolume = array[3][0]
+			@Avolume = array[5][3]
 	end
 
-	def getBusinessprocessData
-		main			= Array.new(6)  #Array for all processsteps
+	def getBusinessprocessData(time)
+		if time == "year"
+			t = Time.now.year
+			y = Time.now.year
+			m = 0
+			d = 0
+			ymd = "created_at like '#{y}-%'"
+			pay = "payed like '#{y}%'"
+		 elsif time == "day"
+		 	t = Time.local(Time.now.year, Time.now.month, Time.now.day)
+		 	y = Time.now.year
+			m = Time.now.month
+			d = Time.now.day
+			if d < 10 && m < 10
+				ymd = "created_at like '#{y}-0#{m}-0#{d} %'"
+				pay = "payed like '#{y}-0#{m}-0#{d} %'"
+			 elsif d < 10
+				ymd = "created_at like '#{y}-#{m}-0#{d} %'"
+				pay = "payed like '#{y}-#{m}-0#{d} %'"
+			 elsif m < 10
+				ymd = "created_at like '#{y}-0#{m}-#{d} %'"
+				pay = "payed like '#{y}-0#{m}-#{d} %'"
+			 else	
+				ymd = "created_at like '#{y}-#{m}-#{d} %'"
+				pay = "payed like '#{y}-%#{m}-#{d} %'"
+			end
+		 elsif time == 0		 	
+		 	t = 0
+		 	y = 0
+			m = 0
+			d = 0
+			ymd = "created_at > '#{y}-%#{m}-%#{d} %'"
+			pay = "payed is not null"
+		 elsif time == "lastYear"
+		 	t = (Time.now.year)-1
+			y = (Time.now.year)-1
+			m = 0
+			d = 0
+			ymd = "created_at like '#{y}-%'"
+			pay = "payed like '#{y}%'"
+		 elsif time == "lastDay"
+		 	t = Time.local(Time.now.year, Time.now.month, Time.now.day)
+		 	y = Time.now.year
+			m = Time.now.month
+			d = (Time.now.day)-1
+			if d < 10 && m < 10
+				ymd = "created_at like 	'#{y}-0#{m}-0#{d} %'"
+				pay = "payed like 		'#{y}-0#{m}-0#{d} %'"
+			 elsif d < 10
+				ymd = "created_at like 	'#{y}-#{m}-0#{d} %'"
+				pay = "payed like		'#{y}-#{m}-0#{d} %'"
+			 elsif m < 10
+				ymd = "created_at like 	'#{y}-0#{m}-#{d} %'"
+				pay = "payed like 		'#{y}-0#{m}-#{d} %'"
+			 else	
+				ymd = "created_at like 	'#{y}-#{m}-#{d} %'"
+				pay = "payed like 		'#{y}-%#{m}-#{d} %'"
+			end
+		end	
+
+		main			= Array.new(8)  #Array for all processsteps
 		requests 		= Array.new(3) #all, open, unassumed
 		offers			= Array.new(3) #all, open, unassumed
 		assignments		= Array.new(3) #all, open, unassumed
-		orders			= Array.new(5)
+		orders			= Array.new(5) #installationprice, all
 		installations	= Array.new(4) #all, open, unassumed, installed
-		invoices		= Array.new(5) #all payed -> nil nicht bezahlt (date feld)
+		invoices		= Array.new(4) #all payed -> nil nicht bezahlt (date feld)
+		positions		= 0
 
-		requests[0] 	= Request.count
-		requests[1] 	= Request.where("offer_id is null").count
-		requests[2] 	= Request.where("agent_id is null").count
+		requests[0] 	= Request.where(ymd).count
+		requests[1] 	= Request.where("offer_id is null AND created_at >= '#{t}'").count
+		requests[2] 	= Request.where("agent_id is null AND created_at >= '#{t}'").count
 
-		offers[0] 		= Offer.count
-		offers[1] 		= Offer.where("assignment_id is null").count
-		offers[2] 		= Offer.where("agent_id is null").count
+		offers[0] 		= Offer.where(ymd).count
+		offers[1] 		= Offer.where("assignment_id is null AND created_at >= '#{t}'").count
+		offers[2] 		= Offer.where("agent_id is null AND created_at >= '#{t}'").count
 
-		assignments[0] 	= Assignment.count
-		assignments[1]	= Assignment.where("order_id is null").count
-		assignments[2] 	= Assignment.where("agent_id is null").count
+		assignments[0] 	= Assignment.where(ymd).count
+		assignments[1]	= Assignment.where("order_id is not null AND created_at >= '#{t}'").count
+		assignments[2] 	= Assignment.where("agent_id is null AND created_at >= '#{t}'").count
 
-			orders[0] = 0
+			orders[1] = 0
 			if !Order.all.blank?
-			   for order in Order.all
+				div = 0
+			   for order in Order.all.where(ymd)
 			   	if !order.blank?
-					orders[0] += order.installationprice
+					orders[1] += order.installationprice
+					div += 1
+				end
+			   end
+				if div == 0
+					orders[1] = 0
+				 else
+				 	orders[1] = orders[1] / div
+				end
+			end
+			orders[0] = Order.count
+
+		installations[0] 	= Installation.where(ymd).count
+		installations[1]	= Installation.where("invoice_id is null AND created_at >= '#{t}'").count
+		installations[2] 	= Installation.where("agent_id is null AND created_at >= '#{t}'").count
+		installations[3]	= Installation.where("installationdate < #{Time.now.year}-#{Time.now.month}-#{Time.now.day} AND created_at >= '#{t}'").count
+
+		invoices[0]	= Invoice.where(ymd).count
+		invoices[1] = Invoice.where("payed is null AND created_at >= '#{t}'").count
+		invoices[2] = Invoice.where("payed is not null AND created_at >= '#{t}'").count
+		invoices[3] = 0
+
+		Invoice.all.where(ymd).each do |invoice|
+			sumPos=0
+			invoice.positions.each do |pos|
+				sumPos += pos.article.price
+			end
+			sumPos += invoice.installationprice
+			invoices[3] += sumPos
+		end
+
+		if !Position.all.blank?
+			   for position in Position.all
+			   	if !position.blank?
+					positions += (position.deliverydate - position.arrived.to_date).to_i
 				end
 			   end 
 			 end
 
-		installations[0] 	= Installation.count
-		installations[1]	= Installation.where("invoice_id is null").count
-		installations[2] 	= Installation.where("agent_id is null").count
-		installations[3]	= Installation.where("installationdate < #{Time.now.year}-#{Time.now.month}-#{Time.now.day}").count		
-
+		if !Invoice.all.blank?
+			customer = Array.new((User.all).count){Array.new(2)}
+			i=0
+			 for invoice in Invoice.all.where(pay)
+			   	customer[i][0] = invoice.customer_id
+			   	customer[i][1] = invoice.installationprice
+				   	if !invoice.blank?
+						invoice.positions.each do |pos|
+							customer[i][1] += pos.article.price
+						end
+					end
+			 i +=1
+			end	
+			customer[1].sort 
+		end
+		
+		# to return only one array
 		main[0] = requests
 		main[1] = offers
 		main[2] = assignments
 		main[3] = orders
 		main[4] = installations
 		main[5] = invoices
-
+		main[6] = positions
+		main[7] = customer
 		return main
+	end
+
+#------------------------------------------------------------------------------
+#User Methods
+#------------------------------------------------------------------------------
+	def user
+		@user = getUserInfos
+		@chart = createPieChart("400x200", "user spreading", [getUserInfos[0][0].count,getUserInfos[1][0].count,getUserInfos[2][0].count,getUserInfos[3][0].count,getUserInfos[4][0].count], [getUserInfos[0][1], getUserInfos[1][1],getUserInfos[2][1], getUserInfos[3][1], getUserInfos[4][1]])
+	
+		@mydata = params[:value]
+		case @mydata
+			when "0"
+				@list = getUserInfos[0]
+			when "1"		
+			when "2"
+			when "3"
+			when "4"		
+		end
+	end
+
+	def getUserInfos
+		user = Array.new(5){Array.new(2)}
+		user[0][0] = (User.with_role :superadmin)
+		user[1][0] = (User.with_role :sales)
+		user[2][0] = (User.with_role :customer)
+		user[3][0] = (User.with_role :accountend)
+		user[4][0] = (User.with_role :technican)
+
+		user[0][1] = "superadmin"
+		user[1][1] = "sales"
+		user[2][1] = "customer"
+		user[3][1] = "accountend"
+		user[4][1] = "technican"
+	 return user
 	end
 end

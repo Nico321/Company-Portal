@@ -7,7 +7,7 @@
 		<h1>Reporting</h1>
 	
 			<div class="row">
-				<div class="col-xs-6">
+				<div class="span6">
 					<div class="thumbnail">
 						<div class="caption">
 							<h4><%= link_to 'Bugreports', reporting_bugreport_path %></h4>
@@ -24,22 +24,18 @@
 						</div>
 					</div>
 				</div>	
-				<div class="col-xs-6">
+				<div class="span6">
 					<div class="thumbnail">
 						<h4><%= link_to 'Businessprocess', reporting_businessprocess_path %></h4>
 						<div class="caption">
 							<table class="table table-hover">
 				    			<tr>
-						    	   <td>Request to offer:</td>
-								   <td><%= @allAverageTimeBug %></td>
+						    	   <td>rate of increase of Installations:</td>
+								   <td><%= @installations %></td>
 								</tr>
 								<tr>
-								    <td>Requests</td>
-								    <td><%= @requestQuantity %></td>
-								</tr>
-								<tr>
-								    <td>Offers</td>
-								    <td><%= @offerQuantity %></td>
+								    <td>rate of increase of Requests:</td>
+								    <td><%= @requests %></td>
 								</tr>
 			    			</table>
 						</div>
@@ -47,7 +43,8 @@
 				</div>	
 			</div>
 			<div class="row">
-				<div class="col-xs-6">
+				<div class="span6">
+				 <br>
 					<div class="thumbnail">
 						<h4><%= link_to 'Shop', reporting_shop_path %></h4>
 						<div class="caption">
@@ -63,8 +60,9 @@
 			    			</table>
 						</div>
 					</div>
-				</div>	
-				<div class="col-xs-6">
+				</div>
+				<br>	
+				<div class="span6">
 					<div class="thumbnail">
 						<h4><%= link_to 'User', reporting_user_path %></h4>
 						<div class="caption">

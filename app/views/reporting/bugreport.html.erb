@@ -4,22 +4,22 @@
 		<title>Reporting Bugreports</title>
 	</head>
 	<body>
-		<div class="container-fluid">
+	  <h2>Reporting: Bugreports </h2>
+		<div class="container">
 			<div class="row">
-				<div class="col-md-8">
+				<div class="span8">
 					<%= form_tag({:controller => "reporting", :action => "bugreport"}, :method => "post")      do %>
-					<%= select_tag(:value, options_for_select([['All', 0],['Year', 1], ['Day', 2]])) %>
+					<%= select_tag(:value, options_for_select([['All', 0],['Year', 1], ['Last 12 hours', 2]])) %>
 					<%= submit_tag "Choose" %>
 					<% end %>
 					<img src ="<%= @chart %>">
 				</div>
 
-				<div class="col-md-4">
+				<div class="span4">
 				<h4> List of Agent's </h4>
 				<% if @agents != nil%>
 					<% @agents.each do |agent| %>
 						<% if agent != nil %>
-							<div class="col-md-4">
 								<b><%= User.find(agent).firstname %>
 								<%= User.find(agent).lastname %></b><br>
 								<%= User.find(agent).phone %><br>
@@ -29,7 +29,6 @@
 									<% end %>
 								Assumed Reports: <%= Bugreport.where("agent_id like '?'", agent).count %><br>
 								<% end %>
-							</div>
 						<% end %>
 					<% end %>
 				<% end %>

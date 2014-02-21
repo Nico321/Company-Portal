@@ -14,24 +14,24 @@ describe "Reporting" do
 	it "Bugreports link" do				
 		click_link "Reporting"
 		click_link "Bugreports"
-		page.should have_content "Bugreports"
+		page.should have_content "Reporting: Bugreports"
 	end
 
-	it "Process link" do		
+	it "Businessprocess link" do		
 		click_link "Reporting"
-		click_link "Process"
-		page.should have_content "Process"
+		click_link "Businessprocess"
+		page.should have_content "Reporting: Businessprocess"
 	end
 
 	it "Shop link" do		
 		click_link "Reporting"
 		click_link "Shop"
-		page.should have_content "Shop"
+		page.should have_content "Reporting: Shop"
 	end
 
 	it "User link" do		
 		click_link "Reporting"
 		click_link "User"
-		page.should have_content "User"
+		page.should have_content "Reporting: User"
 	end
 end
