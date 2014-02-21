@@ -11,7 +11,10 @@ class Ability
                 can :create,  Bugreport
   		can :open, Bugreport
 		can :show, Bugreport
-                
+
+           if user.has_role(nil)
+   		user.add_role :customer
+           end     
      		
 	   #sales
            if user.has_role?(:sales)   
@@ -45,8 +48,10 @@ class Ability
 		can :assumed, Request
                 can :create,  Request
   		can :open, Request  
+                can :show, Request 
 		can :read, Invoice   
-		can :open, Installation          	
+		can :open, Installation
+  		can :manage, Note          	
            end
 
             # issue with the admin role doesn't get the right role if not commentend
