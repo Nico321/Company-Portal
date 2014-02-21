@@ -42,49 +42,23 @@ RSpec.configure do |config|
   config.include IntegrationTestHelper, type: :feature
 end
 
- 
- 
-def login
-  visit  new_user_registration_path
-  fill_in "user_email", with: "test@test.de"
-  fill_in "user_password", with: "testtest"
-  fill_in "user_password_confirmation", with: "testtest"
-  click_button "Sign up"
 
-end
-
-def login_superadmin
+def login(user)
+  visit root_path
   click_link 'Sign in'
-  fill_in "user_email", with: 'superadmin@example.com'
-  fill_in "user_password", with: 'testtest'
-  click_button 'Sign in'
- end
-
-def login_sales
-  click_link 'Sign in'
-  fill_in "user_email", with: 'sales@example.com'
+  fill_in "user_email", with: user.email
   fill_in "user_password", with: 'testtest'
   click_button 'Sign in'
 end
 
-def login_customer
-  click_link 'Sign in'
-  fill_in "user_email", with: 'customer@example.com'
-  fill_in "user_password", with: 'testtest'
-  click_button 'Sign in'
-end
- 
-def login_accountend
-  click_link 'Sign in'
-  fill_in "user_email", with: 'accountend@example.com'
-  fill_in "user_password", with: 'testtest'
-  click_button 'Sign in'
+def logout
+  visit root_path
+  click_link 'Sign out'
 end
 
-def login_technican
-  click_link 'Sign in'
-  fill_in "user_email", with: 'technican@example.com'
-  fill_in "user_password", with: 'testtest'
-  click_button 'Sign in'
+def addNote
+    click_link "Add a note"
+    fill_in "note_subject", with: "myTestNote"
+    fill_in "note_body", with: "myTestNote"
+    click_button "Add note"
 end
-

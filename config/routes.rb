@@ -9,8 +9,10 @@ CompanyPortal::Application.routes.draw do
   end
 
   resources :invoices do
-    member do
+    collection do
       get 'convert'
+    end
+    member do
       get 'payed'
     end
   end
@@ -20,9 +22,9 @@ CompanyPortal::Application.routes.draw do
       get 'open'
       get 'unassumed'
       get 'assumed'
+      get 'convert'
     end
     member do
-      get 'convert'
       get 'assume'
       get 'release'
     end
@@ -33,9 +35,9 @@ CompanyPortal::Application.routes.draw do
       get 'open'
       get 'unassumed'
       get 'assumed'
+      get 'convert'
     end
     member do
-      get 'convert'
       get 'assume'
       get 'release'
     end
@@ -46,8 +48,6 @@ CompanyPortal::Application.routes.draw do
   resources :orders do
     collection do
       get 'delayed'
-    end
-    member do
       get 'convert'
     end
   end
@@ -57,9 +57,9 @@ CompanyPortal::Application.routes.draw do
       get 'open'
       get 'unassumed'
       get 'assumed'
+      get 'convert'
     end
     member do
-      get 'convert'
       get 'assume'
       get 'release'
     end
@@ -85,9 +85,9 @@ post "reporting/bugreport", controller: "reporting", action:"bugreport"
       get 'unassumed'
       get 'assumed'
       get 'pending'
+      get 'convert'
     end
     member do
-      get 'convert'
       get 'assume'
       get 'release'
       get 'publish'

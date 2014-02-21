@@ -3,10 +3,7 @@
 FactoryGirl.define do
   factory :article do
     name "MyString"
-    image "MyText"
     description "MyDescription"
-    price "0.01"
-    delivertime 1
-    supplierid 1
+    price "50"
   end
 end

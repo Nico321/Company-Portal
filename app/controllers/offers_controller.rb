@@ -77,7 +77,7 @@ class OffersController < ApplicationController
     @request.offer = @offer;
     @request.save
 
-    redirect_to edit_offer_path(@offer.id)
+    redirect_to edit_offer_path(@offer)
   end
 
   def pending    

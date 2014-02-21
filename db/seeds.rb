@@ -9,88 +9,127 @@
 
 ###########################################################
 #
-# Seeds for Request(Nico)
+# Seeds for Businessprocess(Nico)
 #
 ###########################################################
-if User.where("email like 'customer1@cp.de'").first == nil
-	cone = User.create!(:email => "customer1@cp.de", :password => "testtest")
-else
-	cone = User.where("email like 'customer1@cp.de'").first
+require 'factory_girl_rails'
+requests = Array.new
+offers = Array.new
+assignments = Array.new
+orders = Array.new
+installations = Array.new
+invoices = Array.new
+positions = Array.new
+
+sales = FactoryGirl.create(:sales)
+customer = FactoryGirl.create(:customer)
+
+63.times do |i|
+	requests.push FactoryGirl.create(:request, customer: customer)
+	FactoryGirl.create(:note, user: sales, request: requests[i])
+	FactoryGirl.create(:note, user: customer, request: requests[i])
 end
 
-if User.where("email like 'customer2@cp.de'").first == nil
-	ctwo = User.create!(:email => "customer2@cp.de", :password => "testtest")
-else
-	ctwo = User.where("email like 'customer2@cp.de'").first
+54.times do |i|
+	offers.push FactoryGirl.create(:offer, customer: customer, request: requests[i])
+	FactoryGirl.create(:note, user: sales, offer: offers[i])
+	FactoryGirl.create(:note, user: customer, offer: offers[i])
+	positions.push FactoryGirl.create(:position, offer: offers[i])
+	positions.push FactoryGirl.create(:position, offer: offers[i])
 end
 
-if User.where("email like 'employee1@cp.de'").first == nil
-	eone = User.create!(:email => "employee1@cp.de", :password => "testtest")
-else
-	eone = User.where("email like 'employee1@cp.de'").first
+45.times do |i|
+	assignments.push FactoryGirl.create(:assignment, customer: customer, offer: offers[i])
+	FactoryGirl.create(:note, user: sales, assignment: assignments[i])
+	FactoryGirl.create(:note, user: customer, assignment: assignments[i])
+	positions[i].assignment = assignments[i]
+	positions[i+1].assignment = assignments[i]
+	positions[i].save
+	positions[i+1].save
 end
 
-if User.where("email like 'employee2@cp.de'").first == nil
-	etwo = User.create!(:email => "employee2@cp.de", :password => "testtest")
-else
-	etwo = User.where("email like 'employee2@cp.de'").first
+36.times do |i|
+	orders.push FactoryGirl.create(:order, customer: customer, assignment: assignments[i])
+	FactoryGirl.create(:note, user: sales, order: orders[i])
+	FactoryGirl.create(:note, user: customer, order: orders[i])
+	positions[i].order = orders[i]
+	positions[i+1].order = orders[i]
+	positions[i].save
+	positions[i+1].save
 end
 
-requests = [Request.create!(:subject => "my Request1", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "1", :agent_id => eone.id),
-Request.create!(:subject => "my Request2", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "1", :agent_id => etwo.id),
-Request.create!(:subject => "my Request3", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "2", :agent_id => eone.id),
-Request.create!(:subject => "my Request4", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "2", :agent_id => etwo.id),
-Request.create!(:subject => "my Request5", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "3", :agent_id => eone.id),
-Request.create!(:subject => "my Request6", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "3", :agent_id => etwo.id)]
-
-requests.each do |r|
-	if r.customer.id == cone.id
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => cone.id,:request_id =>r.id)
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => eone.id,:request_id =>r.id)
-	else
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => ctwo.id,:request_id =>r.id)
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => etwo.id,:request_id =>r.id)
-	end
+27.times do |i|
+	installations.push FactoryGirl.create(:installation, customer: customer, order: orders[i])
+	FactoryGirl.create(:note, user: sales, installation: installations[i])
+	FactoryGirl.create(:note, user: customer, installation: installations[i])
 end
 
-offerrequests = [Request.create!(:subject => "my Request1", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "1", :agent_id => eone.id),
-Request.create!(:subject => "my Request2", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "1", :agent_id => etwo.id),
-Request.create!(:subject => "my Request3", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "2", :agent_id => eone.id),
-Request.create!(:subject => "my Request4", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "2", :agent_id => etwo.id),
-Request.create!(:subject => "my Request5", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "3", :agent_id => eone.id),
-Request.create!(:subject => "my Request6", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "3", :agent_id => etwo.id)]
-
-aserver = Article.create!(:name => "Server", :price => 200, :description => "Heftiger Server!")
-acomputer = Article.create!(:name => "Computer", :price => 100, :description => "Cooler Computer!")
-atasta = Article.create!(:name => "Tastatur", :price => 10, :description => "Coole Tastatur!")
-
-offerrequests.each do |oreq|
-	if oreq.customer.id == cone.id
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => cone.id,:request_id =>oreq.id)
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => eone.id,:request_id =>oreq.id)
-	else
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => ctwo.id,:request_id =>oreq.id)
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => etwo.id,:request_id =>oreq.id)
-	end
-	o = Offer.new(:subject => oreq.subject, :body => "Test Body", :customer_id => oreq.customer.id, :agent_id => oreq.agent.id)
-	o.request = oreq
-	o.save
-	Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => oreq.customer.id,:offer_id =>o.id)
-	Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => oreq.agent.id,:offer_id =>o.id)
-	Position.create!(:quantity => 5, :article_id =>aserver.id, :offer_id => o.id)
-	Position.create!(:quantity => 20, :article_id =>acomputer.id, :offer_id => o.id)
-	Position.create!(:quantity => 50, :article_id =>atasta.id, :offer_id => o.id)
+18.times do |i|
+	invoices.push FactoryGirl.create(:invoice, customer: customer, installation: installations[i])
+	FactoryGirl.create(:note, user: sales, invoice: invoices[i])
+	FactoryGirl.create(:note, user: customer, invoice: invoices[i])
+	positions[i].invoice = invoices[i]
+	positions[i+1].invoice = invoices[i]
+	positions[i].save
+	positions[i+1].save
 end
+
+9.times do |i|
+	invoices[i].payed = DateTime.now
+	invoices[i].save
+end
+
+
+#72.times do
+	#positions.push FactoryGirl.create(:position)
+#end
+
+#9.times do |i|
+#	requests.push FactoryGirl.create(:request)
+	#notes[i].request = requests.last
+	#notes[i].save
+	#offers.push FactoryGirl.create(:offer)
+	#notes[i+1].offer = offers.last
+	#notes[i+1].save
+	#positions[i].offer = offers.last
+	#positions[i+1].offer = offers.last
+	#positions[i].save
+	#positions[i+1].save
+	#assignments.push FactoryGirl.create(:assignment)
+	#notes[i+2].assignment = assignments.last
+	#notes[i+2].save
+	#positions[i+2].offer = offers.last
+	#positions[i+3].offer = offers.last
+	#positions[i+2].save
+	#positions[i+3].save
+	#orders.push FactoryGirl.create(:order)
+	#notes[i+3].order = orders.last
+	#notes[i+3].save
+	#positions[i+4].offer = offers.last
+	#positions[i+5].offer = offers.last
+	#positions[i+4].save
+	#positions[i+5].save
+	#installations.push FactoryGirl.create(:installaion)
+	#notes[i+4].installaion = installaion.last
+	#notes[i+4].save
+	#invoices.push FactoryGirl.create(:invoice)
+	#notes[i+5].invoice = invoices.last
+	#notes[i+5].save
+	#positions[i+6].offer = offers.last
+	#positions[i+7].offer = offers.last
+	#positions[i+6].save
+	#positions[i+7].save
+#end
 
 ###########################################################
 #
 # Seeds for Bugreports(Daniel)
 #
 ###########################################################
-b1 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone)
-b2 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo)
-b3 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone, :agent => ctwo)
-b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo, :agent => cone, :created_at =>"2013-02-03T04:05:06+07:00" ,:closed => "2013-02-03T09:05:06+07:00")
+#b1 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone)
+#b2 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo)
+#b3 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone, :agent => ctwo)
+#b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo, :agent => cone, :created_at =>"2013-02-03T04:05:06+07:00" ,:closed => "2013-02-03T09:05:06+07:00")
 
 ##################################
 #

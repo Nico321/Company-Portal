@@ -2,10 +2,9 @@
 
 FactoryGirl.define do
   factory :installation do
-    subject "MyString"
+    sequence(:subject) {|n| "My Installation Nr. #{n}"}
     body "MyText"
-    installationdate "2014-02-18"
-    invoice_id 1
-    order_id 1
+    customer {FactoryGirl.create(:customer)}
+    order {FactoryGirl.create(:order, customer: customer)}
   end
 end

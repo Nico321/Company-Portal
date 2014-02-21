@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :position do
     quantity 1
-    deliverydate "2014-01-13"
+    article {FactoryGirl.create(:article)}
+    offer {FactoryGirl.create(:offer)}
   end
 end

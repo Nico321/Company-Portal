@@ -1,154 +1,44 @@
 require 'spec_helper'
 
 describe "Order" do
-	context 'new order' do
-		it 'convert an assignment to an order' do
 
-			login
+	let!(:superadmin){FactoryGirl.create(:superadmin)}
+	let!(:order){FactoryGirl.create(:order)}
+	let!(:assignment){FactoryGirl.create(:assignment)}
+	let!(:article){FactoryGirl.create(:article)}
+	let!(:pos){FactoryGirl.create(:position)}
 
-			visit root_path
-			click_link "New request"
-			fill_in "request_subject", with: "myTest"
-			fill_in "request_body", with: "Test"
-			click_button "Senden"
-			visit unassumed_requests_path
-			click_link "Assume"
-			click_link "Show"
+	before :each do
+		login(superadmin)
+		pos.order = order
+		pos.offer = order.assignment.offer
+		pos.save
+	end
 
-			click_link "Create Offer"
-			visit unassumed_offers_path
-			click_link "Assume"
-			click_link "Edit"
+	it 'convert an assignment to an order' do
+		assignment.agent = superadmin
+		assignment.save
+		visit assignment_path(assignment)
 
-			click_link "Publish"
-			visit pending_offers_path
-			click_link "Show"
-			click_link "Accept"
+		expect{click_link "Place order"}.to change{Order.all.count}.by(1)
+	end
 
-			visit unassumed_assignments_path
-			click_link "Assume"
-			click_link "Show"
+	it 'update deliverydate' do
+		visit order_path(order)
 
-			expect{click_link "Place order"}.to change{Order.all.count}.by(1)
-		end
+		fill_in "deliverydate", with: DateTime.now.to_date.strftime("%Y-%m-%d")
+		expect{click_button "Update Deliverydate"}.to change{order.positions.first.deliverydate}
+	end
 
-		it 'update deliverydate' do
-			login
+	it 'mark position as arrived' do
+		visit order_path(order)
 
-			visit root_path
-			click_link "New request"
-			fill_in "request_subject", with: "myTest"
-			fill_in "request_body", with: "Test"
-			click_button "Senden"
-			visit unassumed_requests_path
-			click_link "Assume"
-			click_link "Show"
-			
-			Article.create(:name => "Server", :price => 100, :description => "Test")
-			click_link "Create Offer"
-			visit unassumed_offers_path
-			click_link "Assume"
-			click_link "Edit"
-			click_link "Add a position"
-			click_button "Add position"			
-			click_link "Add a position"
-			click_button "Add position"
+		expect{click_link "Arrived"}.to change{order.positions.first.arrived}
+	end
 
-			click_link "Publish"
-			visit pending_offers_path
-			click_link "Show"
-			click_link "Accept"
-
-			visit unassumed_assignments_path
-			click_link "Assume"
-			click_link "Show"
-			
-			click_link "Place order"
-			click_link "Show open orders"
-			click_link "Show"
-
-			fill_in "deliverydate", with: DateTime.now.to_date.strftime("%Y-%m-%d"), :match => :first
-			click_button "Update Deliverydate", :match => :first
-			page.should have_content "Deliverydate successfully updated."
-		end
-
-		it 'mark position as arrived' do
-			login
-
-			visit root_path
-			click_link "New request"
-			fill_in "request_subject", with: "myTest"
-			fill_in "request_body", with: "Test"
-			click_button "Senden"
-			visit unassumed_requests_path
-			click_link "Assume"
-			click_link "Show"
-			
-			Article.create(:name => "Server", :price => 100, :description => "Test")
-			click_link "Create Offer"
-			visit unassumed_offers_path
-			click_link "Assume"
-			click_link "Edit"
-			click_link "Add a position"
-			click_button "Add position"	
-			click_link "Add a position"
-			click_button "Add position"
-
-			click_link "Publish"
-			visit pending_offers_path
-			click_link "Show"
-			click_link "Accept"
-
-			visit unassumed_assignments_path
-			click_link "Assume"
-			click_link "Show"
-			
-			click_link "Place order"
-			click_link "Show open orders"
-			click_link "Show"
-
-			click_link "Arrived", :match => :first
-			page.should have_content "Position arrived."
-		end
-
-		it 'add a note to an order' do
-			login
-
-			visit root_path
-			click_link "New request"
-			fill_in "request_subject", with: "myTest"
-			fill_in "request_body", with: "Test"
-			click_button "Senden"
-			visit unassumed_requests_path
-			click_link "Assume"
-			click_link "Show"
-			
-			Article.create(:name => "Server", :price => 100, :description => "Test")
-			click_link "Create Offer"
-			visit unassumed_offers_path
-			click_link "Assume"
-			click_link "Edit"
-			click_link "Add a position"
-			click_button "Add position"
-
-			click_link "Publish"
-			visit pending_offers_path
-			click_link "Show"
-			click_link "Accept"
-
-			visit unassumed_assignments_path
-			click_link "Assume"
-			click_link "Show"
-			
-			click_link "Place order"
-			click_link "Show open orders"
-			click_link "Show"
-
-			click_link "Add a note"
-			fill_in "note_subject", with: "myTestNote"
-			fill_in "note_body", with: "myTestNote"
-			
-			expect{click_button "Add note"}.to change{Note.all.count}.by(1)
-		end
+	it 'add a note to an order' do
+		visit order_path(order)
+		
+		expect{addNote}.to change{Note.all.count}.by(1)
 	end
 end

@@ -2,11 +2,10 @@
 
 FactoryGirl.define do
   factory :invoice do
-    subject "MyString"
+    sequence(:subject) {|n| "My Invoice Nr. #{n}"}
     body "MyText"
-    installation_id 1
-    agent_id 1
-    customer_id 1
     installationprice "9.99"
+    customer {FactoryGirl.create(:customer)}
+    installation {FactoryGirl.create(:installation, customer: customer)}
   end
 end

@@ -81,7 +81,7 @@ class PositionsController < ApplicationController
     end
 
     if everythingArrived
-      redirect_to convert_installation_path(:order_id => @position.order.id)
+      redirect_to convert_installations_path(:order_id => @position.order.id)
     else
       redirect_to @position.order, notice: 'Position arrived.'
     end
