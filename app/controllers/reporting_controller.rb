@@ -206,9 +206,9 @@ load_and_authorize_resource
 			end
 			@chart2 = createMeterChart("Positions in time", array[6], 0)
 			@OtA  = (array[2].first.to_f / array[2][1])*100.to_f
-			@Opayed =  (array[5][2].to_f / array[3][1])*100.to_f
+			@Opayed =  (array[5][2].to_f / array[3][0])*100.to_f
 			@customer = array[7]
-			@Ovolume = array[3][0]
+			@Ovolume = array[3][1]
 			@Avolume = array[5][3]
 	end
 
