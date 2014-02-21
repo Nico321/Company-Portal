@@ -72,35 +72,6 @@ end
 	FactoryGirl.create(:note, user: customer, installation: installations[i])
 end
 
-
-offerrequests = [Request.create!(:subject => "my Request1", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "1", :agent_id => eone.id),
-Request.create!(:subject => "my Request2", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "1", :agent_id => etwo.id),
-Request.create!(:subject => "my Request3", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "2", :agent_id => eone.id),
-Request.create!(:subject => "my Request4", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "2", :agent_id => etwo.id),
-Request.create!(:subject => "my Request5", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "3", :agent_id => eone.id),
-Request.create!(:subject => "my Request6", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "3", :agent_id => etwo.id)]
-
-aserver = Article.create!(:name => "Server", :price => 200, :description => "Heftiger Server!")
-acomputer = Article.create!(:name => "Computer", :price => 100, :description => "Cooler Computer!")
-atasta = Article.create!(:name => "Tastatur", :price => 10, :description => "Coole Tastatur!")
-
-offerrequests.each do |oreq|
-	if oreq.customer.id == cone.id
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => cone.id,:request_id =>oreq.id)
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => eone.id,:request_id =>oreq.id)
-	else
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => ctwo.id,:request_id =>oreq.id)
-		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => etwo.id,:request_id =>oreq.id)
-	end
-	o = Offer.new(:subject => oreq.subject, :body => "Test Body", :customer_id => oreq.customer.id, :agent_id => oreq.agent.id)
-	o.request = oreq
-	o.save
-	Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => oreq.customer.id,:offer_id =>o.id)
-	Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => oreq.agent.id,:offer_id =>o.id)
-	Position.create!(:quantity => 5, :article_id =>bserver.id, :offer_id => o.id)
-	Position.create!(:quantity => 20, :article_id =>computer.id, :offer_id => o.id)
-	Position.create!(:quantity => 50, :article_id =>mserver.id, :offer_id => o.id)
-
 18.times do |i|
 	invoices.push FactoryGirl.create(:invoice, customer: customer, installation: installations[i])
 	FactoryGirl.create(:note, user: sales, invoice: invoices[i])
@@ -214,4 +185,4 @@ technican.add_role :technican
 puts "Technican password is #{pass}"
 
 
-
+end
