@@ -53,23 +53,45 @@ module ApplicationHelper
 	end
 
 	def countNotes(object)
-		
-
 		if object.class == Request
-			nrOfNotes = object.notes.count
+			nrOfNotes = count_RequestNotes(object)
 		elsif object.class == Offer
-			nrOfNotes = object.notes.count + object.request.notes.count
+			nrOfNotes = count_RequestNotes(object.request)
 		elsif object.class == Assignment
-			nrOfNotes = object.notes.count + object.offer.notes.count + object.offer.request.notes.count
+			nrOfNotes = count_RequestNotes(object.offer.request)
 		elsif object.class == Order
-			nrOfNotes = object.notes.count + object.assignment.notes.count + object.assignment.offer.notes.count + object.assignment.offer.request.notes.count
+			nrOfNotes = count_RequestNotes(object.assignment.offer.request)
 		elsif object.class == Installation
-			nrOfNotes = object.notes.count + object.order.notes.count + object.order.assignment.notes.count + object.order.assignment.offer.notes.count + object.order.assignment.offer.request.notes.count
+			nrOfNotes = count_RequestNotes(object.order.assignment.offer.request)
 		elsif object.class == Invoice
-			nrOfNotes = object.notes.count + object.installation.notes.count + object.installation.order.notes.count + object.installation.order.assignment.notes.count + object.installation.order.assignment.offer.notes.count + object.installation.order.assignment.offer.request.notes.count
+			nrOfNotes = count_RequestNotes(object.installation.order.assignment.offer.request)
 				
 		end
 
+		return nrOfNotes
+	end
+
+	def count_RequestNotes(object)
+		nrOfNotes = object.notes.count
+		if object.offer
+			if object.offer.assignment
+				if object.offer.assignment.order
+					if object.offer.assignment.order.installation
+						if object.offer.assignment.order.installation.invoice
+							nrOfNotes += object.offer.notes.count + object.offer.assignment.notes.count + object.offer.assignment.order.notes.count	+ object.offer.assignment.order.installation.notes.count + object.offer.assignment.order.installation.invoice.notes.count
+						else
+							nrOfNotes += object.offer.notes.count + object.offer.assignment.notes.count + object.offer.assignment.order.notes.count	+ object.offer.assignment.order.installation.notes.count
+						end
+					else
+						nrOfNotes += object.offer.notes.count + object.offer.assignment.notes.count + object.offer.assignment.order.notes.count	
+					end
+				else
+					nrOfNotes += object.offer.notes.count + object.offer.assignment.notes.count
+				end
+			else
+				nrOfNotes += object.offer.notes.count
+			end
+		end
 		return nrOfNotes
 	end
 
@@ -190,21 +212,8 @@ module ApplicationHelper
 
 	def showTable(object, searchparam, directionparam, sortparam, editlink = false, assumable = false, publication = false)
 		if object
-		    if object.first.class == Request
-		    	showpath = requests_path
-		    elsif object.first.class == Offer
-		    	showpath = offers_path
-		    elsif object.first.class == Assignment
-		    	showpath = assignments_path
-		    elsif object.first.class == Order
-		    	showpath = orders_path
-		    elsif object.first.class == Installation
-		    	showpath = installations_path
-		    elsif object.first.class == Invoice
-		    	showpath = invoices_path
-		    end
+			showpath=getObjectPath(object.first)
 		end
-
 	html = "
 		<form action='#{showpath}' method ='get' id ='#{object.class}_search'>
 		  <p>
@@ -295,6 +304,79 @@ module ApplicationHelper
 			#{will_paginate object}
 		  </div>
 		</form>"
+	end
+
+	def showObject(object, noteButton, request, positions=false, sum=false, pdf=false)
+		path=getObjectPath(object)
+
+		html ="<center><h1>#{object.class}</h1></center>"
+
+		if object.class == Request
+			 if object.urgency == 1 
+	           html += "<center><table><tr><td><h1>uncritical</h1></td><td><div class='circle circle-green'></div></td></tr></table></center>"
+	         elsif object.urgency == 2
+	          html += "<center><h1>medium</h1></center><div class='circle'></div>"
+	         else 
+	          html += "<center><h1>critical</h1></center><div class='circle circle-red'></div>"
+	         end 
+		end
+
+		html += "
+		<p>
+		  <strong>Subject:</strong>
+		  #{object.subject}
+		</p>
+
+		<p>
+		  <strong>Body:</strong>
+		  #{object.body}
+		</p>
+		<p>
+		  <strong>Customer:</strong>
+		  #{object.customer.email}
+		</p>"
+		if sum
+			if object.installationprice
+				html += "<p>
+				  <strong>Installationprice:</strong>
+				  #{object.installationprice}
+				</p>"
+			end
+		end
+		if positions
+			html += show_positions(object)
+		end
+
+		html += show_notes(request, noteButton, object.id)
+
+		if sum
+			html += "<h3>Total:#{calcTotalPrice(object)}</h3>"
+		end
+
+		if pdf
+			html += "<a href='#{path}/#{object.id}.pdf' class='btn btn-info'>Create PDF document</a>"
+		end
+		return html
+	end
+
+	def getObjectPath(object)
+		if object
+		    if object.class == Request
+		    	showpath = requests_path
+		    elsif object.class == Offer
+		    	showpath = offers_path
+		    elsif object.class == Assignment
+		    	showpath = assignments_path
+		    elsif object.class == Order
+		    	showpath = orders_path
+		    elsif object.class == Installation
+		    	showpath = installations_path
+		    elsif object.class == Invoice
+		    	showpath = invoices_path
+		    end
+		end
+
+		return showpath
 	end
 
 end
