@@ -1,9 +1,11 @@
 require "spec_helper"
 require 'capybara/rspec'
 
+	let!(:superadmin){FactoryGirl.create(:superadmin)}
+
 describe "Reporting" do 
 	before :each do
-		login
+		login(superadmin)
 	end
 	
 	it "Button Reporting" do		
