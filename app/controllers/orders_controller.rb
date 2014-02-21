@@ -1,10 +1,19 @@
 class OrdersController < ApplicationController
+  load_and_authorize_resource
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
   # GET /orders
   # GET /orders.json
-  def index
-    @orders = Order.where('installation_id IS NULL')
+  def index    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @orders = Order.where('installation_id IS NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
   # GET /orders/1

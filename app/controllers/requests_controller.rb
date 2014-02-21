@@ -1,4 +1,5 @@
 class RequestsController < ApplicationController
+  load_and_authorize_resource
   before_action :set_request, only: [:show, :edit, :update, :destroy]
 
   # GET /requests
@@ -63,16 +64,40 @@ class RequestsController < ApplicationController
     end
   end
 
-  def open
-    @requests = Request.where('offer_id IS NULL')
+  def open    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @requests = Request.where('offer_id IS NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
-  def unassumed
-    @requests = Request.where('agent_id IS NULL and offer_id IS NULL')
+  def unassumed    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @requests = Request.where('agent_id IS NULL and offer_id IS NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
-  def assumed
-    @requests = Request.where(agent_id: current_user.id).where('offer_id IS NULL')
+  def assumed    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @requests = Request.where(agent_id: current_user.id).where('offer_id IS NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
   def assume

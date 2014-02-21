@@ -1,15 +1,31 @@
 class InvoicesController < ApplicationController
+  load_and_authorize_resource
+
   before_action :set_invoice, only: [:show, :edit, :update, :destroy]
 
   # GET /invoices
   # GET /invoices.json
-  def index
-    @invoices = Invoice.where("payed IS NULL")
+  def index    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @invoices = Invoice.where("payed IS NULL").search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
   # GET /invoices/1
   # GET /invoices/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render :pdf => "file_name", :template => 'invoices/show.html.erb'
+      end
+    end
   end
 
   # GET /invoices/new

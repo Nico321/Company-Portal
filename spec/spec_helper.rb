@@ -52,3 +52,39 @@ def login
   click_button "Sign up"
 
 end
+
+def login_superadmin
+  click_link 'Sign in'
+  fill_in "user_email", with: 'superadmin@example.com'
+  fill_in "user_password", with: 'testtest'
+  click_button 'Sign in'
+ end
+
+def login_sales
+  click_link 'Sign in'
+  fill_in "user_email", with: 'sales@example.com'
+  fill_in "user_password", with: 'testtest'
+  click_button 'Sign in'
+end
+
+def login_customer
+  click_link 'Sign in'
+  fill_in "user_email", with: 'customer@example.com'
+  fill_in "user_password", with: 'testtest'
+  click_button 'Sign in'
+end
+ 
+def login_accountend
+  click_link 'Sign in'
+  fill_in "user_email", with: 'accountend@example.com'
+  fill_in "user_password", with: 'testtest'
+  click_button 'Sign in'
+end
+
+def login_technican
+  click_link 'Sign in'
+  fill_in "user_email", with: 'technican@example.com'
+  fill_in "user_password", with: 'testtest'
+  click_button 'Sign in'
+end
+

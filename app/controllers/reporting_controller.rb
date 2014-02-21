@@ -1,4 +1,10 @@
 class ReportingController < ApplicationController
+
+# proplem with NameError in ReportingController#index when load_and_authorize_resource is implemented
+# also when implemented in link restrictions
+load_and_authorize_resource
+
+
 	def index
 		#common Reporting information & creation from given data
 		@bugreport = Bugreport.all

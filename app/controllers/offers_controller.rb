@@ -1,6 +1,7 @@
 class OffersController < ApplicationController
+  load_and_authorize_resource
   before_action :set_offer, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /offers
   # GET /offers.json
   def index
@@ -10,6 +11,12 @@ class OffersController < ApplicationController
   # GET /offers/1
   # GET /offers/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render :pdf => "file_name", :template => 'offers/show.html.erb'
+      end
+    end
   end
 
   # GET /offers/new
@@ -73,12 +80,28 @@ class OffersController < ApplicationController
     redirect_to edit_offer_path(@offer.id)
   end
 
-  def pending
-    @offers = Offer.where('assignment_id IS NULL AND publication IS NOT NULL')
+  def pending    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @offers = Offer.where('assignment_id IS NULL AND publication IS NOT NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
-  def open
-    @offers = Offer.where('assignment_id IS NULL AND publication IS NULL')
+  def open    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @offers = Offer.where('assignment_id IS NULL AND publication IS NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
   def publish
@@ -102,12 +125,28 @@ class OffersController < ApplicationController
     redirect_to assumed_offers_path
   end
    
-  def unassumed
-    @offers = Offer.where('agent_id IS NULL and assignment_id IS NULL AND publication IS NULL')
+  def unassumed    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @offers = Offer.where('agent_id IS NULL and assignment_id IS NULL AND publication IS NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end
 
-  def assumed
-    @offers = Offer.where(agent_id: current_user.id).where('assignment_id IS NULL AND publication IS NULL')
+  def assumed    
+
+    if params[:sort] == nil
+      params[:sort] = 'customer_id'
+    end
+    if params[:direction] == nil
+      params[:direction] = "asc"
+    end
+    
+    @offers = Offer.where(agent_id: current_user.id).where('assignment_id IS NULL AND publication IS NULL').search(params[:search]).order(params[:sort] + " " + params[:direction]).paginate(:per_page => 5, :page => params[:page])
   end 
 
   private

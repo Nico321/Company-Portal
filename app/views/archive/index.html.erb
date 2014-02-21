@@ -1,0 +1,30 @@
+<div id="content">
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="#request" data-toggle="tab">Requests</a></li>
+        <li><a href="#offer" data-toggle="tab">Offers</a></li>
+        <li><a href="#assignment" data-toggle="tab">Assignments</a></li>
+        <li><a href="#order" data-toggle="tab">Order</a></li>
+        <li><a href="#installation" data-toggle="tab">Installations</a></li>
+        <li><a href="#invoice" data-toggle="tab">Invoices</a></li>
+    </ul>
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="request">
+			<%= showTable(@requests, params[:search], params[:direction], params[:sort]).html_safe%>
+        </div>
+        <div class="tab-pane" id="offer">
+        	<%= showTable(@offers, params[:search], params[:direction], params[:sort]).html_safe%>
+        </div>
+        <div class="tab-pane" id="assignment">
+        	<%= showTable(@assignments, params[:search], params[:direction], params[:sort]).html_safe%>
+        </div>
+        <div class="tab-pane" id="order">
+        	<%= showTable(@orders, params[:search], params[:direction], params[:sort]).html_safe%>
+        </div>
+        <div class="tab-pane" id="installation">
+        	<%= showTable(@installations, params[:search], params[:direction], params[:sort]).html_safe%>
+        </div>
+        <div class="tab-pane" id="invoice">
+        	<%= showTable(@invoices, params[:search], params[:direction], params[:sort]).html_safe%>
+        </div>
+    </div>
+</div>

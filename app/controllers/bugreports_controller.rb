@@ -1,4 +1,5 @@
 class BugreportsController < ApplicationController
+  load_and_authorize_resource
   before_action :set_bugreport, only: [:show, :edit, :update, :destroy]
 
   # GET /bugreports

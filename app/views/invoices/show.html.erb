@@ -21,6 +21,17 @@
 
 
 <%= show_positions(@invoice).html_safe%>
-<%= show_notes(@invoice.installation.order.assignment.offer.request).html_safe%>
 
-<%= link_to "Checkout", @invoice.paypal_url(root_url, ipn_notification_payment_notifications_url),  :class => "btn btn-success"%>
+<%
+ if @invoice.payed == nil
+ 	noteButton = "invoice"
+ end
+ %>
+<%= show_notes(@invoice.installation.order.assignment.offer.request, noteButton, @invoice.id).html_safe%>
+
+
+<% if @invoice.payed == nil and @invoice.customer == current_user %>
+  <%= link_to "Checkout", @invoice.paypal_url(root_url, ipn_notification_payment_notifications_url),  :class => "btn btn-success"%>
+<% end %>
+
+<%= link_to 'Create PDF document', invoice_path(@invoice, :format => :pdf) %>

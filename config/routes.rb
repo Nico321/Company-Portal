@@ -1,5 +1,7 @@
 CompanyPortal::Application.routes.draw do
 
+  get "archive/index"
+
   resources :payment_notifications do
     collection do
       post 'ipn_notification'
