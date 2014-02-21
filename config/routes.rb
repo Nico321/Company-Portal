@@ -1,5 +1,17 @@
 CompanyPortal::Application.routes.draw do
 
+  resources :line_items do
+    collection do
+      patch 'increment'
+      post 'decrement'
+    end
+    member do
+      patch 'increment'
+      post 'decrement'
+    end
+  end
+  resources :carts
+
   resources :assignments do
     collection do
       get 'open'
@@ -12,6 +24,7 @@ CompanyPortal::Application.routes.draw do
       get 'release'
     end
   end
+ 
 
 get 'reporting', controller: "reporting", action: "index"
 get "reporting/bugreport", controller: "reporting", action:"bugreport"
@@ -53,6 +66,7 @@ post "reporting/bugreport", controller: "reporting", action:"bugreport"
   get "welcome/index"
   resources :notes
 
+  get "store/index"
   resources :articles
 
   resources :suppliers
@@ -73,8 +87,9 @@ post "reporting/bugreport", controller: "reporting", action:"bugreport"
 
   end
 
-
+  root 'store#index', as: 'store'
   root 'welcome#index'
+  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

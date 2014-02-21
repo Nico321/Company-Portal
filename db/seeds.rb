@@ -6,7 +6,15 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
+###########################################################
+#
+# Articles
+#
+############################################################
+bserver = Article.create!(name: "Big Server", description: "This Server is really awesome and will fulfil all your needs. From medium to big sized companies. Try it out!", price: 8999.99, delivertime: 10, supplierid: 1, image: "big_server.jpg")
+mserver = Article.create!(name: "Medium Server", description: "This Server is not as awesome as the big one but it is better and faster than the small server. It is best used in small to medium sized companies", price: 3999.99, delivertime: 7, supplierid: 1, image: "medium_server.jpg")
+sserver = Article.create!(name: "Small Server", description: "A really durable and sophisticated server for all your needs at your own home-network. Use it as a media-server or just to store your data to be protected from that nosey NSA!", price: 999.99, delivertime: 3, supplierid: 1, image: "small_server.jpg")
+computer= Article.create!(name: "Computer", description: "Just a standard PC for everyday needs. Watching porn or whatever!", price: 599.99, delivertime: 2, supplierid: 1, image: "computer.jpg") 
 ###########################################################
 #
 # Seeds for Request(Nico)
@@ -60,10 +68,6 @@ Request.create!(:subject => "my Request4", :body =>"This is my new Request", :cu
 Request.create!(:subject => "my Request5", :body =>"This is my new Request", :customer_id => cone.id, :urgency => "3", :agent_id => eone.id),
 Request.create!(:subject => "my Request6", :body =>"This is my new Request", :customer_id => ctwo.id, :urgency => "3", :agent_id => etwo.id)]
 
-aserver = Article.create!(:name => "Server", :price => 200)
-acomputer = Article.create!(:name => "Computer", :price => 100)
-atasta = Article.create!(:name => "Tastatur", :price => 10)
-
 offerrequests.each do |oreq|
 	if oreq.customer.id == cone.id
 		Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => cone.id,:request_id =>oreq.id)
@@ -77,9 +81,9 @@ offerrequests.each do |oreq|
 	o.save
 	Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => oreq.customer.id,:offer_id =>o.id)
 	Note.create!(:subject => "my note1", :body => "This is my Note", :user_id => oreq.agent.id,:offer_id =>o.id)
-	Position.create!(:quantity => 5, :article_id =>aserver.id, :offer_id => o.id)
-	Position.create!(:quantity => 20, :article_id =>acomputer.id, :offer_id => o.id)
-	Position.create!(:quantity => 50, :article_id =>atasta.id, :offer_id => o.id)
+	Position.create!(:quantity => 5, :article_id =>bserver.id, :offer_id => o.id)
+	Position.create!(:quantity => 20, :article_id =>computer.id, :offer_id => o.id)
+	Position.create!(:quantity => 50, :article_id =>mserver.id, :offer_id => o.id)
 end
 
 ###########################################################
