@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+
+ActiveRecord::Schema.define(version: 20140217203956) do
+=======
 ActiveRecord::Schema.define(version: 20140218204005) do
+>>>>>>> 6b0d642c131f5c65375701f9ff1899e595fbc030
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -41,7 +46,7 @@ ActiveRecord::Schema.define(version: 20140218204005) do
   create_table "articles", force: true do |t|
     t.string   "name"
     t.text     "image"
-    t.decimal  "price"
+    t.decimal  "price",       precision: 8, scale: 2
     t.integer  "delivertime"
     t.integer  "supplierid"
     t.datetime "created_at"
@@ -70,6 +75,9 @@ ActiveRecord::Schema.define(version: 20140218204005) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+  create_table "carts", force: true do |t|
+=======
   create_table "installations", force: true do |t|
     t.string   "subject"
     t.text     "body"
@@ -78,10 +86,18 @@ ActiveRecord::Schema.define(version: 20140218204005) do
     t.integer  "order_id"
     t.integer  "customer_id"
     t.integer  "agent_id"
+>>>>>>> 6b0d642c131f5c65375701f9ff1899e595fbc030
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+  create_table "line_items", force: true do |t|
+    t.integer  "article_id"
+    t.integer  "cart_id"
+    t.integer  "line_items", default: 1
+    t.integer  "quantity",   default: 1
+=======
   create_table "invoices", force: true do |t|
     t.string   "subject"
     t.text     "body"
@@ -90,10 +106,17 @@ ActiveRecord::Schema.define(version: 20140218204005) do
     t.integer  "customer_id"
     t.decimal  "installationprice"
     t.datetime "payed"
+>>>>>>> 6b0d642c131f5c65375701f9ff1899e595fbc030
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+  add_index "line_items", ["article_id"], name: "index_line_items_on_article_id"
+  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id"
+
+=======
+>>>>>>> 6b0d642c131f5c65375701f9ff1899e595fbc030
   create_table "notes", force: true do |t|
     t.string   "subject"
     t.text     "body"

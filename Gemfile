@@ -49,11 +49,15 @@ gem 'devise'
 gem 'googlecharts'
 gem 'bootstrap-datepicker-rails'
 gem 'activeadmin', github: 'gregbell/active_admin'
+<<<<<<< HEAD
+gem 'font-awesome-rails'
+=======
 gem 'cancan'
 gem 'will_paginate'
 gem 'wicked_pdf'
 
 
+>>>>>>> 6b0d642c131f5c65375701f9ff1899e595fbc030
 
 group :development, :test do
   	gem 'rspec-rails'
