@@ -1,0 +1,55 @@
+<p id="notice"></p>
+
+<h1>Your awesome cart</h1>
+<% if @cart.line_items.length == 0 %>
+<%= item.quantity %>
+<p id ="notice">Your Cart is empty </p>
+<% else %>
+	<table class="table table-striped table-hover" >
+	  <tr>
+	  <th></th>
+	  <th>Article</th>
+	  <th>Quantity</th>
+	  <th>Delivery Time</th>
+	  <th>Price</th>
+	  <th></th>
+	  </tr>
+	  <tbody>
+	    <% @cart.line_items.each do |item| %>
+	      <tr>
+	      	<td><%= image_tag(item.article.image) %></td>   	
+	        <td><%= item.article.name %></td>
+	        <td>
+	        <%= link_to line_items_path(article_id: item.article), method: :post, :class => 'btn btn-default btn-mini' do %>
+				<i class= "fa fa-plus-square-o"></i>
+	    		<% end %>
+	        <%= item.quantity %>
+	        <%= link_to decrement_line_items_path(line_item_id: item.id), method: :post, :class => 'btn btn-default btn-mini' do %>
+				<i class= "fa fa-minus-square-o"></i>
+	    		<% end %>
+	        </td>
+	        <td><%= item.article.delivertime %> days</td>
+	        <td><%=number_to_currency(item.total_price)%></td>
+	        <td> 
+	        <%= link_to line_item_path(item.id), method: :delete,:name => item.id, :class => 'btn btn-danger btn-mini' do %>
+				<i class= "fa fa-trash-o fa-lg"></i>
+	    		<% end %>
+	      </tr>
+	    <% end %>
+	    	<tr>
+	    		<td colspan ="2"></td>
+	    		<td>Total:</td> 
+	    		<td> <%= number_to_currency(@cart.total_price) %> </td>
+	    	</tr>
+	  </tbody>
+	</table>
+	<a>
+	<%= link_to @cart, method: :delete, data:{confirm: 'Are you sure?'}, :class => 'btn btn-danger btn-mini' do %>
+		<i class= "fa fa-trash-o fa-lg"> Empty Cart</i>
+	    <% end %>
+	<% end %>
+	 <%= link_to store_url , :class => 'btn btn-success btn-mini' do %>
+	 	<i class= "fa fa-money fa-lg"> Go on shopping</i>
+	    <% end %>
+	</a> 
+

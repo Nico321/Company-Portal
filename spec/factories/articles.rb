@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :article do
-    name "MyString"
-    image "MyText"
-    description "MyDescription"
+    sequence(:name) {|n| "My article #{n}"}
+    description {"This is my awesome description"}
+    image "MyPicture.jpg"
     price "0.01"
     delivertime 1
     supplierid 1

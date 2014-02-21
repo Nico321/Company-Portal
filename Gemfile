@@ -49,7 +49,7 @@ gem 'devise'
 gem 'googlecharts'
 gem 'bootstrap-datepicker-rails'
 gem 'activeadmin', github: 'gregbell/active_admin'
-
+gem 'font-awesome-rails'
 
 group :development, :test do
   	gem 'rspec-rails'
