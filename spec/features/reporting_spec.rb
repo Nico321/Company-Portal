@@ -1,9 +1,8 @@
 require "spec_helper"
 require 'capybara/rspec'
 
-	let!(:superadmin){FactoryGirl.create(:superadmin)}
-
 describe "Reporting" do 
+	let!(:superadmin){FactoryGirl.create(:superadmin)}
 	before :each do
 		login(superadmin)
 	end

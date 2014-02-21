@@ -12,7 +12,7 @@ class Ability
   		can :open, Bugreport
 		can :show, Bugreport
 
-           if user.has_role(nil)
+           if user.has_role?(nil)
    		user.add_role :customer
            end     
      		

@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :bugreport do
-    subject "MyString"
+    sequence(:subject) {|n| "My Bugreport #{n}"}
     description "MyText"
-    userid 1
-    employeeid 1
+    reporter {FactoryGirl.create(:customer)}
+    agent {FactoryGirl.create(:superadmin)}
   end
 end

@@ -93,7 +93,7 @@
                     <li><%= link_to "Show my bugreports (#{Bugreport.where(agent_id: current_user.id).where("closed IS NULL").count})", assumed_bugreports_path %></li>
 		    
                     <li class="divider"></li>
-                    <li><%= link_to "Archiv", closed_bugreports_path %></li>
+                    <li><%= link_to "Archive", closed_bugreports_path %></li>
 		    <% end %>
                   </ul>
                 </div>

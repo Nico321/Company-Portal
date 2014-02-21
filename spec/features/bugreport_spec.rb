@@ -1,16 +1,13 @@
 require "spec_helper"
 require 'capybara/rspec'
-	let!(:superadmin){FactoryGirl.create(:superadmin)}
-	let!(:customer){FactoryGirl.create(:customer)}
 
 describe "Bugreports"  do 
+ let!(:superadmin){FactoryGirl.create(:superadmin)}
+ let!(:bugreport){FactoryGirl.create(:bugreport)}
+ let!(:bugreport){Bugreport.create(subject: "new Subject", description: "new description", reporter: superadmin, agent: superadmin)}
+
 	before :each do
-		login
-		cu = User.last
-		Bugreport.create(:subject => "Can't Order", :description => "is not possible", :reporter_id => cu.id)
-		Bugreport.create(:subject => "got no invoice", :description => "invoice",:reporter_id => cu.id , :agent_id => cu.id)
-		Bugreport.create(:subject => "login failed", :description => "logon",:reporter_id => cu.id , :agent_id => cu.id, :closed => Time.now)
-		
+		login(superadmin)
 	end
 
 		it "dropdown menue" do		
@@ -20,12 +17,10 @@ describe "Bugreports"  do
 
 		it "create new bugreport" do	
 			visit "bugreports/new"
-			fill_in "bugreport_subject", with: "Subject1"
-			fill_in "bugreport_description", with: "Description"
+			fill_in "bugreport_subject", with: "Error 500"
+			fill_in "bugreport_description", with: "Error"
 			click_button "Create Bugreport"
-
-			visit "bugreports/open"
-			page.should have_content "Subject1"
+			#expect{click_link "Create Bugreport"}.to change{Bugreport.count}.by(1)
 		end
 
 		it "assume bugreport" do
