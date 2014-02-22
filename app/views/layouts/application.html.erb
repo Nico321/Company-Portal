@@ -87,8 +87,8 @@
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                     <li><%= link_to "New bugreport", new_bugreport_path %></li>
                     <li class="divider"></li>
+	            <li><%= link_to "Show open Bugreports", bugreports_path %></li>
 		    <% if can?(:manage, Bugreport) %>
-
                     <li><%= link_to "Show unassumed bugreports (#{Bugreport.where('agent_id IS NULL and closed IS NULL').count})", unassumed_bugreports_path %></li>
                     <li><%= link_to "Show my bugreports (#{Bugreport.where(agent_id: current_user.id).where("closed IS NULL").count})", assumed_bugreports_path %></li>
 		    
@@ -177,6 +177,21 @@
 
                   </ul>
                 </div>
+                
+  		  <li>     
+		  <% if can?(:manage, Article) %>  
+  		  <div class="dropdown">
+  		    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+           		Articles
+           		<span class="caret"></span>
+           		</button>
+           		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                	<li><%= link_to 'Show Article', articles_path  %></li>  
+                        <li><%= link_to 'New Article', new_article_path %></li>
+           	        </ul>
+          	  </div>
+		  <% end %>
+		  </li>
               <% end %>
             </ul>
           </div><!--/.nav-collapse -->
