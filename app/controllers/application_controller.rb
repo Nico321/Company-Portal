@@ -25,7 +25,7 @@ def user_activity
 end
 
 def authenticate_admin_user!
-redirect_to new_user_session_path unless can?(:manage, :offer)
+redirect_to new_user_session_path unless can?(:manage, :all)
 end
   
 end
