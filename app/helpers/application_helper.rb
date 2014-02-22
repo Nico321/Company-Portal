@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module ApplicationHelper
 
 	def show_notes(object, addbutton, objectID)
@@ -151,10 +152,10 @@ module ApplicationHelper
 										#{p.article.name}
 									</td>
 									<td>
-										#{p.article.price}
+										#{p.article.price} €
 									</td>
 									<td>
-										#{p.article.price * p.quantity}
+										#{p.article.price * p.quantity} €
 									</td>"
 									if object.class == Order
 										html += "<td>"
@@ -306,7 +307,7 @@ module ApplicationHelper
 		</form>"
 	end
 
-	def showObject(object, noteButton, request, positions=false, sum=false, pdf=false)
+	def showObject(object, noteButton, request, positions=false, sum=false, pdf=false, format = "")
 		path=getObjectPath(object)
 
 		html ="<center><h1>#{object.class}</h1></center>"
@@ -321,7 +322,7 @@ module ApplicationHelper
 	         end 
 		end
 
-		html += "
+		html += "<div class='row'><div class='thumbnail span5'>
 		<p>
 		  <strong>Subject:</strong>
 		  #{object.subject}
@@ -330,30 +331,54 @@ module ApplicationHelper
 		<p>
 		  <strong>Body:</strong>
 		  #{object.body}
-		</p>
-		<p>
-		  <strong>Customer:</strong>
-		  #{object.customer.email}
 		</p>"
 		if sum
 			if object.installationprice
 				html += "<p>
 				  <strong>Installationprice:</strong>
-				  #{object.installationprice}
-				</p>"
+				  #{object.installationprice} €
+				</p></div>"
 			end
-		end
+		end	
+			
+		html += "<div class='thumbnail span5 pull-right'>
+		<p>
+		  <strong>Name:</strong>
+		  #{object.customer.firstname} #{object.customer.lastname}
+		</p>
+		<p>
+		  <strong>Email:</strong>
+		  #{object.customer.email}
+		</p>
+		<p>
+		  <strong>Phone:</strong>
+		  #{object.customer.phone}
+		</p>
+		<p>
+		  <strong>Street:</strong>
+		  #{object.customer.street}
+		</p>
+		<p>
+		  <strong>Zip:</strong>
+		  #{object.customer.zip}
+		</p>"
+
+		html += "</div></div>"
 		if positions
 			html += show_positions(object)
 		end
-
+		if format =="pdf"
+			html += "<div style='display: none;'>"
+		end
 		html += show_notes(request, noteButton, object.id)
-
+		if format =="pdf"
+			html += "</div></div>"
+		end
 		if sum
-			html += "<h3>Total:#{calcTotalPrice(object)}</h3>"
+			html += "<h3>Total: #{calcTotalPrice(object)} €</h3>"
 		end
 
-		if pdf
+		if pdf and format != "pdf"
 			html += "<a href='#{path}/#{object.id}.pdf' class='btn btn-info'>Create PDF document</a>"
 		end
 		return html
@@ -380,6 +405,3 @@ module ApplicationHelper
 	end
 
 end
-
-
-
