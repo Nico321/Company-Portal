@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   belongs_to :place
 
   has_many :bugreports
-  has_many :businessprocesses
+ 
 
 scope :online, lambda{ where("updated_at > ?", 10.minutes.ago) }
 end
