@@ -6,6 +6,8 @@
 	<body>
 	<%= @test %><br>
 	<%= @test1 %><br>
+	<%= @test2 %><br>
+	<%= @test3 %><br>
 	 <h2>Reporting: Businessprocess </h2>
 		<div class="container">
 			<div class="row">
@@ -26,19 +28,19 @@
 								  </tr>
 									<tr>
 										<td>Offers to Assignment: </td>
-										<td><%= @OtA %>%</td>
+										<td><%= @OtA.round %>%</td>
 									</tr>
 									<tr>
 										<td>payed Invoices: </td>
-										<td><%= @Opayed %>%</td>
+										<td><%= @Opayed.round %>%</td>
 									</tr>
 									<tr>
 										<td>Average order volume: </td>
-										<td><%= @Ovolume %>€</td>
+										<td><%= @Ovolume.round %>€</td>
 									</tr>
 									<tr>
 										<td>Sales volume: </td>
-										<td><%= @Avolume %></td>
+										<td><%= @Avolume.round %></td>
 									</tr>
 								</table>
 							</div>

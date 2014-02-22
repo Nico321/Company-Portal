@@ -79,57 +79,16 @@ end
 	invoices[i].save
 end
 
-
-#72.times do
-	#positions.push FactoryGirl.create(:position)
-#end
-
-#9.times do |i|
-#	requests.push FactoryGirl.create(:request)
-	#notes[i].request = requests.last
-	#notes[i].save
-	#offers.push FactoryGirl.create(:offer)
-	#notes[i+1].offer = offers.last
-	#notes[i+1].save
-	#positions[i].offer = offers.last
-	#positions[i+1].offer = offers.last
-	#positions[i].save
-	#positions[i+1].save
-	#assignments.push FactoryGirl.create(:assignment)
-	#notes[i+2].assignment = assignments.last
-	#notes[i+2].save
-	#positions[i+2].offer = offers.last
-	#positions[i+3].offer = offers.last
-	#positions[i+2].save
-	#positions[i+3].save
-	#orders.push FactoryGirl.create(:order)
-	#notes[i+3].order = orders.last
-	#notes[i+3].save
-	#positions[i+4].offer = offers.last
-	#positions[i+5].offer = offers.last
-	#positions[i+4].save
-	#positions[i+5].save
-	#installations.push FactoryGirl.create(:installaion)
-	#notes[i+4].installaion = installaion.last
-	#notes[i+4].save
-	#invoices.push FactoryGirl.create(:invoice)
-	#notes[i+5].invoice = invoices.last
-	#notes[i+5].save
-	#positions[i+6].offer = offers.last
-	#positions[i+7].offer = offers.last
-	#positions[i+6].save
-	#positions[i+7].save
-#end
-
 ###########################################################
 #
 # Seeds for Bugreports(Daniel)
 #
 ###########################################################
-#b1 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone)
-#b2 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo)
-#b3 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone, :agent => ctwo)
-#b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo, :agent => cone, :created_at =>"2013-02-03T04:05:06+07:00" ,:closed => "2013-02-03T09:05:06+07:00")
+ cu = FactoryGirl.create(:customer)
+ te = FactoryGirl.create(:technican)
+	Bugreport.create(subject: "Error 3", description: "I did it", reporter: cu, created_at: Time.now)
+ 	Bugreport.create(subject: "no Invoice", description: "no", reporter: cu, agent: te, created_at: Time.local(2014,01,21), closed: Time.now)
+ 	Bugreport.create(subject: "dont want it", description: "description", reporter: cu, agent: te, created_at: Time.local(2014,01,21))
 
 ##################################
 #

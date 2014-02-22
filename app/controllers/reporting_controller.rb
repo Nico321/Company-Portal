@@ -332,27 +332,59 @@ load_and_authorize_resource
 		if !Position.all.blank?
 			   for position in Position.all
 			   	if !position.blank?
-					positions += (position.deliverydate - position.arrived.to_date).to_i
+			   		if !position.arrived.blank?
+						positions += (position.deliverydate - position.arrived.to_date).to_i
+					end
 				end
 			   end 
-			 end
+		end
+
+	def findCustomer(customer, invoice)
+			pos=0
+			until pos == customer.length
+				@test2 = "in"
+				if customer[pos][0] == invoice.customer_id
+					return pos
+				end
+				pos +=1
+			end
+	end
 
 		if !Invoice.all.blank?
-			customer = Array.new((User.all).count){Array.new(2)}
-			i=0
-			 for invoice in Invoice.all.where(pay)
-			   	customer[i][0] = invoice.customer_id
-			   	customer[i][1] = invoice.installationprice
-				   	if !invoice.blank?
-						invoice.positions.each do |pos|
-							customer[i][1] += pos.article.price
+			if !(User.with_role :customer) != 0
+				customer = Array.new((User.with_role :customer).count){Array.new(2)}
+				 Invoice.all.where(pay).each do |invoice|
+				 	if findCustomer(customer, invoice) == nil
+				 			i = 0
+				 		customer.each do |cu|
+				 			if cu[1] != nil
+				 				i += 1
+				 			 else
+				 				i += 0
+				 			end
+				 		end
+				 		customer[i][0] = invoice.customer_id
+				 		if !invoice.installationprice.blank?
+					 		customer[i][1] = invoice.installationprice
+					 			invoice.positions.each do |pos|
+									customer[i][1] += pos.article.price
+								end
 						end
-					end
-			 i +=1
-			end	
-			customer[1].sort 
+					 else
+					 	if invoice.installationprice != nil && (findCustomer(customer, invoice)) != nil
+					 		customer[(findCustomer(customer, invoice))][1] += invoice.installationprice
+					 			invoice.positions.each do |pos|
+									customer[findCustomer(customer, invoice)][1] += pos.article.price
+								end
+						end
+				 	end
+				end
+				customer[1].sort 
+			end
 		end
-		
+#------------------------------------------------------------
+
+
 		# to return only one array
 		main[0] = requests
 		main[1] = offers
