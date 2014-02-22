@@ -1,5 +1,6 @@
 CompanyPortal::Application.routes.draw do
 
+  get "customer_overview/index"
   get "archive/index"
 
   resources :payment_notifications do
