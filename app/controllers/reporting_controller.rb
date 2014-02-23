@@ -15,7 +15,7 @@ load_and_authorize_resource
 			end
 		end
 		if Bugreport.all.count(:closed) != 0
-			@allAverageTimeBug = (summe/ Bugreport.all.count(:closed)/60).round
+			@allAverageTimeBug = ((summe/ Bugreport.all.count(:closed))/60).round(2)
 		end
 		@openBugreports = Bugreport.all.count(:agent == nil)
 		@userAll = User.all.count
@@ -183,6 +183,7 @@ load_and_authorize_resource
 			array = getBusinessprocessData("day")
 			arrayPast = getBusinessprocessData("lastDay")
 		end
+
 			if arrayPast != nil	
 				i = 0
 				big = 0
@@ -205,7 +206,13 @@ load_and_authorize_resource
 				@chart1 = createBarChart("400x400", "Comparison", ["FF0000", "00FF00", "AEDCDE", "0000FF", "330000","7446E9"], ["Requests", "Offers", "Assignments", "Orders", "Installations", "Invoices"], [[arrayPast[0][0],array[0][0]], [arrayPast[1][0], array[1][0]], [arrayPast[2][0], array[2][0]], [arrayPast[3][0], array[3][0]], [arrayPast[4][0], array[4][0]], [arrayPast[5][0], array[5][0]]], big, [legend])			
 			end
 			@chart2 = createMeterChart("Positions in time", array[6], 0)
-			@OtA  = (array[2].first.to_f / array[2][1])*100.to_f
+		
+			if (array[2][1].to_f / array[2][1]*100.to_f).class.to_s == "float"
+				@OtA = (array[2][1].to_f / array[2][1]*100.to_f)
+			 else
+				@OtA = 0
+			end
+
 			@Opayed =  (array[5][2].to_f / array[3][0])*100.to_f
 			@customer = array[7]
 			@Ovolume = array[3][1]
@@ -383,10 +390,10 @@ load_and_authorize_resource
 						cu[1] = 0
 					end
 				end
-				returncustomer.sort_by { |e| e[1] }
+				customer.sort_by { |e| e[1] }
 			end
 		end
-		
+
 		# to return only one array
 		main[0] = requests
 		main[1] = offers
@@ -434,7 +441,7 @@ load_and_authorize_resource
 	end
 
 #------------------------------------------------------------------------------
-#User Methods
+#User Shop
 #------------------------------------------------------------------------------
 
 	def shop

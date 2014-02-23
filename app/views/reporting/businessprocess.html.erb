@@ -24,19 +24,19 @@
 								  </tr>
 									<tr>
 										<td>Offers to Assignment: </td>
-										<td><%= @OtA.round %>%</td>
+										<td><%= @OtA.round(2) %></td>											
 									</tr>
 									<tr>
 										<td>payed Invoices: </td>
-										<td><%= @Opayed.round %>%</td>
+										<td><%= @Opayed.round(2) %>%</td>
 									</tr>
 									<tr>
 										<td>Average order volume: </td>
-										<td><%= @Ovolume.round %>€</td>
+										<td><%= @Ovolume.round(2) %>€</td>
 									</tr>
 									<tr>
 										<td>Sales volume: </td>
-										<td><%= @Avolume.round %></td>
+										<td><%= @Avolume.round(2) %></td>
 									</tr>
 								</table>
 							</div>
