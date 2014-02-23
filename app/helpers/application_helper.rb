@@ -296,7 +296,6 @@ module ApplicationHelper
 		  </div>
 		</form>"
 	end
-
 end
 
 

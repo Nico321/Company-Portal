@@ -185,4 +185,3 @@ technican.add_role :technican
 puts "Technican password is #{pass}"
 
 
-end

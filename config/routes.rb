@@ -53,14 +53,7 @@ CompanyPortal::Application.routes.draw do
   end
 
   resources :line_items do
-    collection do
-      patch 'increment'
-      post 'decrement'
-    end
-    member do
-      patch 'increment'
-      post 'decrement'
-    end
+    put 'decrement', on: :member
   end
   resources :carts
 
