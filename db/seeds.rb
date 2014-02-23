@@ -109,7 +109,7 @@ superadmin = User.create email:'superadmin@example.com', password: 'testtest',
 password_confirmation: 'testtest'
 # has problem with name admin so superadmin role is better
 superadmin.add_role :superadmin
-puts "Admin password is #{pass}"
+#puts "Admin password is #{pass}"
 ############
 
 pass = SecureRandom.hex(5)
@@ -117,7 +117,7 @@ sales = User.create email:'sales@example.com', password: 'testtest',
 password_confirmation: 'testtest'
 
 sales.add_role :sales
-puts "Sales password is #{pass}"
+#puts "Sales password is #{pass}"
 ###########
 
 pass = SecureRandom.hex(5)
@@ -125,7 +125,7 @@ customer = User.create email:'customer@example.com', password: 'testtest',
 password_confirmation: 'testtest'
 
 customer.add_role :customer
-puts "Customer password is #{pass}"
+#puts "Customer password is #{pass}"
 ##########
 
 pass = SecureRandom.hex(5)
@@ -133,7 +133,7 @@ accountend = User.create email:'accountend@example.com', password: 'testtest',
 password_confirmation: 'testtest'
 
 accountend.add_role :accountend
-puts "Accountend password is #{pass}"
+#puts "Accountend password is #{pass}"
 ##########
 
 pass = SecureRandom.hex(5)
@@ -141,4 +141,5 @@ technican = User.create email:'technican@example.com', password: 'testtest',
 password_confirmation: 'testtest'
 
 technican.add_role :technican
-puts "Technican password is #{pass}"
+#puts "Technican password is #{pass}"
+puts all PWs are "testtest"
