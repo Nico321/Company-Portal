@@ -93,10 +93,11 @@ end
 # Seeds for Bugreports(Daniel)
 #
 ###########################################################
-#b1 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone)
-#b2 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo)
-#b3 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone, :agent => ctwo)
-#b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo, :agent => cone, :created_at =>"2013-02-03T04:05:06+07:00" ,:closed => "2013-02-03T09:05:06+07:00")
+ cu = FactoryGirl.create(:customer)
+ te = FactoryGirl.create(:technican)
+	Bugreport.create(subject: "Error 3", description: "I did it", reporter: cu, created_at: Time.now)
+ 	Bugreport.create(subject: "no Invoice", description: "no", reporter: cu, agent: te, created_at: Time.local(2014,01,21), closed: Time.now)
+ 	Bugreport.create(subject: "dont want it", description: "description", reporter: cu, agent: te, created_at: Time.local(2014,01,21))
 
 ##################################
 #

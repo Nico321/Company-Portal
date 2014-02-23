@@ -15,7 +15,7 @@ load_and_authorize_resource
 			end
 		end
 		if Bugreport.all.count(:closed) != 0
-			@allAverageTimeBug = (summe/ Bugreport.all.count(:closed)/60).round
+			@allAverageTimeBug = ((summe/ Bugreport.all.count(:closed))/60).round(2)
 		end
 		@openBugreports = Bugreport.all.count(:agent == nil)
 		@userAll = User.all.count
@@ -183,6 +183,7 @@ load_and_authorize_resource
 			array = getBusinessprocessData("day")
 			arrayPast = getBusinessprocessData("lastDay")
 		end
+
 			if arrayPast != nil	
 				i = 0
 				big = 0
@@ -205,7 +206,13 @@ load_and_authorize_resource
 				@chart1 = createBarChart("400x400", "Comparison", ["FF0000", "00FF00", "AEDCDE", "0000FF", "330000","7446E9"], ["Requests", "Offers", "Assignments", "Orders", "Installations", "Invoices"], [[arrayPast[0][0],array[0][0]], [arrayPast[1][0], array[1][0]], [arrayPast[2][0], array[2][0]], [arrayPast[3][0], array[3][0]], [arrayPast[4][0], array[4][0]], [arrayPast[5][0], array[5][0]]], big, [legend])			
 			end
 			@chart2 = createMeterChart("Positions in time", array[6], 0)
-			@OtA  = (array[2].first.to_f / array[2][1])*100.to_f
+		
+			if (array[2][1].to_f / array[2][1]*100.to_f).class.to_s == "float"
+				@OtA = (array[2][1].to_f / array[2][1]*100.to_f)
+			 else
+				@OtA = 0
+			end
+
 			@Opayed =  (array[5][2].to_f / array[3][0])*100.to_f
 			@customer = array[7]
 			@Ovolume = array[3][1]
@@ -332,27 +339,61 @@ load_and_authorize_resource
 		if !Position.all.blank?
 			   for position in Position.all
 			   	if !position.blank?
-					positions += (position.deliverydate - position.arrived.to_date).to_i
+			   		if !position.arrived.blank?
+						positions += (position.deliverydate - position.arrived.to_date).to_i
+					end
 				end
 			   end 
-			 end
+		end
+
+	def findCustomer(customer, invoice)
+		pos=0
+		until pos == customer.length
+			if customer[pos][0] == invoice.customer_id
+				return pos
+			end
+			pos +=1
+		end
+	end
 
 		if !Invoice.all.blank?
-			customer = Array.new((User.all).count){Array.new(2)}
-			i=0
-			 for invoice in Invoice.all.where(pay)
-			   	customer[i][0] = invoice.customer_id
-			   	customer[i][1] = invoice.installationprice
-				   	if !invoice.blank?
-						invoice.positions.each do |pos|
-							customer[i][1] += pos.article.price
+			if !(User.with_role :customer) != 0
+				customer = Array.new((User.with_role :customer).count){Array.new(2)}
+				 Invoice.all.where(pay).each do |invoice|
+				 	if findCustomer(customer, invoice) == nil
+				 			i = 0
+				 		customer.each do |cu|
+				 			if cu[1] != nil
+				 				i += 1
+				 			 else
+				 				i += 0
+				 			end
+				 		end
+				 		customer[i][0] = invoice.customer_id
+				 		if !invoice.installationprice.blank?
+					 		customer[i][1] = invoice.installationprice
+					 			invoice.positions.each do |pos|
+									customer[i][1] += pos.article.price
+								end
 						end
+					 else
+					 	if invoice.installationprice != nil && (findCustomer(customer, invoice)) != nil
+					 		customer[(findCustomer(customer, invoice))][1] += invoice.installationprice
+					 			invoice.positions.each do |pos|
+									customer[findCustomer(customer, invoice)][1] += pos.article.price
+								end
+						end
+				 	end
+				end
+				customer.each do |cu|
+					if cu[1].blank?
+						cu[1] = 0
 					end
-			 i +=1
-			end	
-			customer[1].sort 
+				end
+				customer.sort_by { |e| e[1] }
+			end
 		end
-		
+
 		# to return only one array
 		main[0] = requests
 		main[1] = offers
@@ -397,5 +438,56 @@ load_and_authorize_resource
 		user[3][1] = "accountend"
 		user[4][1] = "technican"
 	 return user
+	end
+
+#------------------------------------------------------------------------------
+#User Shop
+#------------------------------------------------------------------------------
+
+	def shop
+		all = getItems
+		@top = all[0..9]
+		@worst = all[getItems.length-10..getItems.length]
+	end
+
+	def findItem(items ,position)
+		pos= 0
+		until pos == items.length
+			if items[pos][0] == position.article_id
+				return 3
+			end
+			pos +=1
+		end
+	return nil
+	end
+
+	def getItems
+		if !Article.count.blank? && !Invoice.count.blank?
+			items = Array.new(Article.all.count){Array.new(2)}
+			if !Invoice.all.blank?
+				Invoice.all.each do |invoice|
+					if !invoice.positions.blank?
+						invoice.positions.each do |position|
+							if findItem(items, position) == nil
+								i = -1
+								items.each do |item|
+									if items != nil
+										i +=1
+									 else
+									 	i +=0
+									end
+									items[i][0] = position.article_id
+									items[i][1] = position.quantity
+							 	end
+							 else
+							 	itmes[findItem(items, position)][1] += position.quantity
+							end
+						end
+					end
+				end
+			end
+			items.sort_by { |e| e[1] }
+		end
+		return items
 	end
 end

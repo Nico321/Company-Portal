@@ -12,9 +12,9 @@ class Ability
 		can :show, Bugreport
 
 
-           if user.has_role?(nil)
-   		
-           end     
+        if user.has_role?(nil)
+   			user.add_role :customer
+     	end     
      		
 	   # issue with the admin role doesn't get the right role if not commentend
       	   # everyone has role :admin
