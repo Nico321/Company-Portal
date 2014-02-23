@@ -111,6 +111,13 @@ class OffersController < ApplicationController
     redirect_to assumed_offers_path
   end
 
+  def decline
+    @offer = Offer.find(params[:id])
+    @offer.publication = nil
+    @offer.save
+    redirect_to offer_path(@offer)
+  end
+
   def assume
     @offer = Offer.find(params[:id])
     @offer.agent = current_user

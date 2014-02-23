@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20140218204005) do
   create_table "articles", force: true do |t|
     t.string   "name"
     t.text     "image"
-    t.decimal  "price"
+    t.decimal  "price",       precision: 8, scale: 2
     t.integer  "delivertime"
     t.integer  "supplierid"
     t.datetime "created_at"

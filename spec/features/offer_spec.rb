@@ -53,4 +53,14 @@ describe "Offer" do
 		visit edit_offer_path(offer)
 		expect{click_link "Publish"}.to change{Offer.where('assignment_id IS NULL AND publication IS NOT NULL').count}.by(1)
 	end
+
+	it 'can decline and offer' do
+		offer.customer = superadmin
+		offer.publication = DateTime.now
+		offer.save
+
+		visit offer_path(offer)
+		click_link "Decline"
+		page.should_not have_content "Decline"
+	end
 end
