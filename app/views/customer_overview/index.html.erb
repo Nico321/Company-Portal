@@ -1,0 +1,29 @@
+<div class = "row">
+	<table class="table table-hover">
+		<tr>
+			<th>Subject</th>
+			<th>State</th>
+			<th>Notes</th>
+			<th>Progress</th>
+			<th></th>
+		</tr>
+		<% if @requests %>
+			<%= generateTableRow(@requests,17, "progress-info").html_safe %>
+		<% end %>
+		<% if @offers %>
+			<%= generateTableRow(@offers,34, "progress-warning").html_safe %>
+		<% end %>
+		<% if @assignments %>
+			<%= generateTableRow(@assignments,51, "progress-danger").html_safe %>
+		<% end %>
+		<% if @orders %>
+			<%= generateTableRow(@orders,68, "progress-info").html_safe %>
+		<% end %>
+		<% if @installations %>
+			<%= generateTableRow(@installations,85, "progress-warning").html_safe %>
+		<% end %>
+		<% if @invoices %>
+			<%= generateTableRow(@invoices,100, "progress-success").html_safe %>
+		<% end %>
+	</table>
+</div>

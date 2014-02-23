@@ -106,6 +106,10 @@
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <li>
+                      <a href="<%= customer_overview_index_path %>">Overview</a>
+                    </li>
+                    <li class="divider"></li>
 		    <% if can?(:open, Request) %>
                     <li class="dropdown-submenu">
                       <a tabindex="-1" href="#">Requests</a>
