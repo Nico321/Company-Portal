@@ -24,7 +24,7 @@
 									<td><b>-</b></td>
 								 <% elsif %>
 									<td>   <%= user[0].count %></td>
-									<td>   <%= (user[0].count.to_d/User.count.to_d) *100 %>%</td>
+									<td>   <%= ((user[0].count.to_d/User.count.to_d) *100).round %>%</td>
 								<% end %>
 							</tr>
 						  <% end %>

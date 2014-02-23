@@ -4,10 +4,6 @@
 		<title>Reporting Process</title>
 	</head>
 	<body>
-	<%= @test %><br>
-	<%= @test1 %><br>
-	<%= @test2 %><br>
-	<%= @test3 %><br>
 	 <h2>Reporting: Businessprocess </h2>
 		<div class="container">
 			<div class="row">
@@ -23,8 +19,8 @@
 										<td><img src="<%= @chart2 %>"></td>
 									</tr>
 								  <tr>
-									<td><b>Description</b></td>
-									<td><b>Content</b></td>
+									<th>Description</th>
+									<th>Content</th>
 								  </tr>
 									<tr>
 										<td>Offers to Assignment: </td>
@@ -58,7 +54,7 @@
 								    	<%= User.where("id like '#{customer[0]}'").first.lastname %><br>
 								       </b>
 								    	<%= User.where("id like '#{customer[0]}'").first.phone %><br>
-								    	Hightest Order: <%=customer[1] %>
+								    	Hightest Order: <%=customer[1] %><br><br>
 							  		<% end %>
 							  <% end %>
 							<% end %>				  

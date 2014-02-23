@@ -340,14 +340,13 @@ load_and_authorize_resource
 		end
 
 	def findCustomer(customer, invoice)
-			pos=0
-			until pos == customer.length
-				@test2 = "in"
-				if customer[pos][0] == invoice.customer_id
-					return pos
-				end
-				pos +=1
+		pos=0
+		until pos == customer.length
+			if customer[pos][0] == invoice.customer_id
+				return pos
 			end
+			pos +=1
+		end
 	end
 
 		if !Invoice.all.blank?
@@ -379,12 +378,15 @@ load_and_authorize_resource
 						end
 				 	end
 				end
-				customer[1].sort 
+				customer.each do |cu|
+					if cu[1].blank?
+						cu[1] = 0
+					end
+				end
+				returncustomer.sort_by { |e| e[1] }
 			end
 		end
-#------------------------------------------------------------
-
-
+		
 		# to return only one array
 		main[0] = requests
 		main[1] = offers
@@ -429,5 +431,56 @@ load_and_authorize_resource
 		user[3][1] = "accountend"
 		user[4][1] = "technican"
 	 return user
+	end
+
+#------------------------------------------------------------------------------
+#User Methods
+#------------------------------------------------------------------------------
+
+	def shop
+		all = getItems
+		@top = all[0..9]
+		@worst = all[getItems.length-10..getItems.length]
+	end
+
+	def findItem(items ,position)
+		pos= 0
+		until pos == items.length
+			if items[pos][0] == position.article_id
+				return 3
+			end
+			pos +=1
+		end
+	return nil
+	end
+
+	def getItems
+		if !Article.count.blank? && !Invoice.count.blank?
+			items = Array.new(Article.all.count){Array.new(2)}
+			if !Invoice.all.blank?
+				Invoice.all.each do |invoice|
+					if !invoice.positions.blank?
+						invoice.positions.each do |position|
+							if findItem(items, position) == nil
+								i = -1
+								items.each do |item|
+									if items != nil
+										i +=1
+									 else
+									 	i +=0
+									end
+									items[i][0] = position.article_id
+									items[i][1] = position.quantity
+							 	end
+							 else
+							 	itmes[findItem(items, position)][1] += position.quantity
+							end
+						end
+					end
+				end
+			end
+			items.sort_by { |e| e[1] }
+		end
+		return items
 	end
 end

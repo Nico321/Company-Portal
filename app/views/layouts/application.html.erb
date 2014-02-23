@@ -177,6 +177,21 @@
 
                   </ul>
                 </div>
+                
+  		  <li>     
+		  <% if can?(:manage, Article) %>  
+  		  <div class="dropdown">
+  		    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+           		Articles
+           		<span class="caret"></span>
+           		</button>
+           		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                	<li><%= link_to 'Show Article', articles_path  %></li>  
+                        <li><%= link_to 'New Article', new_article_path %></li>
+           	        </ul>
+          	  </div>
+		  <% end %>
+		  </li>
               <% end %>
             </ul>
           </div><!--/.nav-collapse -->

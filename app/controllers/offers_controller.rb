@@ -14,7 +14,7 @@ class OffersController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render :pdf => "file_name", :template => 'offers/show.html.erb'
+        render :pdf => "file_name", :template => 'offers/show.html.erb', :encoding => "utf-8"
       end
     end
   end

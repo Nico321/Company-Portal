@@ -70,6 +70,11 @@ ActiveRecord::Schema.define(version: 20140218204005) do
     t.datetime "updated_at"
   end
 
+  create_table "carts", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "installations", force: true do |t|
     t.string   "subject"
     t.text     "body"
@@ -93,6 +98,18 @@ ActiveRecord::Schema.define(version: 20140218204005) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "line_items", force: true do |t|
+    t.integer  "article_id"
+    t.integer  "cart_id"
+    t.integer  "line_items", default: 1
+    t.integer  "quantity",   default: 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "line_items", ["article_id"], name: "index_line_items_on_article_id"
+  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id"
 
   create_table "notes", force: true do |t|
     t.string   "subject"

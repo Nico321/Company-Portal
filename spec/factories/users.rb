@@ -5,6 +5,11 @@ FactoryGirl.define do
     email {Faker::Internet.email}
     password 'testtest'
     password_confirmation 'testtest'
+    firstname {Faker::Name.first_name}
+    lastname {Faker::Name.last_name}
+    phone {Faker::PhoneNumber.cell_phone}
+    street {Faker::Address.street_name}
+    zip {Faker::Address.zip_code}
 
     factory :superadmin do
         after(:create) {|user| user.add_role(:superadmin)}
