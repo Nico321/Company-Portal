@@ -18,19 +18,6 @@ CompanyPortal::Application.routes.draw do
     end
   end
 
-  resources :installations do    
-    collection do
-      get 'open'
-      get 'unassumed'
-      get 'assumed'
-      get 'convert'
-    end
-    member do
-      get 'assume'
-      get 'release'
-    end
-  end
-
   resources :installations do
     collection do
       get 'open'
@@ -109,6 +96,7 @@ post "reporting/businessprocess", controller: "reporting", action:"businessproce
       get 'assume'
       get 'release'
       get 'publish'
+      get 'decline'
     end    
   end
 
