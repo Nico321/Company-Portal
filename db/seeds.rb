@@ -5,6 +5,19 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+require 'factory_girl_rails'
+
+
+##################################
+#
+# Seeds for roles(Sven)
+##################################
+
+superadmin = FactoryGirl.create(:superadmin, :email => "superadmin@example.com")
+sales = FactoryGirl.create(:sales, :email => "sales@example.com")
+customer = FactoryGirl.create(:customer, :email => "customer@example.com")
+accountend = FactoryGirl.create(:accountend, :email => "accountend@exmaple.com")
+technican = FactoryGirl.create(:technican, :email => "technican@example.com")
 
 ###########################################################
 #
@@ -15,12 +28,13 @@ bserver = Article.create!(name: "Big Server", description: "This Server is reall
 mserver = Article.create!(name: "Medium Server", description: "This Server is not as awesome as the big one but it is better and faster than the small server. It is best used in small to medium sized companies", price: 3999.99, delivertime: 7, supplierid: 1, image: "medium_server.jpg")
 sserver = Article.create!(name: "Small Server", description: "A really durable and sophisticated server for all your needs at your own home-network. Use it as a media-server or just to store your data to be protected from that nosey NSA!", price: 999.99, delivertime: 3, supplierid: 1, image: "small_server.jpg")
 computer= Article.create!(name: "Computer", description: "Just a standard PC for everyday needs. Watching porn or whatever!", price: 599.99, delivertime: 2, supplierid: 1, image: "computer.jpg") 
+
 ###########################################################
 #
 # Seeds for Businessprocess(Nico)
 #
 ###########################################################
-require 'factory_girl_rails'
+
 requests = Array.new
 offers = Array.new
 assignments = Array.new
@@ -28,9 +42,6 @@ orders = Array.new
 installations = Array.new
 invoices = Array.new
 positions = Array.new
-
-sales = FactoryGirl.create(:sales)
-customer = FactoryGirl.create(:customer)
 
 63.times do |i|
 	requests.push FactoryGirl.create(:request, customer: customer)
@@ -98,47 +109,3 @@ end
 	Bugreport.create(subject: "Error 3", description: "I did it", reporter: cu, created_at: Time.now)
  	Bugreport.create(subject: "no Invoice", description: "no", reporter: cu, agent: te, created_at: Time.local(2014,01,21), closed: Time.now)
  	Bugreport.create(subject: "dont want it", description: "description", reporter: cu, agent: te, created_at: Time.local(2014,01,21))
-
-##################################
-#
-# Seeds for roles(Sven)
-##################################
-
-pass = SecureRandom.hex(5)
-superadmin = User.create email:'superadmin@example.com', password: 'testtest',
-password_confirmation: 'testtest'
-# has problem with name admin so superadmin role is better
-superadmin.add_role :superadmin
-puts "Admin password is #{pass}"
-############
-
-pass = SecureRandom.hex(5)
-sales = User.create email:'sales@example.com', password: 'testtest',
-password_confirmation: 'testtest'
-
-sales.add_role :sales
-puts "Sales password is #{pass}"
-###########
-
-pass = SecureRandom.hex(5)
-customer = User.create email:'customer@example.com', password: 'testtest',
-password_confirmation: 'testtest'
-
-customer.add_role :customer
-puts "Customer password is #{pass}"
-##########
-
-pass = SecureRandom.hex(5)
-accountend = User.create email:'accountend@example.com', password: 'testtest',
-password_confirmation: 'testtest'
-
-accountend.add_role :accountend
-puts "Accountend password is #{pass}"
-##########
-
-pass = SecureRandom.hex(5)
-technican = User.create email:'technican@example.com', password: 'testtest',
-password_confirmation: 'testtest'
-
-technican.add_role :technican
-puts "Technican password is #{pass}"

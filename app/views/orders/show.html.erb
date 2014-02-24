@@ -3,6 +3,7 @@
     $('[data-behaviour~=datepicker]').datepicker({format: "yyyy-mm-dd"});
   })
 </script>
+<%= controlLink(@order.assignment, @order.installation).html_safe %>
 <%
   if @order.installation == nil
     noteButton = "order"

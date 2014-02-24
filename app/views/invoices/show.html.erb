@@ -1,8 +1,10 @@
-<% if @invoice.payed == nil
+<% if params[:format] != "pdf" %>
+	<%= controlLink(@invoice.installation, nil).html_safe %>
+
+<% end 
+if @invoice.payed == nil
 	noteButton = "invoice"
 end %>
-
-
 
 <%= showObject(@invoice, noteButton, @invoice.installation.order.assignment.offer.request, true, true, true).html_safe %>
 
