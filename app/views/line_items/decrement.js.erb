@@ -2,5 +2,5 @@ $('#cart').html("<%=j render @cart %>");
 $('#current_item').css({'background-color':'green'}).animate({'background-color':'white'},1500);
 if ($('#cart tr').length ==1) {
 	//Hiding the cart if empty
-	$('#cart').hide('blind',1000);
+	$('#cart').hide('fade',1000);
 }

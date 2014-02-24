@@ -55,7 +55,7 @@ gem 'font-awesome-rails'
 gem 'cancan'
 gem 'will_paginate'
 gem 'wicked_pdf'
-
+gem 'paperclip', :git => "git://github.com/thoughtbot/paperclip.git"
 
 group :development, :test do
   	gem 'rspec-rails'

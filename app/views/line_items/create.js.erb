@@ -1,6 +1,4 @@
-if($('#cart tr').length == 1) { $('#cart').show('blind', 1500)}
-
+if($('#cart tr').length == 1) { $('#cart').show('fade', 1500)}
 $('#cart').html ("<%=escape_javascript render(@cart) %>");
-
 $('#current_item').css({'background-color': 'green'}).
  animate({'background-color': 'white'}, 1500);

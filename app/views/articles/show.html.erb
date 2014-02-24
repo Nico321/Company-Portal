@@ -1,14 +1,14 @@
 <p id="notice"><%= notice %></p>
 
+
+<p>
+  <%= image_tag @article.image.url(:medium) %>
+</p>
 <p>
   <strong>Name:</strong>
   <%= @article.name %>
 </p>
 
-<p>
-  <strong>Image:</strong>
-  <%= @article.image %>
-</p>
 
 <p>
   <strong>Price:</strong>

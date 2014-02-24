@@ -22,7 +22,6 @@ class Cart < ActiveRecord::Base
 		if current_item
 		   if current_item.quantity >1
 			 current_item.quantity -=1
-			 current_item.save
 			else 
 				current_item.destroy
 			end

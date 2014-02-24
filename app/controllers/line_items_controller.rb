@@ -24,10 +24,12 @@ class LineItemsController < ApplicationController
 	def destroy
 		@line_item.destroy
 		respond_to do |format|
-			if @line_item.cart.line_items.empty?
-				format.html {redirect_to(store_url, :notice => "Your cart is empty")}	
+			if @line_item.save
+				format.html {redirect_to store_path}
+				format.js {@current_item = @line_item}
+				format.json { head :ok }	
 			else
-				format.html {redirect_to(store_url, :notice => "Item Removed")}
+				format.html {redirect_to store_path}
 			end
  			
   		end

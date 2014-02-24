@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery.ui.effect-blind
+//= require jquery.ui.effect-fade
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require turbolinks
