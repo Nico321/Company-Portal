@@ -58,6 +58,7 @@ gem 'wicked_pdf'
 gem 'paperclip', :git => "git://github.com/thoughtbot/paperclip.git"
 gem 'factory_girl_rails'
 gem 'faker'
+gem 'fancybox-rails'
 
 group :development, :test do
   	gem 'rspec-rails'

@@ -5,6 +5,7 @@ class CustomerOverviewController < ApplicationController
   	@assignments = Assignment.where("customer_id = '#{current_user.id}' and order_id IS NULL")
   	@orders = Order.where("customer_id = '#{current_user.id}' is installation_id IS NULL")
   	@installations = Installation.where("customer_id = '#{current_user.id}' and invoice_id IS NULL")
-  	@invoices = Invoice.where("customer_id = '#{current_user.id}'")
+  	@invoices = Invoice.where("customer_id = '#{current_user.id}' AND payed IS NULL")
+  	@invoicescompleted = Invoice.where("customer_id = '#{current_user.id}' AND payed IS NOT NULL")
   end
 end

@@ -26,6 +26,7 @@
  *= require welcome.css.scss
  *= require bootstrap-datepicker 
  *= require font-awesome
+ *= require fancybox
  */
 
  .RequestNote {
