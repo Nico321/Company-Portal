@@ -4,8 +4,8 @@ describe 'Sign_in' do
 	let!(:superadmin){FactoryGirl.create(:superadmin)}
 	let!(:sales){FactoryGirl.create(:sales)}
 	let!(:customer){FactoryGirl.create(:customer)}
-	let!(:accountend){FactoryGirl.create(:accountend)}
-	let!(:technican){FactoryGirl.create(:technican)}
+	let!(:accountant){FactoryGirl.create(:accountant)}
+	let!(:technician){FactoryGirl.create(:technician)}
 
 	before(:each) do
 	  visit root_path
@@ -27,13 +27,13 @@ describe 'Sign_in' do
 		page.should have_content "Sign out"
 	end
 
-	it 'allows to sign in as accountend' do
-		login(accountend)
+	it 'allows to sign in as accountant' do
+		login(accountant)
 		page.should have_content "Sign out"
 	end
 
-	it 'allows to sign in as technican' do
-		login(technican)
+	it 'allows to sign in as technician' do
+		login(technician)
 		page.should have_content "Sign out"
 	end
 
@@ -46,7 +46,7 @@ describe 'Sign_in' do
 		page.should have_content 'Show open bugreport' 
 		page.should have_content 'Show unassumed bugreports'
 		page.should have_content 'Show my bugreport'
-		page.should have_content 'Archiv'
+		page.should have_content 'Archive'
 		#Request
 		page.should have_content 'New request'
 		page.should have_content 'Show open requests' 
@@ -69,6 +69,9 @@ describe 'Sign_in' do
 		page.should have_content 'Show my installations'
 		#Invoices
 		page.should have_content 'Show open invoices'
+		#Articles
+		page.should have_content 'Show Article'
+		page.should have_content 'New Article'
 	end
 
 	it 'allows to click sales links' do
@@ -78,6 +81,8 @@ describe 'Sign_in' do
 		#Request
 		page.should have_content 'New request'
 		page.should have_content 'Show open requests'
+		page.should have_content 'Show unassumed requests'
+		page.should have_content 'Show my requests'
 		#Offer
 		page.should have_content 'Pending offers'
 		page.should have_content 'Show open offers'
@@ -90,9 +95,10 @@ describe 'Sign_in' do
 		#Order
 		page.should have_content 'Show open orders'
 		#Installation
-		page.should have_content 'Show open assignments'
+		page.should have_content 'Show open installations'
 		#Invoices
 		page.should have_content 'Show open invoices'
+		page.should have_content 'Archive'
 	end
 
 	it 'allows to click customer links' do
@@ -101,31 +107,26 @@ describe 'Sign_in' do
 		page.should have_content 'New bugreport'
 		#Request
 		page.should have_content 'New request'
-		page.should have_content 'Show open requests' 
-		#Installation
-		page.should have_content 'Show open installations'
-		#Invoices
-		page.should have_content 'Show open invoices'
+		page.should have_content 'Overview'
 	end
 
-	it 'allows to click accountend links' do
-		login(accountend)
+	it 'allows to click accountant links' do
+		login(accountant)
 		#Bugreport
 		page.should have_content 'New bugreport'
 		#Assignments
-		page.should have_content 'Show open assignments'
-		page.should have_content 'Show unassumed assignments'
-		page.should have_content 'Show my assignments'
+		page.should have_content 'Show open invoices'
+		page.should have_content 'Archive'
 	end
 
-	it 'allows to click technican links' do
-		login(technican)
+	it 'allows to click technician links' do
+		login(technician)
 		#Bugreport
 		page.should have_content 'New bugreport'
 		page.should have_content 'Show open bugreport'
 		#Assignments
-		page.should have_content 'Show open assignments'
-		page.should have_content 'Show unassumed assignments'
-		page.should have_content 'Show my assignments'
+		page.should have_content 'Show open installations'
+		page.should have_content 'Show unassumed installations'
+		page.should have_content 'Show my installations'
 	end
 end

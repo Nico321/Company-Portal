@@ -430,14 +430,14 @@ load_and_authorize_resource
 		user[0][0] = (User.with_role :superadmin)
 		user[1][0] = (User.with_role :sales)
 		user[2][0] = (User.with_role :customer)
-		user[3][0] = (User.with_role :accountend)
-		user[4][0] = (User.with_role :technican)
+		user[3][0] = (User.with_role :accountant)
+		user[4][0] = (User.with_role :technician)
 
 		user[0][1] = "superadmin"
 		user[1][1] = "sales"
 		user[2][1] = "customer"
-		user[3][1] = "accountend"
-		user[4][1] = "technican"
+		user[3][1] = "accountant"
+		user[4][1] = "technician"
 	 return user
 	end
 

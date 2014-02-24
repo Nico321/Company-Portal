@@ -12,12 +12,11 @@ class Ability
 		# issue with the admin role doesn't get the right role if not commentend
 		# everyone has role :admin
 			if user.has_role?(:superadmin)
-			#Admin    
-			can :manage, :all 
+				can :manage, :all 
 			elsif user.has_role?(:accountant)
 				can :read, :all, :except => [Bugreport]
-				can :edit, Invoice
-				can :open, Invoice
+				can :manage, Invoice
+				cannot :destroy, Invoice
 				can :index, Archive
 			elsif user.has_role?(:technician)
 				can :manage, Installation
@@ -26,8 +25,7 @@ class Ability
 				can :index, Archive
 				can :manage, Bugreport
 				cannot :destroy, Bugreport
-				can :manage, Invoice
-				cannot :destroy, Invoice
+				can :convert, Invoice
 			elsif user.has_role?(:customer)
 				can :read, :all, :customer => user
 				can :create, Request
@@ -44,6 +42,8 @@ class Ability
 				cannot :assumed, Installation
 				cannot :unassumed, Installation
 				cannot :convert, Invoice
+				cannot :manage, Bugreport
+				can :create, Bugreport
 			else 
 				user.add_role(:customer)
 				user.save       

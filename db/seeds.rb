@@ -16,8 +16,8 @@ require 'factory_girl_rails'
 superadmin = FactoryGirl.create(:superadmin, :email => "superadmin@example.com")
 sales = FactoryGirl.create(:sales, :email => "sales@example.com")
 customer = FactoryGirl.create(:customer, :email => "customer@example.com")
-accountend = FactoryGirl.create(:accountend, :email => "accountend@exmaple.com")
-technican = FactoryGirl.create(:technican, :email => "technican@example.com")
+accountant = FactoryGirl.create(:accountant, :email => "accountant@exmaple.com")
+technician = FactoryGirl.create(:technician, :email => "technician@example.com")
 
 ###########################################################
 #
@@ -106,11 +106,11 @@ end
 #
 ###########################################################
  cu = FactoryGirl.create(:customer)
- te = FactoryGirl.create(:technican)
+ te = FactoryGirl.create(:technician)
 	Bugreport.create(subject: "Error 3", description: "I did it", reporter: cu, created_at: Time.now)
  	Bugreport.create(subject: "no Invoice", description: "no", reporter: cu, agent: te, created_at: Time.local(2014,01,21), closed: Time.now)
  	Bugreport.create(subject: "dont want it", description: "description", reporter: cu, agent: te, created_at: Time.local(2014,01,21))
 
-#puts "Technican password is #{pass}"
+#puts "technician password is #{pass}"
 puts "all PWs are testtest"
 

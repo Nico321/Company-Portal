@@ -23,12 +23,12 @@ FactoryGirl.define do
         after(:create) {|user| user.add_role(:sales)}
     end
 
-    factory :technican do
-        after(:create) {|user| user.add_role(:technican)}
+    factory :technician do
+        after(:create) {|user| user.add_role(:technician)}
     end
 
-    factory :accountend do
-        after(:create) {|user| user.add_role(:accountend)}
+    factory :accountant do
+        after(:create) {|user| user.add_role(:accountant)}
     end
   end
 end
