@@ -7,17 +7,17 @@
     <td><%= number_to_currency(line_item.total_price)%></td>
     
      <td>
-    <%= button_to decrement_line_item_path(line_item), method: :put,:name => line_item.id, remote: true, :class => 'btn btn-default btn-mini' do %>
+    <%= button_to decrement_line_item_path(line_item), method: :put,:id => "decrement#{line_item.id}", remote: true, :class => 'btn btn-default btn-mini' do %>
 		<i class= "fa fa-minus-square-o"></i>
 		<% end %>
 		</td>
     <td>
-      <%= button_to line_items_path(article_id: line_item.article), remote: true ,:class =>"btn btn-default btn-mini" do %>
+      <%= button_to line_items_path(article_id: line_item.article), :id =>"increment#{line_item.id}", remote: true ,:class =>"btn btn-default btn-mini" do %>
             <i class= "fa fa-plus-square-o"></i>
         <% end %> 
     </td>
     <td>
-    <%= button_to line_item_path(line_item), method: :delete,:name => line_item.id, remote: true, :class => 'btn btn-danger btn-mini' do %>
+    <%= button_to line_item_path(line_item), method: :delete,:id => "delete#{line_item.id}", remote: true, :class => 'btn btn-danger btn-mini' do %>
 		<i class= "fa fa-trash-o fa-lg"></i>
 		<% end %>
 		</td>

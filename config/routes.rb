@@ -51,6 +51,7 @@ CompanyPortal::Application.routes.draw do
       get 'unassumed'
       get 'assumed'
       get 'convert'
+      get 'convert_from_cart'
     end
     member do
       get 'assume'
@@ -114,7 +115,9 @@ post "reporting/businessprocess", controller: "reporting", action:"businessproce
 
   resources :suppliers
 
-  devise_for :users
+  devise_for :users do
+   delete "/sign_out" => "users#destroy"
+ end
   resources :bugreports do
     collection do
       get "open"
