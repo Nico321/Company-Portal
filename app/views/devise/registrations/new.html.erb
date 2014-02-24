@@ -27,5 +27,9 @@
   <div><%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %></div>
 
+  <div>
+    <%= f.file_field :avatar %>
+  </div>
+
   <div><%= f.submit "Sign up", :class => "btn btn-info" %></div>
 <% end %>
