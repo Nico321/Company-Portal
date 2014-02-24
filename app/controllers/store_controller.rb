@@ -3,6 +3,6 @@ class StoreController < ApplicationController
   before_action :set_cart
   
   def index
-  	@articles = Article.order(:name)
+  	@articles = Article.order(:name).paginate(:per_page => 10, :page => params[:page])
   end
 end
