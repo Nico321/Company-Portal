@@ -23,7 +23,7 @@
           <td><%=number_to_currency(article.price)%></td>
           <td><%= article.delivertime %> days</td>
           <td>
-          <%= button_to line_items_path(article_id: article),:name => article.id, remote: true ,:class =>"btn btn-success" do %>
+          <%= button_to line_items_path(article_id: article),:id => article.id, remote: true ,:class =>"btn btn-success" do %>
             <i class= "fa fa-shopping-cart"></i>
           <% end %> 
           </td>
