@@ -3,8 +3,8 @@
 <table class="table table-striped table-hover" >
   <thead>
     <tr>
+      <th></th>
       <th>Name</th>
-      <th>Image</th>
       <th>Price</th>
       <th>Delivertime</th>
       <th>Supplierid</th>
@@ -17,8 +17,8 @@
   <tbody>
     <% @articles.each do |article| %>
       <tr>
+        <td><%= image_tag article.image.url(:mini) %></td>
         <td><%= article.name %></td>
-        <td><%= article.image %></td>
         <td><%= article.price %></td>
         <td><%= article.delivertime %></td>
         <td><%= article.supplierid %></td>

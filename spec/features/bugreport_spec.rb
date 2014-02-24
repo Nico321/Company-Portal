@@ -19,7 +19,6 @@ describe "Bugreports"  do
 			visit "bugreports/new"
 			fill_in "bugreport_subject", with: "Error 500"
 			fill_in "bugreport_description", with: "Error"
-			#click_button "Create Bugreport"
 			expect{click_button "Create Bugreport"}.to change{Bugreport.count}.by(1)
 		end
 

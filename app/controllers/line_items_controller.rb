@@ -9,7 +9,8 @@ class LineItemsController < ApplicationController
 
 		respond_to do |format|
 			if @line_item.save
-				format.html { redirect_to @line_item.cart}
+				format.html { redirect_to store_url}
+				format.js  { @current_item = @line_item}
 				format.json { render action:'show',
 				  status: :created, location: @line_item }
 			else
@@ -23,21 +24,25 @@ class LineItemsController < ApplicationController
 	def destroy
 		@line_item.destroy
 		respond_to do |format|
-			if @line_item.cart.line_items.empty?
-				format.html {redirect_to(store_url, :notice => "Your cart is empty")}	
+			if @line_item.save
+				format.html {redirect_to store_path}
+				format.js {@current_item = @line_item}
+				format.json { head :ok }	
 			else
-				format.html {redirect_to(@cart, :notice => "Item Removed")}
+				format.html {redirect_to store_path}
 			end
  			
   		end
     end
 
     def decrement
-    	@line_item = LineItem.find(params[:line_item_id])
+    	@line_item = LineItem.find(params[:id])
     	@line_item= @cart.remove_article(@line_item.article_id)  
 	    respond_to do |format|
-			if @line_item.cart.line_items.empty?
-				format.html {redirect_to(store_url, :notice => "Your cart is empty")}	
+			if @line_item.save
+				format.html {redirect_to store_path}
+				format.js {@current_item = @line_item}
+				format.json {head :ok}	
 			else
 				format.html {redirect_to(@cart, :notice => "Item Removed")}
 			end	

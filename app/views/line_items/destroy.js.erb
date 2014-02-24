@@ -1,0 +1,6 @@
+$('#cart').html("<%=j render @cart %>");
+$('#current_item tr').remove()
+if ($('#cart tr').length ==1) {
+	//Hiding the cart if empty
+	$('#cart').hide('fade',1500);
+}

@@ -2,35 +2,23 @@ require 'spec_helper'
 
 describe "shop" do
 
-let!(:bserver) {Article.create!(name: "Big Server", description: "This Server is really awesome and will fulfil all your needs. From medium to big sized companies. Try it out!", price: 8999.99, delivertime: 10, supplierid: 1, image: "big_server.jpg")}
-let!(:mserver) {Article.create!(name: "Medium Server", description: "This Server is not as awesome as the big one but it is better and faster than the small server. It is best used in small to medium sized companies", price: 3999.99, delivertime: 7, supplierid: 1, image: "medium_server.jpg")}
-let!(:sserver) {Article.create!(name: "Small Server", description: "A really durable and sophisticated server for all your needs at your own home-network. Use it as a media-server or just to store your data to be protected from that nosey NSA!", price: 999.99, delivertime: 3, supplierid: 1, image: "small_server.jpg")}
-let!(:computer){Article.create!(name: "Computer", description: "Just a standard PC for everyday needs. Watching porn or whatever!", price: 599.99, delivertime: 2, supplierid: 1, image: "computer.jpg")} 
+let!(:bserver) {FactoryGirl.create(:article, name: "Big Server", description: "This Server is really awesome and will fulfil all your needs. From medium to big sized companies. Try it out!", price: 8999.99, delivertime: 10, image: File.new("#{Rails.root}/spec/support/fixtures/bigserver.jpg"))}
+let!(:mserver) {FactoryGirl.create(:article, name: "Medium Server", description: "This Server is not as awesome as the big one but it is better and faster than the small server. It is best used in small to medium sized companies", price: 3999.99, delivertime: 7, image: File.new("#{Rails.root}/spec/support/fixtures/mediumserver.jpg"))}
+let!(:sserver) {FactoryGirl.create(:article, name: "Small Server", description: "A really durable and sophisticated server for all your needs at your own home-network. Use it as a media-server or just to store your data to be protected from that nosey NSA!", price: 999.99, delivertime: 3, image: File.new("#{Rails.root}/spec/support/fixtures/smallserver.jpg"))}
+let!(:computer){FactoryGirl.create(:article, name: "Computer", description: "Just a standard PC for everyday needs. Watching porn or whatever!", price: 599.99, delivertime: 2, image: File.new("#{Rails.root}/spec/support/fixtures/computer.jpg"))}
 		
-	it 'creates a new article if the cart is empty' do
-			visit store_url
-			visit line_items_path(article_id: bserver)
-			page.should have_content "Big Server"
+	it 'displays cart in sidebar if its first article' do
+		visit store_url
+		#visit line_items_path(bserver)
+		#find('#cart').find('h2').should have_content('Your Cart')
 	end
 
-	it 'removes an article from current cart' do
-			visit store_url
-			page.should have_content "Item removed"
+	it 'hides cart in sidebar if its empty' do
+		visit store_url
 	end
 
-	it 'increments quantity of an article' do
-
+	it 'shows added article in sidebar cart' do
+		visit store_url
 	end
 
-	it 'decrements quantity of an article' do
-	
-	end
-
-	it 'clears the current cart' do
-
-	end
-
-	it 'redirects to shoping page when hitting "go on shopping"' do
-
-	end
 end

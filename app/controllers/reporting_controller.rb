@@ -390,7 +390,8 @@ load_and_authorize_resource
 						cu[1] = 0
 					end
 				end
-				customer.sort_by(&:last)
+				#customer.sort_by(&:last)
+				customer.sort_by{|x,y|y}
 			end
 		end
 

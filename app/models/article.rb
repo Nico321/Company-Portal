@@ -4,13 +4,14 @@ class Article < ActiveRecord::Base
 	has_many :line_items
 	before_destroy :ensure_not_referenced_by_any_line_item
 
-	validates :name, :description, :image, presence: true
+	has_attached_file :image, :styles => {:medium => "300x300>", :mini => "70x60>"},
+	:path => "#{Rails.root}/public/images/articles/:id/:style/:basename.:extension",
+	:url => "/images/articles/:id/:style/:basename.:extension"
+	validates_attachment_content_type :image, :content_type => /^image\/(png|gif|jpg|jpeg)/
+
+	validates :name, :description, presence: true
 	validates :price, numericality: {greater_than_or_equal_to: 0.01}
-	validates :name, uniqueness: true
-	validates :image, allow_blank: true, format: {
-		with: %r{\.(gif|jpg|png)\Z}i,
-		message: 'must be a URL for GIF,JPG or PNG image.'
-	}
+	validates :name, uniqueness: true 
 
 	def self.latest
 		Article.order{:updatet_at}.last 

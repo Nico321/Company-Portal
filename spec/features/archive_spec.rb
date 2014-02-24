@@ -1,9 +1,10 @@
 require "spec_helper"
 describe "Archive" do
 	context 'new archive entry' do
+		 let!(:superadmin){FactoryGirl.create(:superadmin)}
 		it 'create request archive' do
 
-			login
+			login(superadmin)
 
 			visit root_path
 			click_link "New request"
