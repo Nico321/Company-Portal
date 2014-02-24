@@ -79,4 +79,5 @@ CompanyPortal::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.active_record.default_timezone = :utc
+  config.action_controller.relative_url_root  = "/company-portal"
 end
