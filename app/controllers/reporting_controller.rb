@@ -89,7 +89,7 @@ load_and_authorize_resource
 		@mydata = params[:value]
 		case @mydata
 			when "0"
-				@chart =	createBarChart("400x400", "Created/Closed", ["FF0000", "008000"], ["Created", "Closed"], bugreportsShow(0,0,0),Bugreport.all.count, ["All"])			
+				@chart =	createBarChart("400x400", "Created/Closed", ["FF0000", "008000"], ["Created", "Closed"], bugreportsShow(2000,0,0),Bugreport.all.count, ["All"])			
 			when "1"
 				@chart =	createBarChart("650x400", "Created/Closed", ["FF0000", "008000"], ["Created", "Closed"], bugreportsShow(Time.now.year,0,0), Bugreport.all.count, [["Jan", "Feb", "Mar", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]])
 			when "2"
@@ -246,7 +246,7 @@ load_and_authorize_resource
 				pay = "payed >= '#{iyear}-0#{imonth}-0#{iday}' AND payed <= '#{iyear}-0#{imonth}-0#{iday+1}'"
 			end
 		 elsif time == 0		 	
-		 	t = 0
+		 	t = Time.local(2000,01,01)
 		 	y = 0
 			m = 0
 			d = 0
@@ -411,7 +411,7 @@ load_and_authorize_resource
 #User Methods
 #------------------------------------------------------------------------------
 	def user
-		@user = getUserInfos
+		@users = getUserInfos
 		@chart = createPieChart("400x200", "user spreading", [getUserInfos[0][0].count,getUserInfos[1][0].count,getUserInfos[2][0].count,getUserInfos[3][0].count,getUserInfos[4][0].count], [getUserInfos[0][1], getUserInfos[1][1],getUserInfos[2][1], getUserInfos[3][1], getUserInfos[4][1]])
 	
 		@mydata = params[:value]
@@ -481,7 +481,7 @@ load_and_authorize_resource
 									items[i][1] = position.quantity
 							 	end
 							 else
-							 	itmes[findItem(items, position)][1] += position.quantity
+							 	items[findItem(items, position)][1] += position.quantity
 							end
 						end
 					end

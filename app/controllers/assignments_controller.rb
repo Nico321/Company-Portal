@@ -131,6 +131,29 @@ class AssignmentsController < ApplicationController
     end
   end
 
+    def convert_from_cart
+      if current_user 
+          @cart = Cart.find(session[:cart_id])
+          @request = Request.create(subject: "StoreOrder", customer: current_user, urgency: 1, body: "StoreOrder")
+          @offer = Offer.create(subject: "StoreOrder", customer: current_user, request: @request)
+          @request.offer = @offer
+          @request.save
+
+          @assignment = Assignment.create(subject: "StoreOrder", customer: current_user, offer: @offer)
+          @offer.assignment = @assignment
+          @offer.save
+
+          @cart.line_items.each do |line_item|
+            @position = Position.create(quantity: line_item.quantity, article: line_item.article, assignment: @assignment, offer: @offer)
+          end
+          @cart.destroy
+
+          redirect_to @assignment
+        else
+          redirect_to new_user_session_path
+        end
+    end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_assignment

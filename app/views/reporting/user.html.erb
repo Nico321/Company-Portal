@@ -15,8 +15,8 @@
 							<td><b>number of</b></td>
 							<td><b>percentage</b></td>
 						</tr>
-						 <% if !@user.blank? %>
-						  <% for user in @user %>
+						 <% if !@users.blank? %>
+						  <% for user in @users %>
 						    <tr>
 								<td><%= user[1] %></td>
 								<% if user[0].count == 0 %>

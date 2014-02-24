@@ -2,7 +2,7 @@ class Ability
 	include CanCan::Ability
 
 	def initialize(user)
-
+		can :convert_from_cart, Assignment
 		#user ||=User.new # guest user
 		if user.present?
 			can :create,  Bugreport
