@@ -20,7 +20,7 @@ load_and_authorize_resource
 		@openBugreports = Bugreport.all.count(:agent == nil)
 		@userAll = User.all.count
 		@userOnline = User.online.count
-		if Installation.where("installationdate = '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}'").count.to_d == 0
+		if Installation.where("installationdate > '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}-01'").count.to_d == 0
 			@installations = "cant be solved"
 		 else
 			@installations = (Installation.where("installationdate > '#{Time.now.year}-#{Time.now.strftime("%m")}'").count.to_d / Installation.where("installationdate = '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}'").count.to_d)-1
