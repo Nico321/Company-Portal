@@ -205,7 +205,7 @@
             <td><%= f.password_field :password, :placeholder => "Password" %></td>
             <td><%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in <i class="fa fa-sign-in"></i><% end %></td>
             <% end %>
-            <td><%=link_to new_user_registration_path  , :class => "btn btn-info" do%>Sing Up <i class="fa fa-share"></i<% end %></td>
+            <td><%=link_to new_user_registration_path  , :class => "btn btn-info", :id => "signup" do %>Sign Up <i class="fa fa-share" style="display: inline-block;"></i<% end %></td>
             </tr></table></div>
             <% end %>
           </div><!--/.nav-collapse -->
