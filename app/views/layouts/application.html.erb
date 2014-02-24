@@ -107,17 +107,16 @@
                       <a href="<%= customer_overview_index_path %>">Overview</a>
                     </li>
                     <li class="divider"></li>
-		    <% if can?(:open, Request) %>
+		    <% if can?(:read, Request) %>
                     <li class="dropdown-submenu">
                       <a tabindex="-1" href="#">Requests</a>
                       <ul class="dropdown-menu">
                         <li><%= link_to "New request", new_request_path %></li>
+                        <% if can?(:assume, Request) %>
                         <li class="divider"></li>
                         <li><%= link_to "Show open requests(#{Request.where('offer_id IS NULL').count})", open_requests_path %></li>
-		        <% if can?(:assume, Bugreport) %>
                         <li><%= link_to "Show unassumed requests (#{Request.where('agent_id IS NULL and offer_id IS NULL').count})", unassumed_requests_path %></li>
                         <li><%= link_to "Show my requests (#{Request.where(agent_id: current_user.id).where('offer_id IS NULL').count})", assumed_requests_path %></li>
-			<% end %>
                       </ul>
                     </li>
 		    <% end %>
@@ -130,6 +129,7 @@
                         <li><%= link_to "Show open offers(#{Offer.where('assignment_id IS NULL AND publication IS NULL').count})", open_offers_path %></li>
                         <li><%= link_to "Show unassumed offers (#{Offer.where('agent_id IS NULL and assignment_id IS NULL AND publication IS NULL').count})", unassumed_offers_path %></li>
                         <li><%= link_to "Show my offers (#{Offer.where(agent_id: current_user.id).where('assignment_id IS NULL AND publication IS NULL').count})", assumed_offers_path %></li>
+                        <% end %>
                       </ul>
                     </li>
 		    <% end %>
@@ -150,20 +150,20 @@
                         <li><%= link_to "Show open orders(#{Order.where('installation_id IS NULL').count})", orders_path %></li>
                       </ul>
                     </li>   
-	            <% end %>   
-		    <% if can?(:open, Installation) %>          
+	      <% end %>   
+		    <% if can?(:manage, Installation) %>          
                     <li class="dropdown-submenu">
                       <a tabindex="-1" href="#">Installations</a>
                       <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                         <li><%= link_to "Show open installations(#{Installation.where('invoice_id IS NULL').count})", open_installations_path %></li>
-		        <% if can?(:manage, Installation) %>
+          <% if can?(:assume, Installation) %>
                         <li><%= link_to "Show unassumed installations (#{Installation.where('agent_id IS NULL and invoice_id IS NULL').count})", unassumed_installations_path %></li>
                         <li><%= link_to "Show my installations (#{Installation.where(agent_id: current_user.id).where('invoice_id IS NULL').count})", assumed_installations_path %></li>
-		        <% end %>
-                      </ul>
+                      <% end %>
+                    </ul>
                     </li>
 		    <% end %>
-		    <% if can?(:read, Invoice) %> 
+		    <% if can?(:manage, Invoice) %> 
                     <li class="dropdown-submenu">
                       <a tabindex="-1" href="#">Invoices</a>
                       <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -171,11 +171,12 @@
                       </ul>
                     </li>
                     <% end %>
+        <% if can?(:index, Archive) %>
                     <li class="divider"></li>
                     <li>
                       <a href="<%= archive_index_path %>">Archive</a>
                     </li>
-
+        <% end %>
                   </ul>
                 </div>
                 
@@ -202,9 +203,9 @@
             <%= form_for(:user, :url => session_path(:user)) do |f| %>
             <td><%= f.text_field :email, :placeholder => "Username" %></td>
             <td><%= f.password_field :password, :placeholder => "Password" %></td>
-            <td><%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in<i class="fa fa-sign-out"></i><% end %></td>
+            <td><%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in <i class="fa fa-sign-in"></i><% end %></td>
             <% end %>
-            <td><%=link_to 'Sign up', new_user_registration_path  , :class => "btn btn-info"%> </td>
+            <td><%=link_to new_user_registration_path  , :class => "btn btn-info" do%>Sing Up <i class="fa fa-share"></i<% end %></td>
             </tr></table></div>
             <% end %>
           </div><!--/.nav-collapse -->
