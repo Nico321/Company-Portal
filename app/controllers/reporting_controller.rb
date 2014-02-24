@@ -221,7 +221,7 @@ load_and_authorize_resource
 
 	def getBusinessprocessData(time)
 		if time == "year"
-			t = Time.now.year
+			t = Time.local(Time.now.year,1,1)
 			y = Time.now.year
 			m = 0
 			d = 0
@@ -242,14 +242,14 @@ load_and_authorize_resource
 				ymd = "created_at >= '#{iyear}-0#{imonth}-#{iday}' AND created_at <= '#{iyear}-0#{imonth}-#{iday+1}'"
 				pay = "payed >= '#{iyear}-0#{imonth}-#{iday}' AND payed <= '#{iyear}-0#{imonth}-#{iday+1}'"
 			 else	
-				ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday+1}'"
-				pay = "payed >= '#{iyear}-0#{imonth}-0#{iday}' AND payed <= '#{iyear}-0#{imonth}-0#{iday+1}'"
+				ymd = "created_at >= '#{iyear}-#{imonth}-0#{iday}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday+1}'"
+				pay = "payed >= '#{iyear}-#{imonth}-0#{iday}' AND payed <= '#{iyear}-0#{imonth}-0#{iday+1}'"
 			end
 		 elsif time == 0		 	
 		 	t = Time.local(2000,01,01)
-		 	y = 0
-			m = 0
-			d = 0
+		 	y = 2000
+			m = 1
+			d = 1
 			ymd = ymd = "created_at >= '#{Time.local(y,m,d)}'"
 			pay = "payed is not null"
 		 elsif time == "lastYear"
