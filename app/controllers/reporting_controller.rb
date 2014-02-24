@@ -20,16 +20,16 @@ load_and_authorize_resource
 		@openBugreports = Bugreport.all.count(:agent == nil)
 		@userAll = User.all.count
 		@userOnline = User.online.count
-		if Installation.where("installationdate = '#{Time.now.year}-%#{(Time.now.month)-1}-%'").count.to_d == 0
+		if Installation.where("installationdate > '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}-01'").count.to_d == 0
 			@installations = "cant be solved"
 		 else
-			@installations = (Installation.where("installationdate > '#{Time.now.year}-%#{Time.now.month}-%'").count.to_d / Installation.where("installationdate = '#{Time.now.year}-%#{(Time.now.month)-1}-%'").count.to_d)-1
+			@installations = (Installation.where("installationdate > '#{Time.now.year}-#{Time.now.strftime("%m")}-01'").count.to_d / Installation.where("installationdate >= '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}-01' AND installationdate >= '#{Time.now.year}-#{Time.now.strftime("%m")}-01'").count.to_d)-1
 		end
 		@userOnline = User.online.count
-		if Request.where("created_at = '#{Time.now.year}-%#{(Time.now.month)-1}-%'").count.to_d == 0
+		if Request.where("created_at >= '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}-01' AND created_at < '#{Time.now.year}-#{Time.now.strftime("%m")}-01'").count.to_d == 0
 			@requests = "cant be solved"
 		 else
-			@requests = (Request.where("created_at > '#{Time.now.year}-%#{Time.now.month}-%'").count.to_d / Request.where("created_at = '#{Time.now.year}-%#{(Time.now.month)-1}-%'").count.to_d)-1
+			@requests = (Request.where("created_at > '#{Time.now.year}-#{Time.now.strftime("%m")}'-01").count.to_d / Request.where("created_at >= '#{Time.now.year}-#{Time.now.strftime("%m")}-01' AND created_at < '#{Time.now.year}-#{Time.now.month_since(1).strftime("%m")}-01'").count.to_d)-1
 		end
 	end
 
@@ -106,11 +106,11 @@ load_and_authorize_resource
 		until i == 12 do
 			i += 1
 			if i<10
-				month[0][i-1] = Bugreport.where("created_at like '?-0?%'",iyear, i).count
-				month[1][i-1] = Bugreport.where("closed 	like '%?-0?%'",iyear, i).count
+				month[0][i-1] = Bugreport.where("created_at >= '#{iyear}-0#{i}-01' AND created_at <= '#{iyear}-0#{i+1}-01'",iyear, i).count
+				month[1][i-1] = Bugreport.where("closed >= '#{iyear}-0#{i}-01' AND closed <= '#{iyear}-0#{i+1}-01'",iyear, i).count
 			 else
-				month[0][i-1] = Bugreport.where("created_at like '%?-?%'",iyear, i).count
-				month[1][i-1] = Bugreport.where("closed 	like '%?-?%'",iyear, i).count
+				month[0][i-1] = Bugreport.where("created_at >= '#{iyear}-#{i}-01' AND created_at <= '#{iyear}-#{i+1}-01'",iyear, i).count
+				month[1][i-1] = Bugreport.where("closed >= '#{iyear}-#{i}-01' AND closed <= '#{iyear}-#{i+1}-01'",iyear, i).count
 			end
 		end
 		#-----------Daybreaks-------
@@ -127,17 +127,17 @@ load_and_authorize_resource
 					iday += 1
 			end
 			if imonth < 10 && iday <10 && time < 10
-				hours[0][counter] = Bugreport.where("created_at like '?-0?-0? 0?%'", iyear, imonth, iday, time).count
-				hours[1][counter] = Bugreport.where("closed 	like '?-0?-0? 0?%'", iyear,imonth, iday, time).count
+				hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-0#{imonth}-0#{iday} 0#{time}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday} 0#{time+1}'", iyear,imonth, iday, time).count
+				hours[1][counter] = Bugreport.where("closed >= '#{iyear}-0#{imonth}-0#{iday} 0#{time}' AND closed <= '#{iyear}-0#{imonth}-0#{iday} 0#{time+1}'", iyear,imonth, iday, time).count
 			elsif imonth < 10 && iday <10 && time >= 10
-			 	hours[0][counter] = Bugreport.where("created_at like '?-0?-? ?%'", iyear, imonth, iday, time).count
-			 	hours[1][counter] = Bugreport.where("closed 	like '?-0?-0? ?%'", iyear, imonth, iday, time).count
+				hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-0#{imonth}-0#{iday} #{time}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday} #{time+1}'", iyear,imonth, iday, time).count
+				hours[1][counter] = Bugreport.where("closed >= '#{iyear}-0#{imonth}-0#{iday} #{time}' AND closed <= '#{iyear}-0#{imonth}-0#{iday} #{time+1}'", iyear,imonth, iday, time).count
 			 elsif imonth < 10 && iday >= 10 && time >= 10
-				hours[0][counter] = Bugreport.where("created_at like '?-0?-? ?%'", iyear, imonth, iday, time).count
-				hours[1][counter] = Bugreport.where("closed 	like '?-0?-? ?%'",iyear, imonth, iday, time).count
+				hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-0#{imonth}-#{iday} #{time}' AND created_at <= '#{iyear}-0#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
+				hours[1][counter] = Bugreport.where("closed >= '#{iyear}-0#{imonth}-#{iday} #{time}' AND closed <= '#{iyear}-0#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
 			 elsif	imonth >= 10 && iday >= 10 && time >= 10
-				hours[0][counter] = Bugreport.where("created_at like '?-?-? ?%'", iyear, imonth, iday, time).count
-				hours[1][counter] = Bugreport.where("closed 	like '?-?-? ?%'", iyear, imonth, iday, time).count 	
+				hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-#{imonth}-#{iday} #{time}' AND created_at <= '#{iyear}-#{imonth+1}-#{iday+1} #{time+1}'", iyear,imonth, iday, time).count
+				hours[1][counter] = Bugreport.where("closed >= '#{iyear}-#{imonth}-#{iday} #{time}' AND closed <= '#{iyear}-#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
 			end	
 		end
 	
@@ -225,57 +225,57 @@ load_and_authorize_resource
 			y = Time.now.year
 			m = 0
 			d = 0
-			ymd = "created_at like '#{y}-%'"
-			pay = "payed like '#{y}%'"
+			ymd = "created_at >= '#{Time.local(y,1,1)}'"
+			pay = "payed like '#{y}'"
 		 elsif time == "day"
 		 	t = Time.local(Time.now.year, Time.now.month, Time.now.day)
-		 	y = Time.now.year
-			m = Time.now.month
-			d = Time.now.day
-			if d < 10 && m < 10
-				ymd = "created_at like '#{y}-0#{m}-0#{d} %'"
-				pay = "payed like '#{y}-0#{m}-0#{d} %'"
-			 elsif d < 10
-				ymd = "created_at like '#{y}-#{m}-0#{d} %'"
-				pay = "payed like '#{y}-#{m}-0#{d} %'"
-			 elsif m < 10
-				ymd = "created_at like '#{y}-0#{m}-#{d} %'"
-				pay = "payed like '#{y}-0#{m}-#{d} %'"
+		 	iyear = Time.now.year
+			imonth = Time.now.month
+			iday = Time.now.day
+			if iday < 10 && imonth < 10
+				ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday+1}'"
+				pay = "payed >= '#{iyear}-0#{imonth}-0#{iday}' AND payed <= '#{iyear}-0#{imonth}-0#{iday+1}'"
+			 elsif iday < 10
+			 	ymd = "created_at >= '#{iyear}-#{imonth}-0#{iday}' AND created_at <= '#{iyear}-#{imonth}-0#{iday+1}'"
+				pay = "payed >= '#{iyear}-#{imonth}-0#{iday}' AND payed <= '#{iyear}-#{imonth}-0#{iday+1}'"
+			 elsif imonth < 10
+				ymd = "created_at >= '#{iyear}-0#{imonth}-#{iday}' AND created_at <= '#{iyear}-0#{imonth}-#{iday+1}'"
+				pay = "payed >= '#{iyear}-0#{imonth}-#{iday}' AND payed <= '#{iyear}-0#{imonth}-#{iday+1}'"
 			 else	
-				ymd = "created_at like '#{y}-#{m}-#{d} %'"
-				pay = "payed like '#{y}-%#{m}-#{d} %'"
+				ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday+1}'"
+				pay = "payed >= '#{iyear}-0#{imonth}-0#{iday}' AND payed <= '#{iyear}-0#{imonth}-0#{iday+1}'"
 			end
 		 elsif time == 0		 	
 		 	t = 0
 		 	y = 0
 			m = 0
 			d = 0
-			ymd = "created_at > '#{y}-%#{m}-%#{d} %'"
+			ymd = ymd = "created_at >= '#{Time.local(y,m,d)}'"
 			pay = "payed is not null"
 		 elsif time == "lastYear"
 		 	t = (Time.now.year)-1
-			y = (Time.now.year)-1
-			m = 0
-			d = 0
-			ymd = "created_at like '#{y}-%'"
-			pay = "payed like '#{y}%'"
+			iyear = (Time.now.year)-1
+			imonth = 0
+			iday = 0
+			ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear+1}-0#{imonth}-0#{iday}'"
+			pay = "payed >= '#{iyear}-0#{imonth}-0#{iday}' AND payed <= '#{iyear+1}-0#{imonth}-0#{iday}'"
 		 elsif time == "lastDay"
 		 	t = Time.local(Time.now.year, Time.now.month, Time.now.day)
-		 	y = Time.now.year
-			m = Time.now.month
-			d = (Time.now.day)-1
-			if d < 10 && m < 10
-				ymd = "created_at like 	'#{y}-0#{m}-0#{d} %'"
-				pay = "payed like 		'#{y}-0#{m}-0#{d} %'"
-			 elsif d < 10
-				ymd = "created_at like 	'#{y}-#{m}-0#{d} %'"
-				pay = "payed like		'#{y}-#{m}-0#{d} %'"
-			 elsif m < 10
-				ymd = "created_at like 	'#{y}-0#{m}-#{d} %'"
-				pay = "payed like 		'#{y}-0#{m}-#{d} %'"
+		 	iyear = Time.now.year
+			imonth = Time.now.month
+			iday = (Time.now.day)-1
+			if iday < 10 && imonth < 10
+				ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday+1}'"
+				pay = "payed >= '#{iyear}-#{imonth}-0#{iday}' AND payed <= '#{iyear}-#{imonth}-0#{iday+1}'"
+			 elsif iday < 10
+				ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear}-#{imonth}-0#{iday+1}'"
+				pay = "payed >= '#{iyear}-#{imonth}-0#{iday}' AND payed <= '#{iyear}-#{imonth}-#{iday+1}'"
+			 elsif imonth < 10
+				ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear}-0#{imonth}-#{iday+1}'"
+				pay = "payed >= '#{iyear}-0#{imonth}-0#{iday}' AND payed <= '#{iyear}-#{imonth}-#{iday+1}'"
 			 else	
-				ymd = "created_at like 	'#{y}-#{m}-#{d} %'"
-				pay = "payed like 		'#{y}-%#{m}-#{d} %'"
+				ymd = "created_at >= '#{iyear}-#{imonth}-#{iday}' AND created_at <= '#{iyear}-#{imonth}-#{iday+1}'"
+				pay = "payed >= '#{iyear}-#{imonth}-#{iday}' AND payed <= '#{iyear}-#{imonth}-#{iday+1}'"
 			end
 		end	
 
