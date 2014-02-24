@@ -105,9 +105,12 @@ load_and_authorize_resource
 		i = 0
 		until i == 12 do
 			i += 1
-			if i<10
+			if i<10 && i+1 < 10
 				month[0][i-1] = Bugreport.where("created_at >= '#{iyear}-0#{i}-01' AND created_at <= '#{iyear}-0#{i+1}-01'",iyear, i).count
 				month[1][i-1] = Bugreport.where("closed >= '#{iyear}-0#{i}-01' AND closed <= '#{iyear}-0#{i+1}-01'",iyear, i).count
+			 elsif i<10 && i+1 >= 10
+			 	month[0][i-1] = Bugreport.where("created_at >= '#{iyear}-0#{i}-01' AND created_at <= '#{iyear}-#{i+1}-01'",iyear, i).count
+				month[1][i-1] = Bugreport.where("closed >= '#{iyear}-0#{i}-01' AND closed <= '#{iyear}-#{i+1}-01'",iyear, i).count
 			 else
 				month[0][i-1] = Bugreport.where("created_at >= '#{iyear}-#{i}-01' AND created_at <= '#{iyear}-#{i+1}-01'",iyear, i).count
 				month[1][i-1] = Bugreport.where("closed >= '#{iyear}-#{i}-01' AND closed <= '#{iyear}-#{i+1}-01'",iyear, i).count
