@@ -8,5 +8,5 @@ class Position < ActiveRecord::Base
 	# a position to an assignment that doesn't exist!
 	belongs_to :order
 
-	validates :article, :offer, :quantity, presence: true
+	validates :article, :quantity, :offer, presence: true
 end

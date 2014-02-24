@@ -38,6 +38,10 @@ Things you may want to cover:
 	4. sudo mv wkhtmltopdf-amd64 /usr/local/bin/wkhtmltopdf
 	5. sudo chmod +x /usr/local/bin/wkhtmltopdf
 
-
+* Dependency for Paperclip
+    1.Check if imageprocessor ImageMagick is installed by typing "which convert" in your console. Might return something like "/usr/local...".
+    If not install ImageMagick --> sudo apt-get install imagemagick
+    2. sudo apt-get install libmagickwand-dev
+    
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.

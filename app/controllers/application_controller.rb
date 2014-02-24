@@ -6,8 +6,8 @@ class ApplicationController < ActionController::Base
   after_filter :user_activity
   before_filter :configure_permitted_parameters, if: :devise_controller?
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:firstname, :lastname, :email, :password, :password_confirmation, :remember_me, :street, :zip, :phone) }
-    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:firstname, :lastname, :email, :password, :password_confirmation, :current_password, :street, :zip, :phone) }
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:firstname, :lastname, :email, :password, :password_confirmation, :remember_me, :street, :zip, :phone, :avatar) }
+    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:firstname, :lastname, :email, :password, :password_confirmation, :current_password, :street, :zip, :phone, :avatar) }
   end
 
   # added because of use of cancan 1.6 and use if rails 4.0
