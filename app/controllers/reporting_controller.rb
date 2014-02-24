@@ -390,7 +390,7 @@ load_and_authorize_resource
 						cu[1] = 0
 					end
 				end
-				customer.sort_by { |e| e[1] }
+				customer.sort_by(&:last)
 			end
 		end
 
@@ -486,7 +486,7 @@ load_and_authorize_resource
 					end
 				end
 			end
-			items.sort_by { |e| e[1] }
+			items.sort_by(&:last)
 		end
 		return items
 	end
