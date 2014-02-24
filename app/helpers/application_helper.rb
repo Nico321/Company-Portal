@@ -1,3 +1,4 @@
+# encoding: UTF-8
 module ApplicationHelper
 
 	def show_notes(object, addbutton, objectID)
@@ -53,23 +54,45 @@ module ApplicationHelper
 	end
 
 	def countNotes(object)
-		
-
 		if object.class == Request
-			nrOfNotes = object.notes.count
+			nrOfNotes = count_RequestNotes(object)
 		elsif object.class == Offer
-			nrOfNotes = object.notes.count + object.request.notes.count
+			nrOfNotes = count_RequestNotes(object.request)
 		elsif object.class == Assignment
-			nrOfNotes = object.notes.count + object.offer.notes.count + object.offer.request.notes.count
+			nrOfNotes = count_RequestNotes(object.offer.request)
 		elsif object.class == Order
-			nrOfNotes = object.notes.count + object.assignment.notes.count + object.assignment.offer.notes.count + object.assignment.offer.request.notes.count
+			nrOfNotes = count_RequestNotes(object.assignment.offer.request)
 		elsif object.class == Installation
-			nrOfNotes = object.notes.count + object.order.notes.count + object.order.assignment.notes.count + object.order.assignment.offer.notes.count + object.order.assignment.offer.request.notes.count
+			nrOfNotes = count_RequestNotes(object.order.assignment.offer.request)
 		elsif object.class == Invoice
-			nrOfNotes = object.notes.count + object.installation.notes.count + object.installation.order.notes.count + object.installation.order.assignment.notes.count + object.installation.order.assignment.offer.notes.count + object.installation.order.assignment.offer.request.notes.count
+			nrOfNotes = count_RequestNotes(object.installation.order.assignment.offer.request)
 				
 		end
 
+		return nrOfNotes
+	end
+
+	def count_RequestNotes(object)
+		nrOfNotes = object.notes.count
+		if object.offer
+			if object.offer.assignment
+				if object.offer.assignment.order
+					if object.offer.assignment.order.installation
+						if object.offer.assignment.order.installation.invoice
+							nrOfNotes += object.offer.notes.count + object.offer.assignment.notes.count + object.offer.assignment.order.notes.count	+ object.offer.assignment.order.installation.notes.count + object.offer.assignment.order.installation.invoice.notes.count
+						else
+							nrOfNotes += object.offer.notes.count + object.offer.assignment.notes.count + object.offer.assignment.order.notes.count	+ object.offer.assignment.order.installation.notes.count
+						end
+					else
+						nrOfNotes += object.offer.notes.count + object.offer.assignment.notes.count + object.offer.assignment.order.notes.count	
+					end
+				else
+					nrOfNotes += object.offer.notes.count + object.offer.assignment.notes.count
+				end
+			else
+				nrOfNotes += object.offer.notes.count
+			end
+		end
 		return nrOfNotes
 	end
 
@@ -129,10 +152,10 @@ module ApplicationHelper
 										#{p.article.name}
 									</td>
 									<td>
-										#{p.article.price}
+										#{p.article.price} €
 									</td>
 									<td>
-										#{p.article.price * p.quantity}
+										#{p.article.price * p.quantity} €
 									</td>"
 									if object.class == Order
 										html += "<td>"
@@ -190,21 +213,8 @@ module ApplicationHelper
 
 	def showTable(object, searchparam, directionparam, sortparam, editlink = false, assumable = false, publication = false)
 		if object
-		    if object.first.class == Request
-		    	showpath = requests_path
-		    elsif object.first.class == Offer
-		    	showpath = offers_path
-		    elsif object.first.class == Assignment
-		    	showpath = assignments_path
-		    elsif object.first.class == Order
-		    	showpath = orders_path
-		    elsif object.first.class == Installation
-		    	showpath = installations_path
-		    elsif object.first.class == Invoice
-		    	showpath = invoices_path
-		    end
+			showpath=getObjectPath(object.first)
 		end
-
 	html = "
 		<form action='#{showpath}' method ='get' id ='#{object.class}_search'>
 		  <p>
@@ -296,7 +306,123 @@ module ApplicationHelper
 		  </div>
 		</form>"
 	end
+
+	def controlLink(lastObj, nextObj)
+		html = ""
+		if lastObj
+			lastPath = getObjectPath(lastObj)
+			html += "
+		<div class='pull-left'>
+			<a href='#{lastPath}/#{lastObj.id}' class='btn btn-primary'>
+			<i class='fa fa-arrow-left'></i> #{lastObj.class}</a>
+		</div>"
+		end
+		if nextObj
+			nextPath = getObjectPath(nextObj)
+			html += "
+			<div class='pull-right'>
+				<a href='#{nextPath}/#{nextObj.id}' class='btn btn-primary'>
+				#{nextObj.class} <i class='fa fa-arrow-right'></i></a>
+			</div>"
+		end
+		return html
+	end
+
+	def showObject(object, noteButton, request, positions=false, sum=false, pdf=false, format = "")
+		path=getObjectPath(object)
+
+		html ="<center><h1>#{object.class}</h1></center>"
+
+		if object.class == Request
+			 if object.urgency == 1 
+	           html += "<center><table><tr><td><h1>uncritical</h1></td><td><div class='circle circle-green'></div></td></tr></table></center>"
+	         elsif object.urgency == 2
+	          html += "<center><h1>medium</h1></center><div class='circle'></div>"
+	         else 
+	          html += "<center><h1>critical</h1></center><div class='circle circle-red'></div>"
+	         end 
+		end
+
+		html += "<div class='row'><div class='thumbnail span5'>
+		<p>
+		  <strong>Subject:</strong>
+		  #{object.subject}
+		</p>
+
+		<p>
+		  <strong>Body:</strong>
+		  #{object.body}
+		</p>"
+		if sum
+			if object.installationprice
+				html += "<p>
+				  <strong>Installationprice:</strong>
+				  #{object.installationprice} €
+				</p>"
+			end
+		end	
+			
+		html += "</div><div class='thumbnail span5 pull-right'>
+		<p>
+		  <strong>Name:</strong>
+		  #{object.customer.firstname} #{object.customer.lastname}
+		</p>
+		<p>
+		  <strong>Email:</strong>
+		  #{object.customer.email}
+		</p>
+		<p>
+		  <strong>Phone:</strong>
+		  #{object.customer.phone}
+		</p>
+		<p>
+		  <strong>Street:</strong>
+		  #{object.customer.street}
+		</p>
+		<p>
+		  <strong>Zip:</strong>
+		  #{object.customer.zip}
+		</p>"
+
+		html += "</div></div>"
+		if positions
+			html += show_positions(object)
+		end
+		if format =="pdf"
+			html += "<div style='display: none;'>"
+		end
+		html += show_notes(request, noteButton, object.id)
+		if format =="pdf"
+			html += "</div></div>"
+		end
+		if sum
+			html += "<h3>Total: #{calcTotalPrice(object)} €</h3>"
+		end
+
+		if pdf and format != "pdf"
+			html += "<a href='#{path}/#{object.id}.pdf' class='btn btn-info'>Create PDF document</a>"
+		end
+		return html
+	end
+
+	def getObjectPath(object)
+		if object
+		    if object.class == Request
+		    	showpath = requests_path
+		    elsif object.class == Offer
+		    	showpath = offers_path
+		    elsif object.class == Assignment
+		    	showpath = assignments_path
+		    elsif object.class == Order
+		    	showpath = orders_path
+		    elsif object.class == Installation
+		    	showpath = installations_path
+		    elsif object.class == Invoice
+		    	showpath = invoices_path
+		    end
+		end
+
+		return showpath
+	end
+
 end
-
-
-

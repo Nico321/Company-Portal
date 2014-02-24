@@ -1,43 +1,14 @@
-<table class="table table-hover">
-  <tr>
-      <td><h1><%= User.find(@offer.customer).email %> - <%= @offer.subject %></h1></td>
-  </tr>
-  <tr>
-    <td>
-      <p>
-        <%= @offer.body %>
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <strong>Agent:</strong>
-      <% if @offer.agent_id %>
-        <%= User.find(@offer.agent_id).email %>
-      <% else %>
-        Nobody
-      <% end %>
-    </td>
-  </tr>
-  <tr>
-    <td>Installationprice: <%= @offer.installationprice %></td>
-  </tr>
-</table>
-
-<%= show_positions(@offer).html_safe%>
-
-<%
+<% if params[:format] != "pdf" %>
+	<%= controlLink(@offer.request, @offer.assignment).html_safe %>
+<%end
  if @offer.assignment == nil
   noteButton = "offer"
  end
 %>
 
-<%= show_notes(@offer.request, noteButton, @offer.id).html_safe%>
-
-<h3>Total: <%= calcTotalPrice(@offer)  %></h3>
-
-<% if @offer.customer == current_user and @offer.assignment == nil %>
-<div><%= link_to "Accept", convert_assignments_path(:offer_id => @offer.id), :class => "btn btn-success" %></div>
+<%= showObject(@offer, noteButton, @offer.request, true, true, true, params[:format]).html_safe %>
+<% if @offer.customer == current_user and @offer.assignment == nil and @offer.publication != nil %>
+	<br>
+	<div><%= link_to "Accept", convert_assignments_path(:offer_id => @offer.id), :class => "btn btn-success" %>
+	<%= link_to "Decline", decline_offer_path(@offer), :class => "btn btn-danger" %></div>
 <% end %>
-
-<%= link_to 'Create PDF document', offer_path(@offer, :format => :pdf) %>

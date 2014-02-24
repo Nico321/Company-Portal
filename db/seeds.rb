@@ -5,22 +5,37 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+require 'factory_girl_rails'
+
+
+##################################
+#
+# Seeds for roles(Sven)
+##################################
+
+superadmin = FactoryGirl.create(:superadmin, :email => "superadmin@example.com")
+sales = FactoryGirl.create(:sales, :email => "sales@example.com")
+customer = FactoryGirl.create(:customer, :email => "customer@example.com")
+accountend = FactoryGirl.create(:accountend, :email => "accountend@exmaple.com")
+technican = FactoryGirl.create(:technican, :email => "technican@example.com")
 
 ###########################################################
 #
 # Articles
 #
 ############################################################
+
 bserver = FactoryGirl.create(:article, name: "Big Server", description: "This Server is really awesome and will fulfil all your needs. From medium to big sized companies. Try it out!", price: 8999.99, delivertime: 10, image: File.new("#{Rails.root}/spec/support/fixtures/bigserver.jpg"))
 mserver = FactoryGirl.create(:article, name: "Medium Server", description: "This Server is not as awesome as the big one but it is better and faster than the small server. It is best used in small to medium sized companies", price: 3999.99, delivertime: 7, image: File.new("#{Rails.root}/spec/support/fixtures/mediumserver.jpg"))
 sserver = FactoryGirl.create(:article, name: "Small Server", description: "A really durable and sophisticated server for all your needs at your own home-network. Use it as a media-server or just to store your data to be protected from that nosey NSA!", price: 999.99, delivertime: 3, image: File.new("#{Rails.root}/spec/support/fixtures/smallserver.jpg"))
 computer= FactoryGirl.create(:article, name: "Computer", description: "Just a standard PC for everyday needs. Watching porn or whatever!", price: 599.99, delivertime: 2, image: File.new("#{Rails.root}/spec/support/fixtures/computer.jpg")) 
+
 ###########################################################
 #
 # Seeds for Businessprocess(Nico)
 #
 ###########################################################
-require 'factory_girl_rails'
+
 requests = Array.new
 offers = Array.new
 assignments = Array.new
@@ -28,9 +43,6 @@ orders = Array.new
 installations = Array.new
 invoices = Array.new
 positions = Array.new
-
-sales = FactoryGirl.create(:sales)
-customer = FactoryGirl.create(:customer)
 
 63.times do |i|
 	requests.push FactoryGirl.create(:request, customer: customer)
@@ -42,8 +54,8 @@ end
 	offers.push FactoryGirl.create(:offer, customer: customer, request: requests[i])
 	FactoryGirl.create(:note, user: sales, offer: offers[i])
 	FactoryGirl.create(:note, user: customer, offer: offers[i])
-	positions.push FactoryGirl.create(:position, offer: offers[i])
-	positions.push FactoryGirl.create(:position, offer: offers[i])
+	positions.push FactoryGirl.create(:position, offer: offers[i], article: bserver)
+	positions.push FactoryGirl.create(:position, offer: offers[i], article: computer)
 end
 
 45.times do |i|
@@ -88,100 +100,17 @@ end
 	invoices[i].save
 end
 
-
-#72.times do
-	#positions.push FactoryGirl.create(:position)
-#end
-
-#9.times do |i|
-#	requests.push FactoryGirl.create(:request)
-	#notes[i].request = requests.last
-	#notes[i].save
-	#offers.push FactoryGirl.create(:offer)
-	#notes[i+1].offer = offers.last
-	#notes[i+1].save
-	#positions[i].offer = offers.last
-	#positions[i+1].offer = offers.last
-	#positions[i].save
-	#positions[i+1].save
-	#assignments.push FactoryGirl.create(:assignment)
-	#notes[i+2].assignment = assignments.last
-	#notes[i+2].save
-	#positions[i+2].offer = offers.last
-	#positions[i+3].offer = offers.last
-	#positions[i+2].save
-	#positions[i+3].save
-	#orders.push FactoryGirl.create(:order)
-	#notes[i+3].order = orders.last
-	#notes[i+3].save
-	#positions[i+4].offer = offers.last
-	#positions[i+5].offer = offers.last
-	#positions[i+4].save
-	#positions[i+5].save
-	#installations.push FactoryGirl.create(:installaion)
-	#notes[i+4].installaion = installaion.last
-	#notes[i+4].save
-	#invoices.push FactoryGirl.create(:invoice)
-	#notes[i+5].invoice = invoices.last
-	#notes[i+5].save
-	#positions[i+6].offer = offers.last
-	#positions[i+7].offer = offers.last
-	#positions[i+6].save
-	#positions[i+7].save
-#end
-
 ###########################################################
 #
 # Seeds for Bugreports(Daniel)
 #
 ###########################################################
-#b1 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone)
-#b2 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo)
-#b3 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => cone, :agent => ctwo)
-#b4 = Bugreport.create!(:subject => "New Bugreport", :description => "42", :reporter => ctwo, :agent => cone, :created_at =>"2013-02-03T04:05:06+07:00" ,:closed => "2013-02-03T09:05:06+07:00")
+ cu = FactoryGirl.create(:customer)
+ te = FactoryGirl.create(:technican)
+	Bugreport.create(subject: "Error 3", description: "I did it", reporter: cu, created_at: Time.now)
+ 	Bugreport.create(subject: "no Invoice", description: "no", reporter: cu, agent: te, created_at: Time.local(2014,01,21), closed: Time.now)
+ 	Bugreport.create(subject: "dont want it", description: "description", reporter: cu, agent: te, created_at: Time.local(2014,01,21))
 
-##################################
-#
-# Seeds for roles(Sven)
-##################################
-
-pass = SecureRandom.hex(5)
-superadmin = User.create email:'superadmin@example.com', password: 'testtest',
-password_confirmation: 'testtest'
-# has problem with name admin so superadmin role is better
-superadmin.add_role :superadmin
-puts "Admin password is #{pass}"
-############
-
-pass = SecureRandom.hex(5)
-sales = User.create email:'sales@example.com', password: 'testtest',
-password_confirmation: 'testtest'
-
-sales.add_role :sales
-puts "Sales password is #{pass}"
-###########
-
-pass = SecureRandom.hex(5)
-customer = User.create email:'customer@example.com', password: 'testtest',
-password_confirmation: 'testtest'
-
-customer.add_role :customer
-puts "Customer password is #{pass}"
-##########
-
-pass = SecureRandom.hex(5)
-accountend = User.create email:'accountend@example.com', password: 'testtest',
-password_confirmation: 'testtest'
-
-accountend.add_role :accountend
-puts "Accountend password is #{pass}"
-##########
-
-pass = SecureRandom.hex(5)
-technican = User.create email:'technican@example.com', password: 'testtest',
-password_confirmation: 'testtest'
-
-technican.add_role :technican
-puts "Technican password is #{pass}"
-
+#puts "Technican password is #{pass}"
+puts "all PWs are testtest"
 

@@ -4,8 +4,6 @@
 		<title>Reporting Process</title>
 	</head>
 	<body>
-	<%= @test %><br>
-	<%= @test1 %><br>
 	 <h2>Reporting: Businessprocess </h2>
 		<div class="container">
 			<div class="row">
@@ -21,24 +19,24 @@
 										<td><img src="<%= @chart2 %>"></td>
 									</tr>
 								  <tr>
-									<td><b>Description</b></td>
-									<td><b>Content</b></td>
+									<th>Description</th>
+									<th>Content</th>
 								  </tr>
 									<tr>
 										<td>Offers to Assignment: </td>
-										<td><%= @OtA %>%</td>
+										<td><%= @OtA.round(2) %></td>											
 									</tr>
 									<tr>
 										<td>payed Invoices: </td>
-										<td><%= @Opayed %>%</td>
+										<td><%= @Opayed.round(2) %>%</td>
 									</tr>
 									<tr>
 										<td>Average order volume: </td>
-										<td><%= @Ovolume %>€</td>
+										<td><%= @Ovolume.round(2) %>€</td>
 									</tr>
 									<tr>
 										<td>Sales volume: </td>
-										<td><%= @Avolume %></td>
+										<td><%= @Avolume.round(2) %></td>
 									</tr>
 								</table>
 							</div>
@@ -56,7 +54,7 @@
 								    	<%= User.where("id like '#{customer[0]}'").first.lastname %><br>
 								       </b>
 								    	<%= User.where("id like '#{customer[0]}'").first.phone %><br>
-								    	Hightest Order: <%=customer[1] %>
+								    	Hightest Order: <%=customer[1] %><br><br>
 							  		<% end %>
 							  <% end %>
 							<% end %>				  

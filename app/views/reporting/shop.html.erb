@@ -7,11 +7,44 @@
 		<h2>Reporting: Shop</h2>
 		<div class="container">
 			<div class="row">
-				 <div class="span8">
-				 	
+				 <div class="span6">
+					 <h2>Top 10 Items</h2>
+					 	<table class="table-striped">
+					 		<tr>
+					 			<th>Name</th>
+					 			<th>Value</th>
+					 			<th>Deliver time</th>
+					 		<td>
+						 	<% if !@top.blank? %>
+						 	  <% for item in @top %>
+						 	  <tr>
+						 	    <td><%= link_to "#{Article.find(item[0]).name}", Article.find(item[0]) %><%=  %></td>
+						 	    <td><%= Article.find(item[0]).price %> € </td>
+						 	    <td><%= Article.find(item[0]).delivertime %> days </td>
+						 	  </tr>
+						 	  <% end %>	  
+					 		<% end %>
+					 	</table>
+
 				</div>
-	  			<div class="span4">
-	  				
+	  			<div class="span6">
+	  				<h2>Worst 10 Items</h2>
+	  					<table class="table-striped">
+					 		<tr>
+					 			<th>Name</th>
+					 			<th>Value</th>
+					 			<th>Deliver time</th>
+					 		<td>
+						 	<% if !@top.blank? %>
+						 	  <% for item in @top %>
+						 	  <tr>
+						 	    <td><%= link_to "#{Article.find(item[0]).name}", Article.find(item[0]) %><%=  %></td>
+						 	    <td><%= Article.find(item[0]).price %> € </td>
+						 	    <td><%= Article.find(item[0]).delivertime %> days </td>
+						 	  </tr>
+						 	  <% end %>	  
+					 		<% end %>
+					 	</table>
 	  			</div>
 			</div>
 		</div>

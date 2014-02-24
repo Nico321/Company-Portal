@@ -45,7 +45,6 @@ end
 
 def login(user)
   visit root_path
-  click_link 'Sign in'
   fill_in "user_email", with: user.email
   fill_in "user_password", with: 'testtest'
   click_button 'Sign in'

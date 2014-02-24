@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Bugreport do
-  let!(:cu) {User.create(:id => "12", :email => "test@test.de", :encrypted_password => "test")}
+  let!(:cu){FactoryGirl.create(:superadmin)}
   let!(:bugreport) {Bugreport.create(subject: "new Subject", description: "new description", reporter: nil)}
 
   it "is not valid without a reporter" do
@@ -9,7 +9,7 @@ describe Bugreport do
   end
 
   it "is valid with a reporter" do
-  	bugreport.reporter = cu
+  	bugreport.reporter_id = cu.id
   	bugreport.should be_valid
   end
 end

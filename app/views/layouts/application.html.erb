@@ -51,22 +51,19 @@
             <ul class="nav">
       </li>
                      
-                
+  <% if current_user %>                
       <li>      
   		  <div class="dropdown">
   		    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
-           		User
+           		<%= current_user.firstname %> <%= current_user.lastname %>
            		<span class="caret"></span>
            		</button>
            		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-      			    <li><%=link_to 'Sign in', new_user_session_path %></li>
-                <li><%=link_to 'Sign up', new_user_registration_path  %></li>
-                <li><%=link_to 'Sign out', destroy_user_session_path, method: :delete  %></li>
- 		<li><%=link_to 'change password', edit_user_registration_path  %></li    
+ 		<li><%=link_to 'Edit profile', edit_user_registration_path  %></li    
            	  </ul>
           	 </div>
 		  </li>      
-              <% if current_user %>
+
                 <li>
 		  <% if can?(:manage, Reporting) %>
                   <div class="dropdown">
@@ -88,12 +85,12 @@
                     <li><%= link_to "New bugreport", new_bugreport_path %></li>
                     <li class="divider"></li>
 		    <% if can?(:manage, Bugreport) %>
-
+                    <li><%= link_to "Show open bugreports (#{Bugreport.where('closed IS NULL').count})", unassumed_bugreports_path %></li>
                     <li><%= link_to "Show unassumed bugreports (#{Bugreport.where('agent_id IS NULL and closed IS NULL').count})", unassumed_bugreports_path %></li>
                     <li><%= link_to "Show my bugreports (#{Bugreport.where(agent_id: current_user.id).where("closed IS NULL").count})", assumed_bugreports_path %></li>
 		    
                     <li class="divider"></li>
-                    <li><%= link_to "Archiv", closed_bugreports_path %></li>
+                    <li><%= link_to "Archive", closed_bugreports_path %></li>
 		    <% end %>
                   </ul>
                 </div>
@@ -106,6 +103,10 @@
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <li>
+                      <a href="<%= customer_overview_index_path %>">Overview</a>
+                    </li>
+                    <li class="divider"></li>
 		    <% if can?(:open, Request) %>
                     <li class="dropdown-submenu">
                       <a tabindex="-1" href="#">Requests</a>
@@ -177,8 +178,35 @@
 
                   </ul>
                 </div>
+                
+  		  <li>     
+		  <% if can?(:manage, Article) %>  
+  		  <div class="dropdown">
+  		    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+           		Articles
+           		<span class="caret"></span>
+           		</button>
+           		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                	<li><%= link_to 'Show Article', articles_path  %></li>  
+                        <li><%= link_to 'New Article', new_article_path %></li>
+           	        </ul>
+          	  </div>
+		  <% end %>
+		  </li>
               <% end %>
             </ul>
+            <% if current_user %>
+            <div class="pull-right"><%=link_to 'Sign out', destroy_user_session_path, method: :delete, :class => "btn btn-danger fa fa-sign-out"  %></div>
+            <% else %>
+            <div class="pull-right" style="display: inline; float: right;"><table><tr>
+            <%= form_for(:user, :url => session_path(:user)) do |f| %>
+            <td><%= f.text_field :email, :placeholder => "Username" %></td>
+            <td><%= f.password_field :password, :placeholder => "Password" %></td>
+            <td><%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in<i class="fa fa-sign-out"></i><% end %></td>
+            <% end %>
+            <td><%=link_to 'Sign up', new_user_registration_path  , :class => "btn btn-info"%> </td>
+            </tr></table></div>
+            <% end %>
           </div><!--/.nav-collapse -->
         </div>
       </div>

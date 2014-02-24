@@ -1,5 +1,6 @@
 CompanyPortal::Application.routes.draw do
 
+  get "customer_overview/index"
   get "archive/index"
 
   resources :payment_notifications do
@@ -14,19 +15,6 @@ CompanyPortal::Application.routes.draw do
     end
     member do
       get 'payed'
-    end
-  end
-
-  resources :installations do    
-    collection do
-      get 'open'
-      get 'unassumed'
-      get 'assumed'
-      get 'convert'
-    end
-    member do
-      get 'assume'
-      get 'release'
     end
   end
 
@@ -101,6 +89,7 @@ post "reporting/businessprocess", controller: "reporting", action:"businessproce
       get 'assume'
       get 'release'
       get 'publish'
+      get 'decline'
     end    
   end
 

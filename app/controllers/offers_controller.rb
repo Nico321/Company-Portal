@@ -14,7 +14,7 @@ class OffersController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render :pdf => "file_name", :template => 'offers/show.html.erb'
+        render :pdf => "file_name", :template => 'offers/show.html.erb', :encoding => "utf-8"
       end
     end
   end
@@ -109,6 +109,13 @@ class OffersController < ApplicationController
     @offer.publication = Time.now
     @offer.save
     redirect_to assumed_offers_path
+  end
+
+  def decline
+    @offer = Offer.find(params[:id])
+    @offer.publication = nil
+    @offer.save
+    redirect_to offer_path(@offer)
   end
 
   def assume

@@ -1,22 +1,8 @@
-<p>
-  <strong>Subject:</strong>
-  <%= @installation.subject %>
-</p>
-
-<p>
-  <strong>Body:</strong>
-  <%= @installation.body %>
-</p>
-
-<p>
-  <strong>Installationdate:</strong>
-  <%= @installation.installationdate %>
-</p>
-
+<%= controlLink(@installation.order, @installation.invoice).html_safe %>
 <%
 if @installation.invoice == nil
 	noteButton = "installation"
 end
 %>
 
-<%= show_notes(@installation.order.assignment.offer.request, noteButton, @installation.id).html_safe%>
+<%= showObject(@installation, noteButton, @installation.order.assignment.offer.request).html_safe %>
