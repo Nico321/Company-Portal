@@ -23,13 +23,13 @@ load_and_authorize_resource
 		if Installation.where("installationdate > '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}-01'").count.to_d == 0
 			@installations = "cant be solved"
 		 else
-			@installations = (Installation.where("installationdate > '#{Time.now.year}-#{Time.now.strftime("%m")}'").count.to_d / Installation.where("installationdate = '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}'").count.to_d)-1
+			@installations = (Installation.where("installationdate > '#{Time.now.year}-#{Time.now.strftime("%m")}-01'").count.to_d / Installation.where("installationdate >= '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}-01' AND installationdate >= '#{Time.now.year}-#{Time.now.strftime("%m")}-01'").count.to_d)-1
 		end
 		@userOnline = User.online.count
-		if Request.where("created_at = '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}'").count.to_d == 0
+		if Request.where("created_at >= '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}-01' AND created_at < '#{Time.now.year}-#{Time.now.strftime("%m")}-01'").count.to_d == 0
 			@requests = "cant be solved"
 		 else
-			@requests = (Request.where("created_at > '#{Time.now.year}-#{Time.now.strftime("%m")}'").count.to_d / Request.where("created_at = '#{Time.now.year}-#{Time.now.ago(1.month).strftime("%m")}'").count.to_d)-1
+			@requests = (Request.where("created_at > '#{Time.now.year}-#{Time.now.strftime("%m")}'-01").count.to_d / Request.where("created_at >= '#{Time.now.year}-#{Time.now.strftime("%m")}-01' AND created_at < '#{Time.now.year}-#{Time.now.month_since(1).strftime("%m")}-01'").count.to_d)-1
 		end
 	end
 
