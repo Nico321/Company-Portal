@@ -216,7 +216,7 @@ module ApplicationHelper
 			showpath=getObjectPath(object.first)
 		end
 	html = "
-		<form action='#{showpath}' method ='get' id ='#{object.class}_search'>
+		<form action='#{request.fullpath}' method ='get' id ='#{object.class}_search'>
 		  <p>
 		  	<input type='text' name='search' value='#{searchparam}' placeholder='Search for a subject'></input>
 		  	<input type='submit' value='Search' class='btn btn-default'></input>
