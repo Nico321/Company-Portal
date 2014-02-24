@@ -1,4 +1,6 @@
-<%
+<% if params[:format] != "pdf" %>
+	<%= controlLink(@offer.request, @offer.assignment).html_safe %>
+<%end
  if @offer.assignment == nil
   noteButton = "offer"
  end

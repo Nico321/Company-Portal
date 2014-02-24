@@ -307,6 +307,27 @@ module ApplicationHelper
 		</form>"
 	end
 
+	def controlLink(lastObj, nextObj)
+		html = ""
+		if lastObj
+			lastPath = getObjectPath(lastObj)
+			html += "
+		<div class='pull-left'>
+			<a href='#{lastPath}/#{lastObj.id}' class='btn btn-primary'>
+			<i class='fa fa-arrow-left'></i> #{lastObj.class}</a>
+		</div>"
+		end
+		if nextObj
+			nextPath = getObjectPath(nextObj)
+			html += "
+			<div class='pull-right'>
+				<a href='#{nextPath}/#{nextObj.id}' class='btn btn-primary'>
+				#{nextObj.class} <i class='fa fa-arrow-right'></i></a>
+			</div>"
+		end
+		return html
+	end
+
 	def showObject(object, noteButton, request, positions=false, sum=false, pdf=false, format = "")
 		path=getObjectPath(object)
 
@@ -337,11 +358,11 @@ module ApplicationHelper
 				html += "<p>
 				  <strong>Installationprice:</strong>
 				  #{object.installationprice} €
-				</p></div>"
+				</p>"
 			end
 		end	
 			
-		html += "<div class='thumbnail span5 pull-right'>
+		html += "</div><div class='thumbnail span5 pull-right'>
 		<p>
 		  <strong>Name:</strong>
 		  #{object.customer.firstname} #{object.customer.lastname}

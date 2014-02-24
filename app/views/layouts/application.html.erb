@@ -55,11 +55,11 @@
       <li>      
   		  <div class="dropdown">
   		    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
-           		<%= current_user.email %>
+           		<%= current_user.firstname %> <%= current_user.lastname %>
            		<span class="caret"></span>
            		</button>
            		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
- 		<li><%=link_to 'change password', edit_user_registration_path  %></li    
+ 		<li><%=link_to 'Edit profile', edit_user_registration_path  %></li    
            	  </ul>
           	 </div>
 		  </li>      
@@ -196,13 +196,13 @@
               <% end %>
             </ul>
             <% if current_user %>
-            <div class="pull-right"><%=link_to 'Sign out', destroy_user_session_path, method: :delete, :class => "btn btn-danger"  %></div>
+            <div class="pull-right"><%=link_to 'Sign out', destroy_user_session_path, method: :delete, :class => "btn btn-danger fa fa-sign-out"  %></div>
             <% else %>
             <div class="pull-right" style="display: inline; float: right;"><table><tr>
             <%= form_for(:user, :url => session_path(:user)) do |f| %>
             <td><%= f.text_field :email, :placeholder => "Username" %></td>
             <td><%= f.password_field :password, :placeholder => "Password" %></td>
-            <td><%= f.submit 'Sign in', :class=>"btn btn-success" %></td>
+            <td><%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in<i class="fa fa-sign-out"></i><% end %></td>
             <% end %>
             <td><%=link_to 'Sign up', new_user_registration_path  , :class => "btn btn-info"%> </td>
             </tr></table></div>

@@ -1,4 +1,6 @@
-<% 
+
+<%= controlLink(nil, @request.offer).html_safe %>
+<%
 if @request.offer == nil
   noteButton = "request"
 end %>

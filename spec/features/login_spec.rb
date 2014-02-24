@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'Sign_up' do
   before(:each) do
+
   visit root_path
  end
 
@@ -29,18 +30,21 @@ describe 'Sign_up' do
    login(customer)
   end
  
-  it 'allows to sign out' do   
+  it 'allows to sign out' do
    click_link 'Sign out'
    page.should have_content "Sign up"
   end
 
-  it 'allows change password' do   
-   click_link 'change password'
+  it 'allows to edit your profile' do   
+   click_link 'Edit profile'
      within page.find("#edit_user") do
-     fill_in "user_password", with: "testtest"
-     fill_in "user_password_confirmation", with: "testtest"
-     fill_in "user_current_password", with: "testtest"
-     click_button "Update"
+       fill_in "user_password", with: "testtest"
+       fill_in "user_password_confirmation", with: "testtest"
+       fill_in "user_current_password", with: "testtest"
+       fill_in "user_firstname", with: "Johnny"
+       fill_in "user_lastname", with: "Kontrolletti"
+       click_button "Update"
+
    end
    page.should have_content "You updated your account successfully."
   end
