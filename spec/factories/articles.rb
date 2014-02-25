@@ -7,6 +7,5 @@ FactoryGirl.define do
     image { File.new("#{Rails.root}/spec/support/fixtures/image.png")}
     price "0.01"
     delivertime 1
-    supplierid 1
   end
 end

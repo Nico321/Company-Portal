@@ -10,6 +10,7 @@ FactoryGirl.define do
     phone {Faker::PhoneNumber.cell_phone}
     street {Faker::Address.street_name}
     zip "48161"
+    avatar { File.new("#{Rails.root}/spec/support/fixtures/image.png")}
 
     factory :superadmin do
         after(:create) {|user| user.add_role(:superadmin)}
