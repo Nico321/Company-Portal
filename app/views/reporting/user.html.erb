@@ -33,7 +33,7 @@
 				</div>
 				<div class="span4">
 					<%= form_tag({:controller => "reporting", :action => "user"}, :method => "post")      do %>
-					<%= select_tag(:value, options_for_select([['Superadmins', 0],['Sales', 1], ['Customers', 2], ['Accounted', 3], ['technicians', 4]])) %>
+					<%= select_tag(:value, options_for_select([['Superadmins', 0],['Sales', 1], ['Customers', 2], ['Accountant', 3], ['Technicians', 4]])) %>
 					<%= submit_tag "Choose" %>
 					<% end %>
 
