@@ -55,10 +55,12 @@ gem 'font-awesome-rails'
 gem 'cancan'
 gem 'will_paginate'
 gem 'wicked_pdf'
-gem 'paperclip', :git => "git://github.com/thoughtbot/paperclip.git"
+#gem 'paperclip', :git => "git://github.com/thoughtbot/paperclip.git"
+gem 'paperclip', "~> 3.1"
 gem 'factory_girl_rails'
 gem 'faker'
 gem 'fancybox-rails'
+gem 'paperclip-dropbox', ">=1.1.7"
 
 group :development, :test do
   	gem 'rspec-rails'

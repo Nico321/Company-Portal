@@ -6,8 +6,12 @@ class Article < ActiveRecord::Base
 	before_destroy :ensure_not_referenced_by_any_line_item
 
 	has_attached_file :image, :styles => {:medium => "300x300>", :mini => "70x60>"},
-	:path => "#{Rails.root}/public/images/articles/:id/:style/:basename.:extension",
-	:url => "/images/articles/:id/:style/:basename.:extension"
+	:default_path => "spec/support/fixtures/image.png",
+	:storage => :dropbox,
+	:dropbox_credentials => Rails.root.join("config/dropbox.yml"),
+	:dropbox_options => {
+		:path =>  proc { |style| "company-portal/images/articles/#{id}/#{style}/#{id}_#{style}"}
+	} 
 	validates_attachment_content_type :image, :content_type => /^image\/(png|gif|jpg|jpeg)/
 
 	validates :name, :description, presence: true
