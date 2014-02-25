@@ -200,11 +200,11 @@
             <div >
                <table class="pull-right" style="display: inline; float: right;">
                  <tr>
-                  <%= form_for(:user, :url => user_show_path(), :method => "get") do |f| %>
-                  <td><%= f.text_field :firstname, :placeholder => "Search Name" %></td>
-                  <td><%= f.button "Search", :type => "submit", :class => "btn btn-success"%></td>
-                  <td><div class="pull-right"><%=link_to 'Sign out', destroy_user_session_path, method: :delete, :class => "btn btn-danger fa fa-sign-out"  %></div></td>
+                  <%= form_tag({:controller => "user", :action => "show"}, :method => "post")      do %>
+                  <input type="text" name="name">
+                  <%= submit_tag "Choose" %> </div></td>
                   <% end %>
+                  <td><div class="pull-right"><%=link_to 'Sign out', destroy_user_session_path, method: :delete, :class => "btn btn-danger fa fa-sign-out" %></div></td>
                 </tr>
               </table>
             </div>
