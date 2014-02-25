@@ -54,4 +54,3 @@ success: function() {
 	return false;
 });
 });
-

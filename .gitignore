@@ -17,4 +17,5 @@
 
 # Ignore all tempfiles
 *~
-*.png
+*.[pP][nN][gG]
+*.[jJ][pP][gG]
