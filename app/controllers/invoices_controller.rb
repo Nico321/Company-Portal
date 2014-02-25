@@ -92,8 +92,11 @@ class InvoicesController < ApplicationController
 
     @installation.invoice = @invoice;
     @installation.save
-
-    redirect_to @invoice
+    if current_user.has_role? :technician
+      redirect_to assumed_installations_path
+    else
+      redirect_to @invoice
+    end
   end
 
   def payed

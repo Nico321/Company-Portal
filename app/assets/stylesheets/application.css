@@ -26,6 +26,7 @@
  *= require welcome.css.scss
  *= require bootstrap-datepicker 
  *= require font-awesome
+ *= require fancybox
  */
 
  .RequestNote {
@@ -62,4 +63,3 @@ th .asc {
 th .desc {
   background-image: url(/images/down_arrow.gif);
 }
-

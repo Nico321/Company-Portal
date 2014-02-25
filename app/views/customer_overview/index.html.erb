@@ -23,7 +23,10 @@
 			<%= generateTableRow(@installations,85, "progress-warning").html_safe %>
 		<% end %>
 		<% if @invoices %>
-			<%= generateTableRow(@invoices,100, "progress-success").html_safe %>
+			<%= generateTableRow(@invoices,100, "progress-danger").html_safe %>
+		<% end %>
+		<% if @invoicescompleted %>
+			<%= generateTableRow(@invoicescompleted,100, "progress-success").html_safe %>
 		<% end %>
 	</table>
 </div>

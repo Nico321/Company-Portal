@@ -56,12 +56,13 @@ gem 'cancan'
 gem 'will_paginate'
 gem 'wicked_pdf'
 gem 'paperclip', :git => "git://github.com/thoughtbot/paperclip.git"
+gem 'factory_girl_rails'
+gem 'faker'
+gem 'fancybox-rails'
 
 group :development, :test do
   	gem 'rspec-rails'
-	gem 'factory_girl_rails'
 	gem 'guard-rspec'
-	gem 'faker'
 	gem 'capybara'
 
   # Use sqlite3 as the database for Active Record
