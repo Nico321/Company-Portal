@@ -139,8 +139,13 @@ load_and_authorize_resource
 				hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-0#{imonth}-#{iday} #{time}' AND created_at <= '#{iyear}-0#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
 				hours[1][counter] = Bugreport.where("closed >= '#{iyear}-0#{imonth}-#{iday} #{time}' AND closed <= '#{iyear}-0#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
 			 elsif	imonth >= 10 && iday >= 10 && time >= 10
-				hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-#{imonth}-#{iday} #{time}' AND created_at <= '#{iyear}-#{imonth+1}-#{iday+1} #{time+1}'", iyear,imonth, iday, time).count
-				hours[1][counter] = Bugreport.where("closed >= '#{iyear}-#{imonth}-#{iday} #{time}' AND closed <= '#{iyear}-#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
+			 	if imonth == 12
+			 		hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-#{imonth}-#{iday} #{time}' AND created_at <= '#{iyear+1}-01-#{iday+1} #{time+1}'", iyear,imonth, iday, time).count
+					hours[1][counter] = Bugreport.where("closed >= '#{iyear}-#{imonth}-#{iday} #{time}' AND closed <= '#{iyear}-#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
+			 	 else
+					hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-#{imonth}-#{iday} #{time}' AND created_at <= '#{iyear}-#{imonth+1}-#{iday+1} #{time+1}'", iyear,imonth, iday, time).count
+					hours[1][counter] = Bugreport.where("closed >= '#{iyear}-#{imonth}-#{iday} #{time}' AND closed <= '#{iyear}-#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
+				end
 			end	
 		end
 	
