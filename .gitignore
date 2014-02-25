@@ -19,3 +19,6 @@
 *~
 *.[pP][nN][gG]
 *.[jJ][pP][gG]
+!/spec/support/fixtures/*.*
+!/public/images/*.png
+!/public/images/*.jpg
