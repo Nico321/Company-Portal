@@ -39,11 +39,7 @@
 					</table>
 				</div>
 				<div class="span6">
-				<% if @user.avatar_file_name != nil %>
 					<%= image_tag @user.avatar.url(:medium) %>
-				 <% else %>
-				 	<img src="/images/avatarIsNil.jpg>"
-				<% end %>
 				</div>
 			</div>
 		</div>
