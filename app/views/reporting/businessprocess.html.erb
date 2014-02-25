@@ -50,10 +50,10 @@
 							  <% for customer in @customer do %>
 							  		<% if customer[0] != nil %>
 								       <b>
-								    	<%= User.where("id like '#{customer[0]}'").first.firstname %>
-								    	<%= User.where("id like '#{customer[0]}'").first.lastname %><br>
+								    	<%= User.where("id = '#{customer[0]}'").first.firstname %>
+								    	<%= User.where("id = '#{customer[0]}'").first.lastname %><br>
 								       </b>
-								    	<%= User.where("id like '#{customer[0]}'").first.phone %><br>
+								    	<%= User.where("id = '#{customer[0]}'").first.phone %><br>
 								    	Hightest Order: <%=customer[1] %><br><br>
 							  		<% end %>
 							  <% end %>
