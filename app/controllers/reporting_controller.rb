@@ -220,7 +220,7 @@ load_and_authorize_resource
 			m = 0
 			d = 0
 			ymd = "created_at >= '#{Time.local(y,1,1)}'"
-			pay = "payed like '#{y}'"
+			pay = "payed >= '#{Time.local(y,1,1)}' AND payed < '#{Time.local(y+1,1,1)}'"
 		 elsif time == "day"
 		 	t = Time.local(Time.now.year, Time.now.month, Time.now.day)
 		 	iyear = Time.now.year
