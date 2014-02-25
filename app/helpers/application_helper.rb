@@ -4,9 +4,7 @@ module ApplicationHelper
 	def show_notes(object, addbutton, objectID)
 		nrOfNotes = countNotes(object)
 		
-		html = "<script type='text/javascript'>jQuery(function() {
-  $('a.fancybox').fancybox();
-});</script>
+		html = "
 				<div class='accordion' id='accordionNote'>
 				    <div class='accordion-group'>
 				      <div class='accordion-heading'>
@@ -42,7 +40,7 @@ module ApplicationHelper
 						end
 
 						if addbutton
-							html +=	"<div style='float: right;'><a href='#{new_note_path}?#{addbutton}_id=#{objectID}' class='btn btn-primary'>Add a note</a></div>"
+							html +=	"<div style='float: right;'><a href='#{new_note_path}?#{addbutton}_id=#{objectID}' class='btn btn-primary fancybox'>Add a note</a></div>"
 						end
 		
 		html +="		</div>

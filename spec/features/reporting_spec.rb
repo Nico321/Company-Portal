@@ -14,7 +14,7 @@ describe "Reporting" do
 
 	it "Bugreports link" do				
 		click_link "Reporting"
-		click_link "Bugreports"
+		page.find("#Bugreportlink").click()
 		page.should have_content "Reporting: Bugreports"
 	end
 

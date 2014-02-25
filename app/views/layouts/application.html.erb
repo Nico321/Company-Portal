@@ -38,7 +38,7 @@
   </head>
   <body>
 
-    <div class="navbar navbar-fluid-top">
+    <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container-fluid">
           <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
@@ -51,36 +51,32 @@
             <ul class="nav">
       </li>
                      
-  <% if current_user %>                
-      <li>      
-  		  <div class="dropdown">
-  		    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+  <% if current_user %>     
+  		  <li class="dropdown">
+  		    <a href="#" class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
            		<%= current_user.firstname %> <%= current_user.lastname %>
            		<span class="caret"></span>
-           		</button>
+           		</a>
            		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
- 		<li><%=link_to 'Edit profile', edit_user_registration_path  %></li    
+ 		<li><%=link_to 'Edit profile', edit_user_registration_path  %></li  >  
            	  </ul>
-          	 </div>
-		  </li>      
+          	 </li>  
 
                 <li>
 		  <% if can?(:manage, Reporting) %>
-                  <div class="dropdown">
-                    <a href="<%= reporting_path%>">
-                      <button class="btn dropdown-toggle sr-only" type="button">Reporting</button>
-                    </a>
-                  </div>
+                  <li class="dropdown">
+                      <a href="<%= reporting_path%>" class="dropdown-toggle" type="button">Reporting</a>
+                  </li>
 		  <% end %>
 	          
                 </li>
                 <li>
 		<% if can?(:create, Bugreport) %>
-                <div class="dropdown">
-                  <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
                     Bugreports
                     <span class="caret"></span>
-                  </button>
+                  </a>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                     <li><%= link_to "New bugreport", new_bugreport_path %></li>
         <% if can?(:manage, Bugreport) %>
@@ -93,15 +89,14 @@
                     <li><%= link_to "Archive", closed_bugreports_path %></li>
 		    <% end %>
                   </ul>
-                </div>
+                </li>
 		<% end %>
               </li>
-              <li>
-                <div class="dropdown">
-                  <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
                     Businessproccess
                     <span class="caret"></span>
-                  </button>
+                  </a>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                     <li>
                       <a href="<%= customer_overview_index_path %>">Overview</a>
@@ -177,61 +172,54 @@
                       <a href="<%= archive_index_path %>">Archive</a>
                     </li>
         <% end %>
-                  </ul>
-                </div>
-                
-  		  <li>     
+                  </ul>         
 		  <% if can?(:manage, Article) %>  
-  		  <div class="dropdown">
-  		    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+  		  <li class="dropdown">
+  		    <a href="#" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
            		Articles
            		<span class="caret"></span>
-           		</button>
+           		</a>
            		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                 	<li><%= link_to 'Show Article', articles_path  %></li>  
                         <li><%= link_to 'New Article', new_article_path %></li>
            	        </ul>
-          	  </div>
+          	  </li>
 		  <% end %>
-		  </li>
       <% end %>
             </ul>
             <% if current_user %>
-            <div >
-               <table class="pull-right" style="display: inline; float: right;">
-                 <tr>
-                  <%= form_for(:user, :url => user_show_path(), :method => "get") do |f| %>
-                  <td><%= f.text_field :firstname, :placeholder => "Search Name" %></td>
-                  <td><%= f.button "Search", :type => "submit", :class => "btn btn-success"%></td>
-                  <td><div class="pull-right"><%=link_to 'Sign out', destroy_user_session_path, method: :delete, :class => "btn btn-danger fa fa-sign-out"  %></div></td>
+            <div>
+                  <%= form_for(:user, :url => user_show_path(), :method => "get", :html => {:class => "navbar-form pull-right"}) do |f| %>
+                  <%= f.text_field :firstname, :placeholder => "Search Name" %>
+                  <%= f.button :type => "submit", :class => "btn btn-success" do %>Search <i class="fa fa-search"></i>
                   <% end %>
-                </tr>
-              </table>
+                  <%=link_to destroy_user_session_path, method: :delete, :class => "btn btn-medium btn-danger" do%>Sign out <i class="fa fa-sign-out"></i><% end %>
+                  <% end %>
             </div>
  
               </div>
             <% else %>
-              <div class="pull-right" style="display: inline; float: right;"><table><tr>
-                <%= form_for(:user, :url => session_path(:user)) do |f| %>
-                <td><%= f.text_field :email, :placeholder => "Username" %></td>
-                <td><%= f.password_field :password, :placeholder => "Password" %></td>
-                <td><%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in <i class="fa fa-sign-in"></i><% end %></td>
+              <div class="pull-right">
+                <%= form_for(:user, :url => session_path(:user), :html => {:class => "navbar-form pull-right"}) do |f| %>
+                <%= f.text_field :email, :placeholder => "Username" %>
+                <%= f.password_field :password, :placeholder => "Password" %>
+                <%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in <i class="fa fa-sign-in"></i><% end %>
+                <%=link_to new_user_registration_path  , :class => "btn btn-info fancybox" do%>Sing Up <i class="fa fa-share"></i><% end %>
                 <% end %>
-                <td><%=link_to new_user_registration_path  , :class => "btn btn-info" do%>Sing Up <i class="fa fa-share"></i><% end %></td>
-            </tr></table></div>
+            </div>
             <% end %>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding-top: 50px;">
       <div class="row-fluid">
           <%= bootstrap_flash %>
           <%= yield %>
       </div><!--/row-->
 
-      <footer>
+      <footer class="navbar-fixed-bottom">
         <p>&copy; CompanyPortal 2014</p>
       </footer>
 

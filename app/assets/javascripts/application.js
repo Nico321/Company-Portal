@@ -20,3 +20,7 @@
 //= require fancybox
 
 //= require bootstrap-datepicker 
+
+jQuery(function() {
+  $('a.fancybox').fancybox();
+});

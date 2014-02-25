@@ -1,5 +1,6 @@
 class Cart < ActiveRecord::Base
 	has_many :line_items, dependent: :destroy
+	has_many :articles, through: :line_items
 
 	# Raises the quantity of an line item by one
 	# if its currently in the cart. If it isn't a new

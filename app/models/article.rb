@@ -2,6 +2,7 @@ class Article < ActiveRecord::Base
 	has_many :storages, through: :article_storage
 	has_many :positions
 	has_many :line_items
+	has_many :carts, through: :line_items
 	before_destroy :ensure_not_referenced_by_any_line_item
 
 	has_attached_file :image, :styles => {:medium => "300x300>", :mini => "70x60>"},
