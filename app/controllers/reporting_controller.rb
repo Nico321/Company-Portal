@@ -226,19 +226,8 @@ load_and_authorize_resource
 		 	iyear = Time.now.year
 			imonth = Time.now.month
 			iday = Time.now.day
-			if iday < 10 && imonth < 10
-				ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday+1}'"
-				pay = "payed >= '#{iyear}-0#{imonth}-0#{iday}' AND payed <= '#{iyear}-0#{imonth}-0#{iday+1}'"
-			 elsif iday < 10
-			 	ymd = "created_at >= '#{iyear}-#{imonth}-0#{iday}' AND created_at <= '#{iyear}-#{imonth}-0#{iday+1}'"
-				pay = "payed >= '#{iyear}-#{imonth}-0#{iday}' AND payed <= '#{iyear}-#{imonth}-0#{iday+1}'"
-			 elsif imonth < 10
-				ymd = "created_at >= '#{iyear}-0#{imonth}-#{iday}' AND created_at <= '#{iyear}-0#{imonth}-#{iday+1}'"
-				pay = "payed >= '#{iyear}-0#{imonth}-#{iday}' AND payed <= '#{iyear}-0#{imonth}-#{iday+1}'"
-			 else	
-				ymd = "created_at >= '#{iyear}-#{imonth}-0#{iday}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday+1}'"
-				pay = "payed >= '#{iyear}-#{imonth}-0#{iday}' AND payed <= '#{iyear}-0#{imonth}-0#{iday+1}'"
-			end
+				ymd = "created_at >= '#{Time.local(iyear,imonth,iday)}' AND created_at < '#{Time.local(iyear,imonth,iday).tomorrow}'"
+				pay = "payed >= '#{Time.local(iyear,imonth,iday)}' AND payed < '#{Time.local(iyear,imonth,iday).tomorrow}'"
 		 elsif time == 0		 	
 		 	t = Time.local(2000,01,01)
 		 	y = 2000
@@ -247,30 +236,19 @@ load_and_authorize_resource
 			ymd = ymd = "created_at >= '#{Time.local(y,m,d)}'"
 			pay = "payed is not null"
 		 elsif time == "lastYear"
-		 	t = (Time.now.year)-1
+		 	t = Time.local(Time.now.year-1)
 			iyear = (Time.now.year)-1
-			imonth = 0
-			iday = 0
-			ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear+1}-0#{imonth}-0#{iday}'"
-			pay = "payed >= '#{iyear}-0#{imonth}-0#{iday}' AND payed <= '#{iyear+1}-0#{imonth}-0#{iday}'"
+			imonth = 1
+			iday = 1
+			ymd = "created_at >= '#{Time.local(iyear, imonth, iday)}' AND created_at < '#{Time.local(iyear, imonth, iday)+1.year}'"
+			pay = "payed >= '#{Time.local(iyear, imonth, iday)}' AND payed < '#{Time.local(iyear, imonth, iday)+1.year}'"
 		 elsif time == "lastDay"
 		 	t = Time.local(Time.now.year, Time.now.month, Time.now.day)
 		 	iyear = Time.now.year
 			imonth = Time.now.month
 			iday = (Time.now.day)-1
-			if iday < 10 && imonth < 10
-				ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday+1}'"
-				pay = "payed >= '#{iyear}-#{imonth}-0#{iday}' AND payed <= '#{iyear}-#{imonth}-0#{iday+1}'"
-			 elsif iday < 10
-				ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear}-#{imonth}-0#{iday+1}'"
-				pay = "payed >= '#{iyear}-#{imonth}-0#{iday}' AND payed <= '#{iyear}-#{imonth}-#{iday+1}'"
-			 elsif imonth < 10
-				ymd = "created_at >= '#{iyear}-0#{imonth}-0#{iday}' AND created_at <= '#{iyear}-0#{imonth}-#{iday+1}'"
-				pay = "payed >= '#{iyear}-0#{imonth}-0#{iday}' AND payed <= '#{iyear}-#{imonth}-#{iday+1}'"
-			 else	
-				ymd = "created_at >= '#{iyear}-#{imonth}-#{iday}' AND created_at <= '#{iyear}-#{imonth}-#{iday+1}'"
-				pay = "payed >= '#{iyear}-#{imonth}-#{iday}' AND payed <= '#{iyear}-#{imonth}-#{iday+1}'"
-			end
+			ymd = "created_at >= '#{Time.local(iyear,imonth,iday)}' AND created_at < '#{Time.local(iyear,imonth,iday).tomorrow}'"
+			pay = "payed >= '#{Time.local(iyear,imonth,iday)}' AND payed < '#{Time.local(iyear,imonth,iday).tomorrow}'"
 		end	
 
 		main			= Array.new(8)  #Array for all processsteps
@@ -309,7 +287,7 @@ load_and_authorize_resource
 				 	orders[1] = orders[1] / div
 				end
 			end
-			orders[0] = Order.count
+			orders[0] = Order.where(ymd).count
 
 		installations[0] 	= Installation.where(ymd).count
 		installations[1]	= Installation.where("invoice_id is null AND created_at >= '#{t}'").count
