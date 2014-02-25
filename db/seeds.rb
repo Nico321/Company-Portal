@@ -28,7 +28,14 @@ technican = FactoryGirl.create(:technican, :email => "technican@example.com")
 bserver = FactoryGirl.create(:article, name: "Big Server", description: "This Server is really awesome and will fulfil all your needs. From medium to big sized companies. Try it out!", price: 8999.99, delivertime: 10, image: File.new("#{Rails.root}/spec/support/fixtures/bigserver.jpg"))
 mserver = FactoryGirl.create(:article, name: "Medium Server", description: "This Server is not as awesome as the big one but it is better and faster than the small server. It is best used in small to medium sized companies", price: 3999.99, delivertime: 7, image: File.new("#{Rails.root}/spec/support/fixtures/mediumserver.jpg"))
 sserver = FactoryGirl.create(:article, name: "Small Server", description: "A really durable and sophisticated server for all your needs at your own home-network. Use it as a media-server or just to store your data to be protected from that nosey NSA!", price: 999.99, delivertime: 3, image: File.new("#{Rails.root}/spec/support/fixtures/smallserver.jpg"))
-computer= FactoryGirl.create(:article, name: "Computer", description: "Just a standard PC for everyday needs. Watching porn or whatever!", price: 599.99, delivertime: 2, image: File.new("#{Rails.root}/spec/support/fixtures/computer.jpg")) 
+computer = FactoryGirl.create(:article, name: "Computer", description: "Just a standard PC for everyday needs. Watching porn or whatever!", price: 599.99, delivertime: 2, image: File.new("#{Rails.root}/spec/support/fixtures/computer.jpg"))
+FactoryGirl.create(:article, name: "Keyboard", description: "Basic keyboard for extrem coding", price: 45.99, delivertime: 1, image: File.new("#{Rails.root}/spec/support/fixtures/tastatur.jpg")) 
+FactoryGirl.create(:article, name: "Banana", description: "Coding break? Time for a vitamin-containing banana!", price: 1.99, delivertime: 1, image: File.new("#{Rails.root}/spec/support/fixtures/banane.jpg")) 
+FactoryGirl.create(:article, name: "Red Bull", description: "Enough coffein for coding all night long!", price: 2.99, delivertime: 1, image: File.new("#{Rails.root}/spec/support/fixtures/redbull.jpg")) 
+FactoryGirl.create(:article, name: "Monitor", description: "A basic monitor. 24 Inches. Enough space for multiple Windows.", price: 399.99, delivertime: 2, image: File.new("#{Rails.root}/spec/support/fixtures/monitor.jpg"))
+FactoryGirl.create(:article, name: "Network cable", description: "A 5m network cable.!", price: 6.99, delivertime: 2, image: File.new("#{Rails.root}/spec/support/fixtures/lankabel.jpg"))
+FactoryGirl.create(:article, name: "Mouse", description: "Great!", price: 100.99, delivertime: 2, image: File.new("#{Rails.root}/spec/support/fixtures/maus.jpg"))
+FactoryGirl.create(:article, name: "Graphic card", description: "Enough power to render everything!", price: 333.99, delivertime: 2, image: File.new("#{Rails.root}/spec/support/fixtures/grafikkarte.jpg"))
 
 ###########################################################
 #
