@@ -7,8 +7,7 @@ class Article < ActiveRecord::Base
 
 	has_attached_file :image, :styles => {:medium => "300x300>", :mini => "70x60>"},
 	:path => "#{Rails.root}/public/images/articles/:id/:style/:basename.:extension",
-	:url => "/images/articles/:id/:style/:basename.:extension", 
-	:default_url => "/images/defaultpicture.png"
+	:url => "/images/articles/:id/:style/:basename.:extension"
 	validates_attachment_content_type :image, :content_type => /^image\/(png|gif|jpg|jpeg)/
 
 	validates :name, :description, presence: true

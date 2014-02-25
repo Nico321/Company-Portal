@@ -23,6 +23,9 @@ module CompanyPortal
                          "fontawesome-webfont.eot",
                          "fontawesome-webfont.svg",
                          "fontawesome-webfont.woff",
-                         "jquery.fancybox.css"]
+                         "jquery.fancybox.css",
+                         "fancybox_loadgin.gif",
+                         "fancybox_overlay.png",
+                         "fancybox_sprite.png"]
   end
 end
