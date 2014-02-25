@@ -71,6 +71,7 @@ class InstallationsController < ApplicationController
     @order.installation = @installation
     @order.save
 
+    UserMailer.create_installation(@installation.customer).deliver
     redirect_to @installation
   end
 

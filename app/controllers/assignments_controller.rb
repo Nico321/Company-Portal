@@ -148,6 +148,8 @@ class AssignmentsController < ApplicationController
           end
           @cart.destroy
 
+          UserMailer.checkout_cart(@assignment.customer).deliver
+
           redirect_to @assignment
         else
           redirect_to new_user_session_path
