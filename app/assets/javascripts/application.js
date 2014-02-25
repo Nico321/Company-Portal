@@ -24,3 +24,34 @@
 jQuery(function() {
   $('a.fancybox').fancybox();
 });
+jQuery(function() {
+	$("#submitme").bind("submit", function() {
+
+	$.fancybox.showActivity();
+
+	$.ajax({
+		type		: "POST",
+		cache	: false,
+		url		: "/users/sign_in",
+		data		: $(this).serializeArray(),
+		statusCode: {
+			401: function(data){
+				$.ajax({
+				type		: "GET",
+				cache	: false,
+				url		: "/users/sign_in",
+				data		: $(this).serializeArray(),
+				success: function(data){
+					$.fancybox(data);
+				}
+			})
+			}
+	},
+success: function() {
+    window.location.reload(true);
+}});
+
+	return false;
+});
+});
+

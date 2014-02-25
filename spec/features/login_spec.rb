@@ -13,7 +13,7 @@ describe 'Sign_up' do
     fill_in "user_password", with: '12345678'
     fill_in "user_password_confirmation", with: '12345678'
   end
-  expect { page.find("#new_user .btn").click()}.to change { User.all.count }.by(1)
+  expect { page.find("#new_user .btn-info").click()}.to change { User.all.count }.by(1)
 
   user = User.all.last
   if user.has_role (:customer)

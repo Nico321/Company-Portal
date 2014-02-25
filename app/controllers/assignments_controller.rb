@@ -132,7 +132,7 @@ class AssignmentsController < ApplicationController
   end
 
     def convert_from_cart
-      if current_user 
+      if current_user
           @cart = Cart.find(session[:cart_id])
           @request = Request.create(subject: "StoreOrder", customer: current_user, urgency: 1, body: "StoreOrder")
           @offer = Offer.create(subject: "StoreOrder", customer: current_user, request: @request)

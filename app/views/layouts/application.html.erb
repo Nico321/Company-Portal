@@ -49,7 +49,6 @@
           <a style="text-decoration: none;" class="brand" href="<%= root_path %>">CompanyPortal</a>
           <div class="container-fluid nav-collapse">
             <ul class="nav">
-      </li>
                      
   <% if current_user %>     
   		  <li class="dropdown">
@@ -58,19 +57,14 @@
            		<span class="caret"></span>
            		</a>
            		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
- 		<li><%=link_to 'Edit profile', edit_user_registration_path  %></li  >  
-           	  </ul>
-          	 </li>  
-
-                <li>
+ 		<li><%=link_to 'Edit profile', edit_user_registration_path  %></li >  
+           	</ul>
+        </li>
 		  <% if can?(:manage, Reporting) %>
                   <li class="dropdown">
                       <a href="<%= reporting_path%>" class="dropdown-toggle" type="button">Reporting</a>
                   </li>
 		  <% end %>
-	          
-                </li>
-                <li>
 		<% if can?(:create, Bugreport) %>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
@@ -89,7 +83,6 @@
                     <li><%= link_to "Archive", closed_bugreports_path %></li>
 		    <% end %>
                   </ul>
-                </li>
 		<% end %>
               </li>
                 <li class="dropdown">
@@ -107,14 +100,16 @@
                       <a tabindex="-1" href="#">Requests</a>
                       <ul class="dropdown-menu">
                         <li><%= link_to "New request", new_request_path %></li>
-                        <% if can?(:assume, Request) %>
+        <% end %>
+        <% if can?(:assume, Request) %>
                         <li class="divider"></li>
                         <li><%= link_to "Show open requests(#{Request.where('offer_id IS NULL').count})", open_requests_path %></li>
                         <li><%= link_to "Show unassumed requests (#{Request.where('agent_id IS NULL and offer_id IS NULL').count})", unassumed_requests_path %></li>
                         <li><%= link_to "Show my requests (#{Request.where(agent_id: current_user.id).where('offer_id IS NULL').count})", assumed_requests_path %></li>
+       <% end %>
                       </ul>
                     </li>
-		    <% end %>
+
 		    <% if can?(:manage, Offer) %>
                     <li class="dropdown-submenu">
                       <a tabindex="-1" href="#">Offers</a>
@@ -146,18 +141,19 @@
                       </ul>
                     </li>   
 	      <% end %>   
-		    <% if can?(:manage, Installation) %>          
-                    <li class="dropdown-submenu">
-                      <a tabindex="-1" href="#">Installations</a>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <li><%= link_to "Show open installations(#{Installation.where('invoice_id IS NULL').count})", open_installations_path %></li>
-          <% if can?(:assume, Installation) %>
-                        <li><%= link_to "Show unassumed installations (#{Installation.where('agent_id IS NULL and invoice_id IS NULL').count})", unassumed_installations_path %></li>
-                        <li><%= link_to "Show my installations (#{Installation.where(agent_id: current_user.id).where('invoice_id IS NULL').count})", assumed_installations_path %></li>
-                      <% end %>
-                    </ul>
-                    </li>
-		    <% end %>
+  		    <% if can?(:manage, Installation) %>          
+                      <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#">Installations</a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                          <li><%= link_to "Show open installations(#{Installation.where('invoice_id IS NULL').count})", open_installations_path %></li>
+              <% if can?(:assume, Installation) %>
+                              <li><%= link_to "Show unassumed installations (#{Installation.where('agent_id IS NULL and invoice_id IS NULL').count})", unassumed_installations_path %></li>
+                              <li><%= link_to "Show my installations (#{Installation.where(agent_id: current_user.id).where('invoice_id IS NULL').count})", assumed_installations_path %></li>
+                            
+              <% end %> 
+              </ul>
+            </li>                     
+  		    <% end %>
 		    <% if can?(:manage, Invoice) %> 
                     <li class="dropdown-submenu">
                       <a tabindex="-1" href="#">Invoices</a>
@@ -165,49 +161,48 @@
                         <li><%= link_to "Show open invoices(#{Invoice.where('payed IS NULL').count})", invoices_path %></li>
                       </ul>
                     </li>
-                    <% end %>
+        <% end %>
         <% if can?(:index, Archive) %>
                     <li class="divider"></li>
                     <li>
                       <a href="<%= archive_index_path %>">Archive</a>
                     </li>
         <% end %>
-                  </ul>         
-		  <% if can?(:manage, Article) %>  
-  		  <li class="dropdown">
-  		    <a href="#" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-           		Articles
-           		<span class="caret"></span>
-           		</a>
-           		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                	<li><%= link_to 'Show Article', articles_path  %></li>  
-                        <li><%= link_to 'New Article', new_article_path %></li>
-           	        </ul>
-          	  </li>
-		  <% end %>
-      <% end %>
-            </ul>
+                  </ul> 
+                  </li>        
+  		  <% if can?(:manage, Article) %>  
+    		  <li class="dropdown">
+    		    <a href="#" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+             		Articles
+             		<span class="caret"></span>
+             		</a>
+             		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                  	<li><%= link_to 'Show Article', articles_path  %></li>  
+                          <li><%= link_to 'New Article', new_article_path %></li>
+             	        </ul>
+            	  </li>
+  		  <% end %>
             <% if current_user %>
-            <div>
+          </ul>
+              <div class="pull-right">
                   <%= form_for(:user, :url => user_show_path(), :method => "get", :html => {:class => "navbar-form pull-right"}) do |f| %>
                   <%= f.text_field :firstname, :placeholder => "Search Name" %>
                   <%= f.button :type => "submit", :class => "btn btn-success" do %>Search <i class="fa fa-search"></i>
                   <% end %>
                   <%=link_to destroy_user_session_path, method: :delete, :class => "btn btn-medium btn-danger" do%>Sign out <i class="fa fa-sign-out"></i><% end %>
                   <% end %>
-            </div>
- 
               </div>
             <% else %>
               <div class="pull-right">
-                <%= form_for(:user, :url => session_path(:user), :html => {:class => "navbar-form pull-right"}) do |f| %>
-                <%= f.text_field :email, :placeholder => "Username" %>
-                <%= f.password_field :password, :placeholder => "Password" %>
-                <%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in <i class="fa fa-sign-in"></i><% end %>
-                <%=link_to new_user_registration_path  , :class => "btn btn-info fancybox" do%>Sing Up <i class="fa fa-share"></i><% end %>
+                <%= form_for(:user, :url => session_path(:user), :html => {:id => "submitme", :class => "navbar-form pull-right"}) do |f| %>
+                  <%= f.text_field :email, :placeholder => "Username" %>
+                  <%= f.password_field :password, :placeholder => "Password" %>
+                  <%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in <i class="fa fa-sign-in"></i><% end %>
+                  <%=link_to new_user_registration_path, :class => "btn btn-info" do%>Sing Up <i class="fa fa-share"></i><% end %>
                 <% end %>
-            </div>
+              </div>
             <% end %>
+          </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
