@@ -22,6 +22,7 @@ module CompanyPortal
     config.assets.precompile += ["fontawesome-webfont.ttf",
                          "fontawesome-webfont.eot",
                          "fontawesome-webfont.svg",
-                         "fontawesome-webfont.woff"]
+                         "fontawesome-webfont.woff",
+                         "jquery.fancybox.css"]
   end
 end

@@ -5,11 +5,11 @@ class UserController < ApplicationController
 	load_and_authorize_resource
 
 	def show
-		#user = params[:search]
-			@user = User.search(params[:firstname])
-		if !@user.blank?
-			@test = User.search(params[:firstname])
-			@user = User.first
+		@user = User.where("firstname like '%#{params[:name]}%'")
+		if  User.where("firstname like '%#{params[:name]}%'").count == 0
+			redirect_to root_path
+		else
+			@user = @user.first
 			if @user.current_sign_in_ip != nil 
 				@online = '<div class="circle circle-green circle-small"><div>'
 			 else
@@ -17,4 +17,5 @@ class UserController < ApplicationController
 			end
 		end
 	end
+
 end

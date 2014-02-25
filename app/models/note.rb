@@ -10,5 +10,5 @@ class Note < ActiveRecord::Base
 	belongs_to :invoice
 
 	validates :user, presence: true
-	validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
+	validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/, :default_url => "/images/defaultpicture.png"
 end
