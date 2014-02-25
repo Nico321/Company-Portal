@@ -1,10 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title></title>
+		<title><%= @user.firstname %> <%= @user.lastname %></title>
 	</head>
 	<body>
-<%= @user %>
 		<div class="container">
 			<div class="row">
 				<div class="span6">
@@ -39,8 +38,11 @@
 						</tr>
 					</table>
 				</div>
-			</div>
-			<div class="span6">
+				<div class="span6">
+				<?php if (image_tag @user.avatar.url(:medium) != nil): ?>
+					<%= image_tag @user.avatar.url(:medium) %>
+				<?php endif ?>
+				</div>
 			</div>
 		</div>
 	</body>
