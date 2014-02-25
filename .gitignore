@@ -21,4 +21,5 @@
 *.[jJ][pP][gG]
 !/spec/support/fixtures/*.*
 !/public/images/*.png
+!/vendor/assets/images/*.png
 !/public/images/*.jpg
