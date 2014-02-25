@@ -292,7 +292,7 @@ load_and_authorize_resource
 		installations[0] 	= Installation.where(ymd).count
 		installations[1]	= Installation.where("invoice_id is null AND created_at >= '#{t}'").count
 		installations[2] 	= Installation.where("agent_id is null AND created_at >= '#{t}'").count
-		installations[3]	= Installation.where("installationdate < #{Time.now.year}-#{Time.now.month}-#{Time.now.day} AND created_at >= '#{t}'").count
+		installations[3]	= Installation.where("installationdate < '#{Time.now.year}-#{Time.now.month}-#{Time.now.day}' AND created_at >= '#{t}'").count
 
 		invoices[0]	= Invoice.where(ymd).count
 		invoices[1] = Invoice.where("payed is null AND created_at >= '#{t}'").count
