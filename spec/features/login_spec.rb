@@ -7,13 +7,14 @@ describe 'Sign_up' do
  end
 
  it 'allows to sign up as customer' do
-  click_link 'Sign up'
+  visit new_user_registration_path
   within page.find("#new_user") do
     fill_in "user_email", with: 'kunde@example.de'
     fill_in "user_password", with: '12345678'
     fill_in "user_password_confirmation", with: '12345678'
-    expect { click_button 'Sign up'}.to change { User.all.count }.by(1)
   end
+  expect { page.find("#new_user .btn").click()}.to change { User.all.count }.by(1)
+
   user = User.all.last
   if user.has_role (:customer)
    true
@@ -32,7 +33,7 @@ describe 'Sign_up' do
  
   it 'allows to sign out' do
    click_link 'Sign out'
-   page.should have_content "Sign up"
+   page.should have_content "Signed out successfully."
   end
 
   it 'allows to edit your profile' do   

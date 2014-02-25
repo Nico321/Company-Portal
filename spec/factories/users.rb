@@ -9,7 +9,7 @@ FactoryGirl.define do
     lastname {Faker::Name.last_name}
     phone {Faker::PhoneNumber.cell_phone}
     street {Faker::Address.street_name}
-    zip {Faker::Address.zip_code}
+    zip "48161"
 
     factory :superadmin do
         after(:create) {|user| user.add_role(:superadmin)}
@@ -23,12 +23,12 @@ FactoryGirl.define do
         after(:create) {|user| user.add_role(:sales)}
     end
 
-    factory :technican do
-        after(:create) {|user| user.add_role(:technican)}
+    factory :technician do
+        after(:create) {|user| user.add_role(:technician)}
     end
 
-    factory :accountend do
-        after(:create) {|user| user.add_role(:accountend)}
+    factory :accountant do
+        after(:create) {|user| user.add_role(:accountant)}
     end
   end
 end

@@ -75,7 +75,7 @@
 	          
                 </li>
                 <li>
-		<% if can?(:open, Bugreport) %>
+		<% if can?(:create, Bugreport) %>
                 <div class="dropdown">
                   <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
                     Bugreports
@@ -83,8 +83,8 @@
                   </button>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                     <li><%= link_to "New bugreport", new_bugreport_path %></li>
+        <% if can?(:manage, Bugreport) %>
                     <li class="divider"></li>
-		    <% if can?(:manage, Bugreport) %>
                     <li><%= link_to "Show open bugreports (#{Bugreport.where('closed IS NULL').count})", unassumed_bugreports_path %></li>
                     <li><%= link_to "Show unassumed bugreports (#{Bugreport.where('agent_id IS NULL and closed IS NULL').count})", unassumed_bugreports_path %></li>
                     <li><%= link_to "Show my bugreports (#{Bugreport.where(agent_id: current_user.id).where("closed IS NULL").count})", assumed_bugreports_path %></li>

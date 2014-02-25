@@ -15,7 +15,10 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
-
+  <div class ="field" >
+    <%= f.label :description %> <br>
+    <%= f.text_area :description %>
+    </div>
   <div class="field">
     <%= f.label :price %><br>
     <%= f.text_field :price %>
@@ -24,18 +27,10 @@
     <%= f.label :delivertime %><br>
     <%= f.number_field :delivertime %>
   </div>
-  <div class="field">
-    <%= f.label :supplierid %><br>
-    <%= f.number_field :supplierid %>
-  </div>
-  <div class ="field" >
-    <%= f.label :description %> <br>
-    <%= f.text_area :description %>
-    </div>
   <div class="actions">
-    <%= f.file_field :image %>
+    <%= f.file_field :image%>
     <p>
-    <%= f.submit %>
+    <%= f.submit :class => "btn btn-success" %>
     </p>
   </div>
 <% end %>

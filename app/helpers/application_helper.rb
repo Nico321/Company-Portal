@@ -4,7 +4,9 @@ module ApplicationHelper
 	def show_notes(object, addbutton, objectID)
 		nrOfNotes = countNotes(object)
 		
-		html = "
+		html = "<script type='text/javascript'>jQuery(function() {
+  $('a.fancybox').fancybox();
+});</script>
 				<div class='accordion' id='accordionNote'>
 				    <div class='accordion-group'>
 				      <div class='accordion-heading'>
@@ -109,6 +111,7 @@ module ApplicationHelper
             </div>
             <div id='collapse#{n.id}' class='accordion-body collapse'>
               <div class='accordion-inner'>
+              <a href='#{n.image.url}' class='fancybox'><img src ='#{n.image.url(:thumb)}'></img></a>
               #{n.body}
               </div>
             </div>
