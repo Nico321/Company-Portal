@@ -136,7 +136,7 @@ load_and_authorize_resource
 		end
 	
 		if(iyear == 0 && imonth == 0 && iday == 0)
-			return [[Bugreport.all.count], [Bugreport.where("closed").count]]
+			return [[Bugreport.all.count], [Bugreport.where("closed is not null").count]]
 
 		 elsif (iyear != 0 && imonth == 0 && iday == 0)
 			return month
@@ -158,11 +158,11 @@ load_and_authorize_resource
 #Businessprocess Methods
 #------------------------------------------------------------------------------
 	def businessprocess
-		array = getBusinessprocessData("0")
+		array = getBusinessprocessData("all")
 		@info = params[:info]
 		case @info
 		 when "0"
-		 	array = getBusinessprocessData("0")
+		 	array = getBusinessprocessData("all")
 		 when "1"
 			legend = Array.new(2)
 		 	legend[0] = "Last Year"
@@ -228,7 +228,7 @@ load_and_authorize_resource
 			iday = Time.now.day
 				ymd = "created_at >= '#{Time.local(iyear,imonth,iday)}' AND created_at < '#{Time.local(iyear,imonth,iday).tomorrow}'"
 				pay = "payed >= '#{Time.local(iyear,imonth,iday)}' AND payed < '#{Time.local(iyear,imonth,iday).tomorrow}'"
-		 elsif time == 0		 	
+		 elsif time == "all"		 	
 		 	t = Time.local(2000,01,01)
 		 	y = 2000
 			m = 1
