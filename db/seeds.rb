@@ -34,7 +34,7 @@ FactoryGirl.create(:article, name: "Banana", description: "Coding break? Time fo
 FactoryGirl.create(:article, name: "Red Bull", description: "Enough coffein for coding all night long!", price: 2.99, delivertime: 1, image: File.open("#{Rails.root}/spec/support/fixtures/redbull.jpg")) 
 FactoryGirl.create(:article, name: "Monitor", description: "A basic monitor. 24 Inches. Enough space for multiple Windows.", price: 399.99, delivertime: 2, image: File.open("#{Rails.root}/spec/support/fixtures/monitor.jpg"))
 FactoryGirl.create(:article, name: "Network cable", description: "A 5m network cable.!", price: 6.99, delivertime: 2, image: File.open("#{Rails.root}/spec/support/fixtures/lankabel.jpg"))
-FactoryGirl.create(:article, name: "Mouse", description: "Great!", price: 100.99, delivertime: 2, image: File.new("#{Rails.root}/spec/support/fixtures/maus.jpg"))
+FactoryGirl.create(:article, name: "Mouse", description: "Great!", price: 100.99, delivertime: 2, image: File.open("#{Rails.root}/spec/support/fixtures/maus.jpg"))
 FactoryGirl.create(:article, name: "Graphic card", description: "Enough power to render everything!", price: 333.99, delivertime: 2, image: File.open("#{Rails.root}/spec/support/fixtures/grafikkarte.jpg"))
 
 ###########################################################

@@ -77,6 +77,7 @@ class OffersController < ApplicationController
     @request.offer = @offer;
     @request.save
 
+    UserMailer.create_offer(@offer.customer).deliver
     redirect_to edit_offer_path(@offer)
   end
 

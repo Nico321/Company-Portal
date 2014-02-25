@@ -136,7 +136,7 @@ load_and_authorize_resource
 		end
 	
 		if(iyear == 0 && imonth == 0 && iday == 0)
-			return [[Bugreport.all.count], [Bugreport.where("closed").count]]
+			return [[Bugreport.all.count], [Bugreport.where("closed is not null").count]]
 
 		 elsif (iyear != 0 && imonth == 0 && iday == 0)
 			return month
@@ -158,11 +158,11 @@ load_and_authorize_resource
 #Businessprocess Methods
 #------------------------------------------------------------------------------
 	def businessprocess
-		array = getBusinessprocessData("0")
+		array = getBusinessprocessData("all")
 		@info = params[:info]
 		case @info
 		 when "0"
-		 	array = getBusinessprocessData("0")
+		 	array = getBusinessprocessData("all")
 		 when "1"
 			legend = Array.new(2)
 		 	legend[0] = "Last Year"
@@ -220,7 +220,7 @@ load_and_authorize_resource
 			m = 0
 			d = 0
 			ymd = "created_at >= '#{Time.local(y,1,1)}'"
-			pay = "payed like '#{y}'"
+			pay = "payed >= '#{Time.local(y,1,1)}' AND payed < '#{Time.local(y+1,1,1)}'"
 		 elsif time == "day"
 		 	t = Time.local(Time.now.year, Time.now.month, Time.now.day)
 		 	iyear = Time.now.year
@@ -228,7 +228,7 @@ load_and_authorize_resource
 			iday = Time.now.day
 				ymd = "created_at >= '#{Time.local(iyear,imonth,iday)}' AND created_at < '#{Time.local(iyear,imonth,iday).tomorrow}'"
 				pay = "payed >= '#{Time.local(iyear,imonth,iday)}' AND payed < '#{Time.local(iyear,imonth,iday).tomorrow}'"
-		 elsif time == 0		 	
+		 elsif time == "all"		 	
 		 	t = Time.local(2000,01,01)
 		 	y = 2000
 			m = 1
@@ -292,7 +292,7 @@ load_and_authorize_resource
 		installations[0] 	= Installation.where(ymd).count
 		installations[1]	= Installation.where("invoice_id is null AND created_at >= '#{t}'").count
 		installations[2] 	= Installation.where("agent_id is null AND created_at >= '#{t}'").count
-		installations[3]	= Installation.where("installationdate < #{Time.now.year}-#{Time.now.month}-#{Time.now.day} AND created_at >= '#{t}'").count
+		installations[3]	= Installation.where("installationdate < '#{Time.local(Time.now.year,Time.now.month,Time.now.day)}' AND created_at >= '#{t}'").count
 
 		invoices[0]	= Invoice.where(ymd).count
 		invoices[1] = Invoice.where("payed is null AND created_at >= '#{t}'").count

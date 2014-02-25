@@ -12,7 +12,6 @@ class Article < ActiveRecord::Base
 	:dropbox_options => {
 		:path =>  proc { |style| "company-portal/images/articles/#{id}/#{style}/#{id}_#{style}"}
 	} 
-
 	validates_attachment_content_type :image, :content_type => /^image\/(png|gif|jpg|jpeg)/
 
 	validates :name, :description, presence: true
