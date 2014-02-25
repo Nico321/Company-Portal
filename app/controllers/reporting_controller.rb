@@ -89,7 +89,7 @@ load_and_authorize_resource
 		@mydata = params[:value]
 		case @mydata
 			when "0"
-				@chart =	createBarChart("400x400", "Created/Closed", ["FF0000", "008000"], ["Created", "Closed"], bugreportsShow(2000,0,0),Bugreport.all.count, ["All"])			
+				@chart =	createBarChart("400x400", "Created/Closed", ["FF0000", "008000"], ["Created", "Closed"], bugreportsShow(0,0,0),Bugreport.all.count, ["All"])			
 			when "1"
 				@chart =	createBarChart("650x400", "Created/Closed", ["FF0000", "008000"], ["Created", "Closed"], bugreportsShow(Time.now.year,0,0), Bugreport.all.count, [["Jan", "Feb", "Mar", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]])
 			when "2"
@@ -102,50 +102,36 @@ load_and_authorize_resource
 		#This method creates an data_array to show the bugreports
 		month = Array.new(2){Array.new(12)}	#2dem Array to save created and closed Bugreports
 		hours = Array.new(2){Array.new(12)}
-		i = 0
-		until i == 12 do
+
+		if iyear != 0 && imonth == 0 && iday==0
+			i = 0
+			until i == 12 do
 			i += 1
-			if i<10 && i+1 < 10
-				month[0][i-1] = Bugreport.where("created_at >= '#{iyear}-0#{i}-01' AND created_at <= '#{iyear}-0#{i+1}-01'",iyear, i).count
-				month[1][i-1] = Bugreport.where("closed >= '#{iyear}-0#{i}-01' AND closed <= '#{iyear}-0#{i+1}-01'",iyear, i).count
-			 elsif i<10 && i+1 >= 10
-			 	month[0][i-1] = Bugreport.where("created_at >= '#{iyear}-0#{i}-01' AND created_at <= '#{iyear}-#{i+1}-01'",iyear, i).count
-				month[1][i-1] = Bugreport.where("closed >= '#{iyear}-0#{i}-01' AND closed <= '#{iyear}-#{i+1}-01'",iyear, i).count
-			 else
-				month[0][i-1] = Bugreport.where("created_at >= '#{iyear}-#{i}-01' AND created_at <= '#{iyear}-#{i+1}-01'",iyear, i).count
-				month[1][i-1] = Bugreport.where("closed >= '#{iyear}-#{i}-01' AND closed <= '#{iyear}-#{i+1}-01'",iyear, i).count
-			end
+				if i+1 > 12
+				month[0][i-1] = Bugreport.where("created_at >= '#{Time.local(iyear, i)}'").count
+				month[1][i-1] = Bugreport.where("closed >= '#{Time.local(iyear, i)}'").count
+				 else
+					month[0][i-1] = Bugreport.where("created_at >= '#{Time.local(iyear, i)}' AND created_at < '#{Time.local(iyear, i)+1.month}'").count
+					month[1][i-1] = Bugreport.where("closed >= '#{Time.local(iyear, i)}' AND closed < '#{Time.local(iyear, i)+1.month}'").count
+				end
+			end	
 		end
 		#-----------Daybreaks-------
-		time = Time.now.hour-12
-			if time < 1
-				time = time*-1
-			end
-		counter = 0
-		until time == Time.now.hour do
-			counter+= 1
-			time+= 1
-			if time == 0		#if time was negative we have to change the date at 00
-					time = 1
-					iday += 1
-			end
-			if imonth < 10 && iday <10 && time < 10
-				hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-0#{imonth}-0#{iday} 0#{time}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday} 0#{time+1}'", iyear,imonth, iday, time).count
-				hours[1][counter] = Bugreport.where("closed >= '#{iyear}-0#{imonth}-0#{iday} 0#{time}' AND closed <= '#{iyear}-0#{imonth}-0#{iday} 0#{time+1}'", iyear,imonth, iday, time).count
-			elsif imonth < 10 && iday <10 && time >= 10
-				hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-0#{imonth}-0#{iday} #{time}' AND created_at <= '#{iyear}-0#{imonth}-0#{iday} #{time+1}'", iyear,imonth, iday, time).count
-				hours[1][counter] = Bugreport.where("closed >= '#{iyear}-0#{imonth}-0#{iday} #{time}' AND closed <= '#{iyear}-0#{imonth}-0#{iday} #{time+1}'", iyear,imonth, iday, time).count
-			 elsif imonth < 10 && iday >= 10 && time >= 10
-				hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-0#{imonth}-#{iday} #{time}' AND created_at <= '#{iyear}-0#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
-				hours[1][counter] = Bugreport.where("closed >= '#{iyear}-0#{imonth}-#{iday} #{time}' AND closed <= '#{iyear}-0#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
-			 elsif	imonth >= 10 && iday >= 10 && time >= 10
-			 	if imonth == 12
-			 		hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-#{imonth}-#{iday} #{time}' AND created_at <= '#{iyear+1}-01-#{iday+1} #{time+1}'", iyear,imonth, iday, time).count
-					hours[1][counter] = Bugreport.where("closed >= '#{iyear}-#{imonth}-#{iday} #{time}' AND closed <= '#{iyear}-#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
-			 	 else
-					hours[0][counter] = Bugreport.where("created_at >= '#{iyear}-#{imonth}-#{iday} #{time}' AND created_at <= '#{iyear}-#{imonth+1}-#{iday+1} #{time+1}'", iyear,imonth, iday, time).count
-					hours[1][counter] = Bugreport.where("closed >= '#{iyear}-#{imonth}-#{iday} #{time}' AND closed <= '#{iyear}-#{imonth}-#{iday} #{time+1}'", iyear,imonth, iday, time).count
+		if iyear != 0 && imonth != 0
+			time = Time.now.hour-12
+				if time < 1
+					time = time*-1
 				end
+			counter = 0
+			until time == Time.now.hour do
+			 counter+= 1
+			 time+= 1
+			 	if time == 24		#if time was negative we have to change the date at 00
+					time = 0
+					iday += 1
+				end
+				hours[0][counter-1] = Bugreport.where("created_at >= '#{Time.local(iyear,imonth, iday, time)}' AND created_at < '#{Time.local(iyear, imonth, iday, time)+1.hour}'").count
+				hours[1][counter-1] = Bugreport.where("closed >= '#{Time.local(iyear,imonth, iday, time)}' AND closed < '#{Time.local(iyear,imonth, iday, time)+1.hour}'").count
 			end	
 		end
 	
