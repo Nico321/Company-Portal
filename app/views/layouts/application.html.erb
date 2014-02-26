@@ -186,7 +186,7 @@
           </ul>
             <li>
                   
-                  <form action="/user/show" method="post" class="navbar navbar-form pull-right">
+                  <form action="/user/show" method="post" class="navbar navbar-form pull-right" id="submitme">
                   <input type="text" name="name" placeholder="Firstname">
                   <%= hidden_field_tag "authenticity_token", form_authenticity_token %>
                   <%= button_tag :type => "submit", :class => "btn btn-success" do %>Search <i class="fa fa-search"></i><% end %>
@@ -200,7 +200,7 @@
                   <%= f.text_field :email, :placeholder => "Username" %>
                   <%= f.password_field :password, :placeholder => "Password" %>
                   <%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in <i class="fa fa-sign-in"></i><% end %>
-                  <%=link_to new_user_registration_path, :class => "btn btn-info fancybox" do%>Sing Up <i class="fa fa-share"></i><% end %>
+                  <%=link_to new_user_registration_path, :class => "btn btn-info fancyboxajax" do%>Sing Up <i class="fa fa-share"></i><% end %>
                 <% end %>
               </div>
             <% end %>

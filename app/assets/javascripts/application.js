@@ -29,6 +29,16 @@ jQuery(function() {
       'speedOut'      :   200,
       'overlayShow'   :   false});
 });
+
+jQuery(function() {
+  $('a.fancyboxajax').fancybox({'type':'ajax',
+  	'transitionIn'  :   'elastic',
+      'transitionOut' :   'elastic',
+      'speedIn'       :   600,
+      'speedOut'      :   200,
+      'overlayShow'   :   false});
+});
+
 jQuery(function() {
 	$("#submitme").bind("submit", function() {
 
