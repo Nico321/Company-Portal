@@ -16,7 +16,7 @@ require 'factory_girl_rails'
 superadmin = FactoryGirl.create(:superadmin, :email => "superadmin@example.com")
 sales = FactoryGirl.create(:sales, :email => "sales@example.com")
 customer = FactoryGirl.create(:customer, :email => "customer@example.com")
-accountant = FactoryGirl.create(:accountant, :email => "accountant@exmaple.com")
+accountant = FactoryGirl.create(:accountant, :email => "accountant@example.com")
 technician = FactoryGirl.create(:technician, :email => "technician@example.com")
 
 ###########################################################

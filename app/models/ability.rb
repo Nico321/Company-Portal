@@ -19,6 +19,8 @@ class Ability
 				cannot :destroy, Invoice
 				can :index, Archive
 			elsif user.has_role?(:technician)
+				can :manage, Request
+				cannot :destroy, Request
 				can :manage, Installation
 				cannot :destroy, Installation
 				cannot :create, Installation

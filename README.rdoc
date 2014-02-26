@@ -63,6 +63,32 @@ rake db:seed
 
 	- Mailbenachrichtungen funktionierne nur bei Benutzern mit gültiger Emailaddresse (keine StandardAccounts aus den Seed Daten)
 
+	-Mindmap wurde zu Beginn des Projektes erstellt, und weist nun einige Abweichnungen auf.
+
+	- Vorgehen bei Businessprocesses:
+		- Als Kunde einen Request anlegen
+		- Als Sales Request Assume
+		- Als Sales Offer erstellen (Request / Show)
+		- Offer als Sales Assume
+		- Mindestens 1 Position hinzufügen
+		- Offer publishen
+		- Als Kunde einloggen
+		- Overview
+		- Accept Offer
+		- Als Sales Assignment assume
+		- place order
+		- position als arrived markieren
+		- als Technician einloggen
+		- Installation assume
+		- close Installation
+		- als Customer Rechnung bezahlen (Overview)
+
+
+
+
+
+
+
 * Database creation
 
 * Database initialization
