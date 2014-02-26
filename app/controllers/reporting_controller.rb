@@ -363,7 +363,7 @@ load_and_authorize_resource
 					end
 				end
 				#customer.sort_by(&:last)
-				customer.sort_by{|x,y|y}
+				customer.sort {|a1,a2| a2[1]<=>a1[1]}
 			end
 		end
 
@@ -418,49 +418,28 @@ load_and_authorize_resource
 #------------------------------------------------------------------------------
 
 	def shop
-		all = getItems
-		@top = all[0..9]
-		@worst = all[getItems.length-10..getItems.length]
-	end
-
-	def findItem(items ,position)
-		pos= 0
-		until pos == items.length
-			if items[pos][0] == position.article_id
-				return 3
-			end
-			pos +=1
-		end
-	return nil
+		@top = getItems[0..9]
+		@worst = getItems.sort[getItems.length-10..getItems.length]
 	end
 
 	def getItems
 		if !Article.count.blank? && !Invoice.count.blank?
-			items = Array.new(Article.all.count){Array.new(2)}
+			items = Hash.new
+
+			Article.all.each do |article|
+				items[article.id] = 0
+			end
 			if !Invoice.all.blank?
 				Invoice.all.each do |invoice|
 					if !invoice.positions.blank?
 						invoice.positions.each do |position|
-							if findItem(items, position) == nil
-								i = -1
-								items.each do |item|
-									if items != nil
-										i +=1
-									 else
-									 	i +=0
-									end
-									items[i][0] = position.article_id
-									items[i][1] = position.quantity
-							 	end
-							 else
-							 	items[findItem(items, position)][1] += position.quantity
-							end
+								items[position.article_id] += position.quantity
 						end
 					end
 				end
 			end
-			items.sort_by(&:last)
 		end
-		return items
+		@test = items.sort {|a1,a2| a2[1]<=>a1[1]}
+		return items.sort {|a1,a2| a2[1]<=>a1[1]}
 	end
 end
