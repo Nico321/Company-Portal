@@ -196,7 +196,7 @@
 
             </li>
             <% else %>
-              <div class="pull-right">#
+              <div class="pull-right">
                 <%= form_for(:user, :url => session_path(:user), :html => {:id => "submitme", :class => "navbar-form pull-right"}) do |f| %>
                   <%= f.text_field :email, :placeholder => "Username" %>
                   <%= f.password_field :password, :placeholder => "Password" %>
