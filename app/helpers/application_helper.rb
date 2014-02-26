@@ -40,7 +40,7 @@ module ApplicationHelper
 						end
 
 						if addbutton
-							html +=	"<div style='float: right;'><a href='#{new_note_path}?#{addbutton}_id=#{objectID}' class='btn btn-primary fancybox'>Add a note</a></div>"
+							html +=	"<div style='float: right;'><a href='#{new_note_path}?#{addbutton}_id=#{objectID}' class='btn btn-primary fancyboxajax'>Add a note</a></div>"
 						end
 		
 		html +="		</div>
@@ -108,9 +108,11 @@ module ApplicationHelper
               </a>
             </div>
             <div id='collapse#{n.id}' class='accordion-body collapse'>
-              <div class='accordion-inner'>
-              <a href='#{n.image.url}' class='fancybox'><img src ='#{n.image.url(:thumb)}'></img></a>
-              #{n.body}
+              <div class='accordion-inner'>"
+              if n.image.exists?
+              	notes += "<a href='#{n.image.url}' class='fancybox'><img src ='#{n.image.url(:thumb)}'></img></a>"
+              end
+              notes+= "#{n.body}
               </div>
             </div>
           </div>"		
