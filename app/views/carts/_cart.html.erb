@@ -9,10 +9,10 @@
       </table>
       <% if cart.line_items.length >=1 %>
 		<a>
-		<%= link_to convert_from_cart_assignments_path, method: :get, :class=> 'btn btn-success btn-mini', :id => "CheckoutCart" do %>
+		<%= link_to convert_from_cart_assignments_path, method: :get, data:{confirm: 'This will lead to an order. Are you sure?'}, :class=> 'btn btn-success btn-mini', :id => "CheckoutCart" do %>
 		 	<i class ="fa fa-money fa-lg"> Checkout </i>
 		 	<% end %> 
-		<%= link_to cart, method: :delete, data:{confirm: 'Are you sure?'}, remote: true, :class => 'btn btn-danger btn-mini' do %>
+		<%= link_to cart, method: :delete, data:{confirm: 'Do you want to delete your current cart?'}, remote: true, :class => 'btn btn-danger btn-mini' do %>
 			<i class= "fa fa-trash-o fa-lg"> Empty Cart</i>
 		    <% end %>
 		 <% end %>
