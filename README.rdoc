@@ -10,6 +10,24 @@ Things you may want to cover:
 * System dependencies
 
 * Configuration
+	- Accounts extern:
+		- GMAIL: companyportal99@gmail.com Passwort: cptest1234/
+		- Dropbox: companyportal99@gmail.com Passwort: cptest1234/
+		- PayPal - Verkäufer (www.sandbox.paypal.com): seller@cp.com Passwort: company-portal
+		- PayPal - Käufer (www.sandbox.paypal.com): cpbuyer@cp.com Passwort: company-portal
+	- Accounts intern:
+		- Administrator (superadmin): superadmin@example.com
+		- Customer (customer): customer@example.com
+		- Vertrieb (sales): sales@example.com
+		- Techniker (technician): technician@example.com
+		- Buchhalter (accountant): accountant@example.com
+
+		Passwörter sind überall: "testtest"
+
+*Allgemeine Informationen:
+	- Bei den seed Daten werden Bilder für Produkte etc. in die Dropbox hochgeladen und gespeichert, deswegen muss eine Internetverbindung vorhanden sein. Außerdem kann das Erstellen der Seeds etwas Zeit in Anspruch nehmen. (Verfügbarer Speicherplatz 2GB)
+	
+	- Rechnungen können nur auf Heroku über PayPal bezahlt werden, da PayPal keine IPN Notifications an "localhost:3000" senden kann. Wenn Sie doch über lokalen Server bezahlt werden, wird nicht es in den Applikation nicht als bezahlt erkannt.
 
 * Database creation
 

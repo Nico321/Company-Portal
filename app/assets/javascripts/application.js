@@ -15,10 +15,9 @@
 //= require jquery.ui.effect-fade
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require turbolinks
 //= require_tree .
 //= require fancybox
-//= require turbolinks
+//= require jquery.turbolinks
 
 //= require bootstrap-datepicker 
 
@@ -72,14 +71,11 @@ jQuery(function() {
 					}
 				})
 				}
-
 		},
 
 	success: function() {
 	    window.location.reload(true);
 	}});
-
-
 		return false;
 	});
 	});

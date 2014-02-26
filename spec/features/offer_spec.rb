@@ -6,6 +6,8 @@ describe "Offer" do
 	let!(:offer){FactoryGirl.create(:offer)}
 	let!(:request){FactoryGirl.create(:request)}
 	let!(:article){FactoryGirl.create(:article)}
+	let!(:pos){FactoryGirl.create(:position)}	
+	let!(:order){FactoryGirl.create(:order)}
 
 	before :each do
 		login(superadmin)
@@ -28,7 +30,7 @@ describe "Offer" do
 	it 'can assume an offer' do
 		visit unassumed_offers_path
 
-		expect{click_link "Assume"}.to change{Offer.where("agent_id IS NOT NULL").count}.by(1)
+		expect{click_link "Assume", match: :first}.to change{Offer.where("agent_id IS NOT NULL").count}.by(1)
 	end
 
 	it 'can release an offer' do
@@ -49,8 +51,12 @@ describe "Offer" do
 
 	it 'can publish an offer' do
 		offer.agent = superadmin
+		pos.offer = offer
+		pos.order = order
+		pos.save
 		offer.save
 		visit edit_offer_path(offer)
+		page.should have_content "Publish"
 		expect{click_link "Publish"}.to change{Offer.where('assignment_id IS NULL AND publication IS NOT NULL').count}.by(1)
 	end
 

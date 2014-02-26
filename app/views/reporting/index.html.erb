@@ -50,12 +50,12 @@
 						<div class="caption">
 							<table class="table table-hover">
 					    		<tr>
-						    	  	<td></td>
-								   	<td></td>
+						    	  	<td>Articles in Store</td>
+								   	<td> <%= Article.all.count %></td>
 								</tr>
 								<tr>
-								    <td></td>
-								    <td></td>
+								    <td>Customers</td>
+								    <td> <%= (User.with_role :customer).count %></td>
 								</tr>
 			    			</table>
 						</div>
