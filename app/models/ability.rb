@@ -18,6 +18,8 @@ class Ability
 				can :manage, Invoice
 				cannot :destroy, Invoice
 				can :index, Archive
+				can :show, User
+				can :list, User
 			elsif user.has_role?(:technician)
 				can :manage, Request
 				cannot :destroy, Request
@@ -28,6 +30,8 @@ class Ability
 				can :manage, Bugreport
 				cannot :destroy, Bugreport
 				can :convert, Invoice
+				can :show, User
+				can :list, User
 			elsif user.has_role?(:customer)
 				can :read, :all, :customer => user
 				can :create, Request
@@ -36,6 +40,8 @@ class Ability
 				cannot :manage, Reporting
 				cannot :index, Archive
 				can :convert, Assignment
+				can :show, User
+				can :list, User
 			elsif user.has_role?(:sales)   
 				can :manage, :all
 				cannot :destroy, :all
@@ -46,6 +52,8 @@ class Ability
 				cannot :convert, Invoice
 				cannot :manage, Bugreport
 				can :create, Bugreport
+				can :show, User
+				can :list, User
 			else 
 				user.add_role(:customer)
 				user.save       

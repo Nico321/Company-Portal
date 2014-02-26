@@ -2,24 +2,20 @@
 <html>
 	<head>
 		<title>User List</title>
-		<script>
-		$(document).ready(function(){
-    $('table tr').click(function(){
-        window.location = $(this).attr('href');
-        return false;
-    });
-});
-		</script>
 	</head>
 	<body>
 	<h2> User List </h2>
 		<table class="table-striped">
 			<% @list.each do |key, value| %>
-				<tr href="<%= user_show_path(:id => key) %>">
+				<tr>
 					<td><%= image_tag value.avatar.url(:mini) %></td>
 					<td><%= value.firstname %><td>
 					<td><%= value.lastname %><td>
 					<td><%= value.email %><td>
+						<td><%= link_to "Show", user_show_path(:id => value.id), :class => "btn btn-info" %></td>
+						<% if current_user.has_role? :superadmin %>
+							<td><%= link_to "Change role", user_changerole_path(:user_id => value.id), :class => "btn btn-primary fancyboxajax" %></td>
+						<% end %>
 				</tr>
 			<%end%>
 			

@@ -73,6 +73,8 @@ post "reporting/businessprocess", controller: "reporting", action:"businessproce
 
 get 'user/show', controller: "user", action: "show"
 post 'user/list', controller: "user", action: "list"
+get 'user/changerole', controller: "user", action: "changerole"
+post 'user/modifyrole', controller: "user", action: "modifyrole"
 
   resources :positions do
     member do
