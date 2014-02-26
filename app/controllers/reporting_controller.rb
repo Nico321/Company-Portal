@@ -418,8 +418,15 @@ load_and_authorize_resource
 #------------------------------------------------------------------------------
 
 	def shop
-		@top = getItems[0..9]
-		@worst = getItems.sort[getItems.length-10..getItems.length]
+		if getItems.length < 20
+			@head = (getItems.length/2)
+			@top = getItems[0..(getItems.length/2)-1]
+			@worst = getItems[(getItems.length/2)..getItems.length]
+		 else
+		 	@head = 10
+			@top = getItems[0..9]
+			@worst = getItems.sort[getItems.length-10..getItems.length]
+		end
 	end
 
 	def getItems
@@ -439,7 +446,6 @@ load_and_authorize_resource
 				end
 			end
 		end
-		@test = items.sort {|a1,a2| a2[1]<=>a1[1]}
 		return items.sort {|a1,a2| a2[1]<=>a1[1]}
 	end
 end
