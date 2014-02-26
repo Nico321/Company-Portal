@@ -69,7 +69,8 @@ module ApplicationHelper
 			nrOfNotes = count_RequestNotes(object.order.assignment.offer.request)
 		elsif object.class == Invoice
 			nrOfNotes = count_RequestNotes(object.installation.order.assignment.offer.request)
-				
+		elsif object.class == Bugreport
+			nrOfNotes = object.notes.count				
 		end
 
 		return nrOfNotes

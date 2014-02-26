@@ -15,10 +15,9 @@
 //= require jquery.ui.effect-fade
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require turbolinks
 //= require_tree .
 //= require fancybox
-
+//= require jquery.turbolinks
 //= require bootstrap-datepicker 
 
 jQuery(function() {
