@@ -24,15 +24,23 @@ class PositionsController < ApplicationController
   # POST /positions
   # POST /positions.json
   def create
-    @position = Position.new(position_params)
+    offer= Offer.find(position_params[:offer_id])
+    currentPos = offer.positions.find_by(article: Article.find(position_params[:article_id]))
+    if currentPos
+      currentPos.quantity +=1
+      currentPos.save
+      redirect_to edit_offer_path(offer)
+    else
+      @position = Position.new(position_params)
 
-    respond_to do |format|
-      if @position.save
-        format.html { redirect_to edit_offer_path(@position.offer), notice: 'Position was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @position }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @position.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @position.save
+          format.html { redirect_to edit_offer_path(@position.offer), notice: 'Position was successfully created.' }
+          format.json { render action: 'show', status: :created, location: @position }
+        else
+          format.html { render action: 'new' }
+          format.json { render json: @position.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -61,9 +69,10 @@ class PositionsController < ApplicationController
   # DELETE /positions/1
   # DELETE /positions/1.json
   def destroy
+    offer = @position.offer
     @position.destroy
     respond_to do |format|
-      format.html { redirect_to positions_url }
+      format.html { redirect_to edit_offer_path(offer) }
       format.json { head :no_content }
     end
   end

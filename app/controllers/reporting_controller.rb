@@ -201,11 +201,9 @@ load_and_authorize_resource
 			end
 			@chart2 = createMeterChart("Positions in time", array[6], 0)
 		
-			if (array[2][1].to_f / array[2][1]*100.to_f).class.to_s == "float"
-				@OtA = (array[2][1].to_f / array[2][1]*100.to_f)
-			 else
-				@OtA = 0
-			end
+			
+			@OtA = ( array[2][0].to_f / array[1][0].to_f)*100
+			 
 
 			@Opayed =  (array[5][2].to_f / array[3][0])*100.to_f
 			@customer = array[7]
@@ -362,8 +360,7 @@ load_and_authorize_resource
 						cu[1] = 0
 					end
 				end
-				#customer.sort_by(&:last)
-				customer.sort_by{|x,y|y}
+				customer.sort {|a1,a2| a2[1]<=>a1[1]}
 			end
 		end
 
@@ -390,10 +387,14 @@ load_and_authorize_resource
 		case @mydata
 			when "0"
 				@list = getUserInfos[0]
-			when "1"		
+			when "1"	
+				@list = getUserInfos[1]	
 			when "2"
+				@list = getUserInfos[2]
 			when "3"
-			when "4"		
+				@list = getUserInfos[3]
+			when "4"	
+				@list = getUserInfos[4]	
 		end
 	end
 
@@ -418,49 +419,38 @@ load_and_authorize_resource
 #------------------------------------------------------------------------------
 
 	def shop
-		all = getItems
-		@top = all[0..9]
-		@worst = all[getItems.length-10..getItems.length]
-	end
-
-	def findItem(items ,position)
-		pos= 0
-		until pos == items.length
-			if items[pos][0] == position.article_id
-				return 3
-			end
-			pos +=1
+		if getItems.length < 20
+				if getItems.length%2 != 0
+				 @head = (getItems.length/2)+1
+				else
+				 @head = (getItems.length/2)
+				end
+			@top = getItems[0..(getItems.length/2)]
+			@worst = getItems[(getItems.length/2)..getItems.length]
+		 else
+		 	@head = 10
+			@top = getItems[0..9]
+			@worst = getItems.sort[getItems.length-10..getItems.length]
 		end
-	return nil
 	end
 
 	def getItems
 		if !Article.count.blank? && !Invoice.count.blank?
-			items = Array.new(Article.all.count){Array.new(2)}
+			items = Hash.new
+
+			Article.all.each do |article|
+				items[article.id] = 0
+			end
 			if !Invoice.all.blank?
 				Invoice.all.each do |invoice|
 					if !invoice.positions.blank?
 						invoice.positions.each do |position|
-							if findItem(items, position) == nil
-								i = -1
-								items.each do |item|
-									if items != nil
-										i +=1
-									 else
-									 	i +=0
-									end
-									items[i][0] = position.article_id
-									items[i][1] = position.quantity
-							 	end
-							 else
-							 	items[findItem(items, position)][1] += position.quantity
-							end
+								items[position.article_id] += position.quantity
 						end
 					end
 				end
 			end
-			items.sort_by(&:last)
 		end
-		return items
+		return items.sort {|a1,a2| a2[1]<=>a1[1]}
 	end
 end

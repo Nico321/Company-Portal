@@ -186,10 +186,9 @@
             <% if current_user %>
           </ul>
             <li>
-                  
-                  <form action="/user/show" method="post" class="navbar navbar-form pull-right">
-                  <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-                  <input type="text" name="name" title="type "a"" id="autocomplete" class="ui-autocomplete-input" atuocomplete="off" placeholder="Firstname">
+
+                <form action="/user/list" method="post" class="navbar navbar-form pull-right" id="search">
+                  <input type="text" name="name" placeholder="Person/Mail">
                   <%= hidden_field_tag "authenticity_token", form_authenticity_token %>
                   <%= button_tag :type => "submit", :class => "btn btn-success" do %>Search <i class="fa fa-search"></i><% end %>
                   <%=link_to destroy_user_session_path, method: :delete, :class => "btn btn-danger" do%>Sign out <i class="fa fa-sign-out"></i><%end%>
@@ -197,12 +196,12 @@
 
             </li>
             <% else %>
-              <div class="pull-right">
+              <div class="pull-right">#
                 <%= form_for(:user, :url => session_path(:user), :html => {:id => "submitme", :class => "navbar-form pull-right"}) do |f| %>
                   <%= f.text_field :email, :placeholder => "Username" %>
                   <%= f.password_field :password, :placeholder => "Password" %>
                   <%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in <i class="fa fa-sign-in"></i><% end %>
-                  <%=link_to new_user_registration_path, :class => "btn btn-info fancybox" do%>Sing Up <i class="fa fa-share"></i><% end %>
+                  <%=link_to new_user_registration_path, :class => "btn btn-info fancyboxajax" do%>Sing Up <i class="fa fa-share"></i><% end %>
                 <% end %>
               </div>
             <% end %>
@@ -212,18 +211,18 @@
       </div>
     </div>
 
-    <div class="container-fluid" style="padding-top: 50px;">
+
+    <div class="container-fluid" style="padding-top: 50px; padding-bottom: 50px; height: 100%;">
       <div class="row-fluid">
           <%= bootstrap_flash %>
           <%= yield %>
       </div><!--/row-->
 
-      <footer class="navbar-fixed-bottom">
-        <p>&copy; CompanyPortal 2014</p>
-        <%= User.all.count %>
-      </footer>
-
     </div> <!-- /container -->
-
+      <footer class="navbar navbar-fixed-bottom navbar-inverse" >
+        <div class="navbar-inner">
+          <center><span style="color: white;">&copy; CompanyPortal 2014</span></center>
+        </div>
+      </footer>
   </body>
 </html>

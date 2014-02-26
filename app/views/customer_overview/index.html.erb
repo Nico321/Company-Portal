@@ -1,32 +1,99 @@
-<div class = "row">
-	<table class="table table-hover">
-		<tr>
-			<th>Subject</th>
-			<th>State</th>
-			<th>Notes</th>
-			<th>Progress</th>
-			<th></th>
-		</tr>
+<div id="content">
+    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+        <li class="active"><a href="#request" data-toggle="tab">Requests</a></li>
+        <li><a href="#offer" data-toggle="tab">Offers</a></li>
+        <li><a href="#assignment" data-toggle="tab">Assignments</a></li>
+        <li><a href="#order" data-toggle="tab">Order</a></li>
+        <li><a href="#installation" data-toggle="tab">Installations</a></li>
+        <li><a href="#invoice" data-toggle="tab">Invoices</a></li>
+    </ul>
+    <div id="my-tab-content" class="tab-content">
+        <div class="tab-pane active" id="request">	
+        <table class="table table-hover">
+			<tr>
+				<th>Subject</th>
+				<th>State</th>
+				<th>Notes</th>
+				<th>Progress</th>
+				<th></th>
+			</tr>
 		<% if @requests %>
 			<%= generateTableRow(@requests,17, "progress-info").html_safe %>
 		<% end %>
-		<% if @offers %>
+		</table>
+        </div>
+        <div class="tab-pane" id="offer">	
+        <table class="table table-hover">
+			<tr>
+				<th>Subject</th>
+				<th>State</th>
+				<th>Notes</th>
+				<th>Progress</th>
+				<th></th>
+			</tr>
+        <% if @offers %>
 			<%= generateTableRow(@offers,34, "progress-warning").html_safe %>
 		<% end %>
-		<% if @assignments %>
+		</table>
+        </div>
+        <div class="tab-pane" id="assignment">	
+        <table class="table table-hover">
+			<tr>
+				<th>Subject</th>
+				<th>State</th>
+				<th>Notes</th>
+				<th>Progress</th>
+				<th></th>
+			</tr>
+        <% if @assignments %>
 			<%= generateTableRow(@assignments,51, "progress-danger").html_safe %>
 		<% end %>
-		<% if @orders %>
+		</table>
+        </div>
+        <div class="tab-pane" id="order">	
+        <table class="table table-hover">
+			<tr>
+				<th>Subject</th>
+				<th>State</th>
+				<th>Notes</th>
+				<th>Progress</th>
+				<th></th>
+			</tr>
+        <% if @orders %>
 			<%= generateTableRow(@orders,68, "progress-info").html_safe %>
 		<% end %>
-		<% if @installations %>
+		</table>
+        </div>
+        <div class="tab-pane" id="installation">	
+        <table class="table table-hover">
+			<tr>
+				<th>Subject</th>
+				<th>State</th>
+				<th>Notes</th>
+				<th>Progress</th>
+				<th></th>
+			</tr>
+        <% if @installations %>
 			<%= generateTableRow(@installations,85, "progress-warning").html_safe %>
 		<% end %>
-		<% if @invoices %>
+		</table>
+        </div>
+        <div class="tab-pane" id="invoice">	
+        <table class="table table-hover">
+			<tr>
+				<th>Subject</th>
+				<th>State</th>
+				<th>Notes</th>
+				<th>Progress</th>
+				<th></th>
+			</tr>
+        <% if @invoices %>
 			<%= generateTableRow(@invoices,100, "progress-danger").html_safe %>
 		<% end %>
 		<% if @invoicescompleted %>
 			<%= generateTableRow(@invoicescompleted,100, "progress-success").html_safe %>
 		<% end %>
-	</table>
+		</table>
+        </div>
+    </div>
 </div>

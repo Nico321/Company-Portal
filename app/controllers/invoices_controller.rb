@@ -23,7 +23,7 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render :pdf => "file_name", :template => 'invoices/show.html.erb'
+        render :pdf => "file_name", :template => 'invoices/show.html.erb', :encoding => "utf-8"
       end
     end
   end
@@ -92,6 +92,9 @@ class InvoicesController < ApplicationController
 
     @installation.invoice = @invoice;
     @installation.save
+
+    UserMailer.create_invoice(@invoice.customer).deliver
+
     if current_user.has_role? :technician
       redirect_to assumed_installations_path
     else

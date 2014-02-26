@@ -6,7 +6,7 @@ if @invoice.payed == nil
 	noteButton = "invoice"
 end %>
 
-<%= showObject(@invoice, noteButton, @invoice.installation.order.assignment.offer.request, true, true, true).html_safe %>
+<%= showObject(@invoice, noteButton, @invoice.installation.order.assignment.offer.request, true, true, true, params[:format]).html_safe %>
 
 
 <% if @invoice.payed == nil and @invoice.customer == current_user %>

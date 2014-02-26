@@ -34,6 +34,7 @@ CompanyPortal::Application.configure do
 
   # Version of your assets, change this if you want to expire all your assets.
   config.assets.version = '1.0'
+  config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
@@ -79,4 +80,20 @@ CompanyPortal::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.active_record.default_timezone = :utc
+
+  config.action_mailer.default_url_options = { :host => 'http://company-portal.herokuapp.com' }
+  config.action_mailer.raise_delivery_errors = true
+
+# set delivery method to :smtp, :sendmail or :test
+config.action_mailer.delivery_method = :smtp
+
+# these options are only needed if you choose smtp delivery
+config.action_mailer.smtp_settings = {
+  :address        => 'smtp.gmail.com',
+  :port           => 25,
+  :domain         => 'gmail.com',
+  :authentication => :login,
+  :user_name      => 'companyportal99',
+  :password       => 'cptest1234/'
+}
 end
