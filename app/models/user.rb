@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :bugreports
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }, 
-  :default_path => "spec/support/fixtures/image.png",
+  :default_url => '/images/defaultimage_:style.png',
   :storage => :dropbox,
   :dropbox_credentials => Rails.root.join("config/dropbox.yml"),
   :dropbox_options => {
