@@ -186,7 +186,7 @@
           </ul>
             <li>
                 <form action="/user/list" method="post" class="navbar navbar-form pull-right" id="search">
-                  <input type="text" name="name" placeholder="Firstname">
+                  <input type="text" name="name" placeholder="Person/Mail">
                   <%= hidden_field_tag "authenticity_token", form_authenticity_token %>
                   <%= button_tag :type => "submit", :class => "btn btn-success" do %>Search <i class="fa fa-search"></i><% end %>
                   <%=link_to destroy_user_session_path, method: :delete, :class => "btn btn-danger" do%>Sign out <i class="fa fa-sign-out"></i><%end%>
@@ -196,7 +196,7 @@
             <% else %>
               <div class="pull-right">#
                 <%= form_for(:user, :url => session_path(:user), :html => {:id => "submitme", :class => "navbar-form pull-right"}) do |f| %>
-                  <%= f.text_field :name, :placeholder => "Username" %>
+                  <%= f.text_field :email, :placeholder => "Username" %>
                   <%= f.password_field :password, :placeholder => "Password" %>
                   <%= f.button :type => "submit", :class => "btn btn-success" do %>Sign in <i class="fa fa-sign-in"></i><% end %>
                   <%=link_to new_user_registration_path, :class => "btn btn-info fancyboxajax" do%>Sing Up <i class="fa fa-share"></i><% end %>

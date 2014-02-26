@@ -43,76 +43,58 @@ jQuery(function() {
       'overlayShow'   :   false});
 });
 
-jQuery(function() {
-	$("#submitme").bind("submit", function() {
+	jQuery(function() {
+		$("#submitme").bind("submit", function() {
 
-	$.fancybox.showActivity();
+		$.fancybox.showActivity();
 
-	$.ajax({
-		type		: "POST",
-		cache	: false,
-		url		: "/users/sign_in",
-		data		: $(this).serializeArray(),
-		statusCode: {
-			401: function(data){
-				$.ajax({
-				type		: "GET",
-				cache	: false,
-				url		: "/users/sign_in",
-				data		: $(this).serializeArray(),
-				success: function(data){
-					$.fancybox(data, {
-					  	'transitionIn'  :   'elastic',
-					    'transitionOut' :   'elastic',
-					    'speedIn'       :   600,
-					    'speedOut'      :   200,
-					    'overlayShow'   :   false
-  						});
+		$.ajax({
+			type		: "POST",
+			cache	: false,
+			url		: "/users/sign_in",
+			data		: $(this).serializeArray(),
+			statusCode: {
+				401: function(data){
+					$.ajax({
+					type		: "GET",
+					cache	: false,
+					url		: "/users/sign_in",
+					data		: $(this).serializeArray(),
+					success: function(data){
+						$.fancybox(data, {
+						  	'transitionIn'  :   'elastic',
+						    'transitionOut' :   'elastic',
+						    'speedIn'       :   600,
+						    'speedOut'      :   200,
+						    'overlayShow'   :   false
+	  						});
+					}
+				})
 				}
-			})
-			}
-	},
-success: function() {
-    window.location.reload(true);
-}});
+		},
+	success: function() {
+	    window.location.reload(true);
+	}});
 
 	return false;
+	});
 });
-});
 
-jQuery(function() {
-	$("#search").bind("submit", function() {
 
-	$.fancybox.showActivity();
+	jQuery(function() {
+		$("#search").bind("submit", function() {
 
-	$.ajax({
-		type		: "POST",
-		cache	: false,
-		url		: "/user/list",
-		data		: $(this).serializeArray(),
-		statusCode: {
-			401: function(data){
-				$.ajax({
-				type		: "GET",
-				cache	: false,
-				url		: "/user/list",
-				data		: $(this).serializeArray(),
-				success: function(data){
-					$.fancybox(data, {
-					  	'transitionIn'  :   'elastic',
-					    'transitionOut' :   'elastic',
-					    'speedIn'       :   600,
-					    'speedOut'      :   200,
-					    'overlayShow'   :   false
-  						});
-				}
-			})
-			}
-	},
-success: function() {
-    window.location.reload(true);
-}});
+		$.fancybox.showActivity();
+
+		$.ajax({
+			type		: "POST",
+			cache	: false,
+			url		: "/user/list",
+			data		: $(this).serializeArray(),
+	success: function(data) {
+	    $.fancybox(data,{'type':'ajax'});
+	}});
 
 	return false;
-});
+	});
 });

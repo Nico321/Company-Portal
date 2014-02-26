@@ -14,7 +14,6 @@
 	<body>
 	<h2> User List </h2>
 		<table class="table-striped">
-			
 			<% @list.each do |key, value| %>
 				<tr href="<%= user_show_path(:id => key) %>">
 					<td><%= image_tag value.avatar.url(:mini) %></td>
