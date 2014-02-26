@@ -61,6 +61,7 @@ gem 'factory_girl_rails'
 gem 'faker'
 gem 'fancybox-rails'
 gem 'paperclip-dropbox', ">=1.1.7"
+gem 'ransack'
 
 group :development, :test do
   	gem 'rspec-rails'
