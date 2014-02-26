@@ -71,7 +71,7 @@ get  "reporting/businessprocess", controller: "reporting", action:"businessproce
 post "reporting/businessprocess", controller: "reporting", action:"businessprocess"
 
 
-post 'user/show', controller: "user", action: "show"
+get 'user/show', controller: "user", action: "show"
 post 'user/list', controller: "user", action: "list"
 
   resources :positions do
