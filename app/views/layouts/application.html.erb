@@ -210,13 +210,19 @@
       </div>
     </div>
 
-    <div class="container-fluid" style="padding-top: 50px;">
+    <div class="container-fluid" style="padding-top: 50px; padding-bottom: 50px;">
       <div class="row-fluid">
           <%= bootstrap_flash %>
           <%= yield %>
       </div><!--/row-->
 
-      <footer class="navbar-fixed-bottom navbar-inverse">
+      <footer class="navbar-inverse" style="bottom: 0;
+      display: block;
+     left: 0;
+     margin-bottom: 0;
+     position: fixed;
+     right: 0;
+     z-index: 1030;">
         <div class="navbar-inner">
           <center><span style="color: white;">&copy; CompanyPortal 2014</span></center>
         </div>
