@@ -362,7 +362,6 @@ load_and_authorize_resource
 						cu[1] = 0
 					end
 				end
-				#customer.sort_by(&:last)
 				customer.sort {|a1,a2| a2[1]<=>a1[1]}
 			end
 		end
