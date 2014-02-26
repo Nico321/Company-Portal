@@ -18,4 +18,18 @@ class UserController < ApplicationController
 		end
 	end
 
+	def list
+		list = Hash.new
+			User.where("firstname like '%#{params[:name]}%'").each do |user|
+				list[user.id] = user
+			end
+			User.where("lastname like '%#{params[:name]}%'").each do |user|
+				list[user.id] = user
+			end
+			User.where("email like '%#{params[:name]}%'").each do |user|
+				list[user.id] = user
+			end
+		@list = list
+	end
+
 end

@@ -32,5 +32,4 @@ class ApplicationController < ActionController::Base
   def authenticate_admin_user!
   	redirect_to new_user_session_path unless can?(:manage, :all)
   end
-  
 end

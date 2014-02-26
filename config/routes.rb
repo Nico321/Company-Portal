@@ -72,6 +72,7 @@ post "reporting/businessprocess", controller: "reporting", action:"businessproce
 
 
 post 'user/show', controller: "user", action: "show"
+post 'user/list', controller: "user", action: "list"
 
   resources :positions do
     member do
