@@ -35,9 +35,10 @@
     <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
 
     <%= javascript_include_tag "application" %>
+
+
   </head>
   <body>
-
     <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -50,7 +51,7 @@
           <div class="container-fluid nav-collapse">
             <ul class="nav">
                      
-  <% if current_user %>     
+  <% if current_user %>   
   		  <li class="dropdown">
   		    <a href="#" class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
            		<%= current_user.firstname %> <%= current_user.lastname %>
@@ -187,7 +188,8 @@
             <li>
                   
                   <form action="/user/show" method="post" class="navbar navbar-form pull-right">
-                  <input type="text" name="name" placeholder="Firstname">
+                  <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
+                  <input type="text" name="name" title="type "a"" id="autocomplete" class="ui-autocomplete-input" atuocomplete="off" placeholder="Firstname">
                   <%= hidden_field_tag "authenticity_token", form_authenticity_token %>
                   <%= button_tag :type => "submit", :class => "btn btn-success" do %>Search <i class="fa fa-search"></i><% end %>
                   <%=link_to destroy_user_session_path, method: :delete, :class => "btn btn-danger" do%>Sign out <i class="fa fa-sign-out"></i><%end%>
@@ -218,6 +220,7 @@
 
       <footer class="navbar-fixed-bottom">
         <p>&copy; CompanyPortal 2014</p>
+        <%= User.all.count %>
       </footer>
 
     </div> <!-- /container -->

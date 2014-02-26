@@ -32,5 +32,19 @@ class ApplicationController < ActionController::Base
   def authenticate_admin_user!
   	redirect_to new_user_session_path unless can?(:manage, :all)
   end
-  
+
+  def application
+    fname = Array.new(User.all.length)
+    i=0
+    User.all.each do |user|
+      if !user.firstname.blank?
+        fname[i] = user.firstname
+       else
+        fname[i] = "na"
+      end
+     i+=1
+    end
+    i=0
+    @userlist = fname
+  end
 end

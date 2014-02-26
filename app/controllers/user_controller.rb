@@ -16,6 +16,7 @@ class UserController < ApplicationController
 			 	@online = '<div class="circle circle-red circle-small"><div>'
 			end
 		end
+
 	end
 
 end

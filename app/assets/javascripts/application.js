@@ -18,6 +18,7 @@
 //= require turbolinks
 //= require_tree .
 //= require fancybox
+//= require turbolinks
 
 //= require bootstrap-datepicker 
 
@@ -47,10 +48,10 @@ jQuery(function() {
 			})
 			}
 	},
-success: function() {
-    window.location.reload(true);
-}});
+	success: function() {
+	    window.location.reload(true);
+	}});
 
-	return false;
-});
-});
+		return false;
+	});
+	});
