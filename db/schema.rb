@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20140226120018) do
     t.string   "name"
     t.decimal  "price",              precision: 8, scale: 2
     t.integer  "delivertime"
-    t.integer  "supplierid"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
