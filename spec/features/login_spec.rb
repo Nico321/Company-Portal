@@ -9,6 +9,11 @@ describe 'Sign_up' do
  it 'allows to sign up as customer' do
   visit new_user_registration_path
   within page.find("#new_user") do
+    fill_in "user_firstname", with: "Max"
+    fill_in "user_lastname", with: "Mustermann"
+    fill_in "user_phone", with: "12345"
+    fill_in "user_street", with: "Musterstrasse"
+    fill_in "user_zip", with: "12345"
     fill_in "user_email", with: 'kunde@example.de'
     fill_in "user_password", with: '12345678'
     fill_in "user_password_confirmation", with: '12345678'

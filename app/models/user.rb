@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   }
   
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+  validates :firstname, :lastname, :phone, :street, :zip, presence: true
 
 scope :online, lambda{ where("updated_at > ?", 10.minutes.ago) }
 end

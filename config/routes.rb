@@ -115,8 +115,6 @@ post 'user/show', controller: "user", action: "show"
   get "store/index"
   resources :articles
 
-  resources :suppliers
-
   devise_for :users do
    delete "/sign_out" => "users#destroy"
  end
