@@ -57,6 +57,9 @@ module ApplicationHelper
 		if object.class == Request
 			nrOfNotes = count_RequestNotes(object)
 		elsif object.class == Offer
+			if object.request == nil
+				puts object.id
+			end
 			nrOfNotes = count_RequestNotes(object.request)
 		elsif object.class == Assignment
 			nrOfNotes = count_RequestNotes(object.offer.request)
@@ -135,6 +138,9 @@ module ApplicationHelper
 				        <th>Name</th>
 				        <th>Price</th>
 				        <th>Total</th>"
+				        if object.class == Offer
+				        	html += "<th></th>"
+				        end
 				        if object.class == Order
 				        	html += "<th>Estimated deliverydate</th><th></th>"
 				        end
@@ -158,6 +164,9 @@ module ApplicationHelper
 									<td>
 										#{p.article.price * p.quantity} €
 									</td>"
+									if object.class == Offer
+										html +="<td>#{link_to 'Remove', position_path(p), :class => 'btn btn-danger', :method => 'delete'}</td>"
+									end
 									if object.class == Order
 										html += "<td>"
 										
@@ -180,7 +189,7 @@ module ApplicationHelper
 							html += "</table>"
 			if object.class == Offer		          
 				if current_user == object.agent and object.publication == nil
-					html +=	"	<div style='float: right;'>#{link_to 'Add a position', new_position_path(:offer_id => object.id), :class => 'btn btn-primary'}</div>"
+					html +=	"	<div style='float: right;'>#{link_to 'Add a position', new_position_path(:offer_id => object.id), :class => 'btn btn-primary fancyboxajax'}</div>"
 				end
 			end		
 			html += "</div>

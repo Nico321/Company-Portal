@@ -14,6 +14,6 @@
 
 <h3>Total: <%= calcTotalPrice(@offer)  %></h3>
 
-<% if @offer.agent == current_user %>
+<% if @offer.agent == current_user and @offer.positions.count > 0 %>
 	<%= link_to "Publish", publish_offer_path(@offer), :class => "btn btn-primary" %>
 <% end %>
