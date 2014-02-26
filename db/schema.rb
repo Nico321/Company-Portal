@@ -28,16 +28,6 @@ ActiveRecord::Schema.define(version: 20140225184453) do
   add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace"
   add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
 
-  create_table "article_storages", force: true do |t|
-    t.integer  "article_id"
-    t.integer  "storage_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "article_storages", ["article_id"], name: "index_article_storages_on_article_id"
-  add_index "article_storages", ["storage_id"], name: "index_article_storages_on_storage_id"
-
   create_table "articles", force: true do |t|
     t.string   "name"
     t.decimal  "price",              precision: 8, scale: 2
@@ -166,13 +156,6 @@ ActiveRecord::Schema.define(version: 20140225184453) do
     t.datetime "updated_at"
   end
 
-  create_table "places", force: true do |t|
-    t.string   "zip",        limit: 5
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "positions", force: true do |t|
     t.integer  "quantity",      default: 1
     t.date     "deliverydate"
@@ -207,25 +190,6 @@ ActiveRecord::Schema.define(version: 20140225184453) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], name: "index_roles_on_name"
-
-  create_table "storages", force: true do |t|
-    t.string   "name"
-    t.string   "street"
-    t.string   "zip",        limit: 5
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "suppliers", force: true do |t|
-    t.string   "name"
-    t.string   "street"
-    t.string   "zip",        limit: 5
-    t.string   "email"
-    t.string   "phone"
-    t.string   "url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "users", force: true do |t|
     t.string   "email",                            default: "", null: false
